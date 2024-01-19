@@ -1,10 +1,10 @@
-# Project Name
+# Inverted Pendulum Control Systems (IPCS)
 
-Developer Names:
+Developer Name: Morteza Mirzaei
 
-Date of project start:
+Date of project start: Jan 15, 2024
 
-This project is ...
+This project is Inverted Pendulum Control Systems (IPCS).
 
 The folders and files for this project are as follows:
 
