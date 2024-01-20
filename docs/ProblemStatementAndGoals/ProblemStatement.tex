@@ -2,12 +2,13 @@
 
 \usepackage{tabularx}
 \usepackage{booktabs}
+\usepackage{amsmath}
 
 \title{Problem Statement and Goals\\\progname}
 
 \author{\authname}
 
-\date{}
+\date{Jan 19, 2024}
 
 \input{../Comments}
 \input{../Common}
@@ -22,35 +23,104 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
-Date1 & Name(s) & Description of changes\\
-Date2 & Name(s) & Description of changes\\
-... & ... & ...\\
+2024-01-19 & Morteza Mirzaei & Write the first version of the initial document for reverse pendulum.\\
 \bottomrule
 \end{tabularx}
 \end{table}
 
 \section{Problem Statement}
 
-\wss{You should check your problem statement with the
-\href{https://github.com/smiths/capTemplate/blob/main/docs/Checklists/ProbState-Checklist.pdf}
-{problem statement checklist}.}
-\wss{You can change the section headings, as long as you include the required information.}
+The inverted pendulum problem is a classic challenge in control theory,
+involving the stabilization of an upright pendulum atop a moving pivot.
+Its inherent instability makes it a compelling theoretical exercise,
+demanding precise control to prevent the pendulum from falling.
+This problem acts as a benchmark for testing and refining control algorithms,
+influencing advancements in areas like autonomous vehicles, robotics,
+and stability control for devices such as self-balancing scooters.
+The insights gained from solving this problem have practical applications,
+shaping developments in real-world systems that demand stability
+and dynamic control.
+
+% \wss{You should check your problem statement with the
+% \href{https://github.com/smiths/capTemplate/blob/main/docs/Checklists/ProbState-Checklist.pdf}
+% {problem statement checklist}.}
+% \wss{You can change the section headings, as long as you include the required information.}
 
 \subsection{Problem}
+Mathematically, the dynamics of an inverted pendulum can be described
+by a set of differential equations derived from Newton's laws of motion.
+Let \(x\) be the horizontal position of the cart, \(\theta\) the angle
+of the pendulum with respect to the vertical axis.
+The equations of motion for the inverted pendulum are given by:
+\[
+(M+m)\ddot{x} -ml \ddot{\theta} \cos \theta + ml \dot{\theta}^2 \sin \theta = F
+\]
+Where: \(M\) is the mass of the cart,
+\(m\) is the mass of the pendulum point mass,
+\(g\) is the acceleration due to gravity,
+\(F\) is the horizontal force applied to the cart,
+and \(L\) is the length of the pendulum.
+
+The challenge in the inverted pendulum problem is to design
+a control law \(F\) such that the system remains stable,
+and the pendulum stays balanced in the inverted position
+despite its inherent instability.
+
 
 \subsection{Inputs and Outputs}
 
-\wss{Characterize the problem in terms of ``high level'' inputs and outputs.  
-Use abstraction so that you can avoid details.}
+The inverted pendulum problem involves the following key inputs:
+\begin{enumerate}
+    \item Angle of the pendulum with the axis perpendicular to the cart (\(\theta\))
+    \item Angular velocity of the pendulum (\(\dot{\theta}\))
+    \item Position of the cart along the axis (\(x\))
+    \item Speed of the cart along the axis (\(\dot{x}\))
+\end{enumerate}
 
-\subsection{Stakeholders}
+The primary output of the inverted pendulum problem is the force (\(F\)),
+representing the force applied to the cart along the \(x\)-axis.
 
-\subsection{Environment}
 
-\wss{Hardware and software}
+% \wss{Characterize the problem in terms of ``high level'' inputs and outputs.  
+% Use abstraction so that you can avoid details.}
+
+% \subsection{Stakeholders}
+
+% \subsection{Environment}
+
+% \wss{Hardware and software}
 
 \section{Goals}
 
+\begin{enumerate}
+    \item \textbf{Stability Achievement:}
+    Develop a control algorithm that effectively stabilizes
+    the inverted pendulum system, maintaining the pendulum
+    within a deviation of less than 20 degrees from the upright position
+    after 20 seconds of operation.
+
+    \item \textbf{Real-time Responsiveness:}
+    Design the controller to exhibit real-time responsiveness,
+    ensuring swift and accurate adjustments to the applied forces
+    based on feedback from sensors, with the requirement that the angular speed
+    remains below 10 degrees per second for smooth and controlled movements.
+
+    \item \textbf{Recovery from Instability:}
+    Implement a feature that enables the system to autonomously recover
+    from instability caused by external forces, bringing the pendulum back
+    to a stable position within 20 seconds of deviation.
+\end{enumerate}
+
 \section{Stretch Goals}
+\begin{enumerate}
+    \item \textbf{Generalizability:}
+    Extend the control solution's versatility beyond the traditional
+    simple round-shaped pendulum to encompass more advanced shapes,
+    specifically focusing on configurations where the center of
+    mass of the complex pendulum dynamically changes through rotation.
+    This goal aims to enhance the control algorithm's adaptability,
+    allowing it to effectively handle a broader range of inverted
+    pendulum systems with varying complexities and geometries.
+\end{enumerate}
 
 \end{document}
