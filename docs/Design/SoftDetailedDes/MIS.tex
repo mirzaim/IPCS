@@ -53,8 +53,7 @@ urlcolor=cyan          % color of external links
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+2024-03-18 & 1.0 & Initial Release.\\
 \bottomrule
 \end{tabularx}
 
@@ -62,7 +61,8 @@ Date 2 & 1.1 & Notes\\
 
 \section{Symbols, Abbreviations and Acronyms}
 
-See SRS Documentation at \wss{give url}
+See SRS Documentation at: \\
+\url{https://github.com/mirzaim/ipcs/blob/main/docs/SRS/SRS.pdf}
 
 \wss{Also add any additional symbols, abbreviations or acronyms}
 
@@ -77,11 +77,12 @@ See SRS Documentation at \wss{give url}
 \section{Introduction}
 
 The following document details the Module Interface Specifications for
-\wss{Fill in your project name and description}
+\progname{}.
 
 Complementary documents include the System Requirement Specifications
 and Module Guide.  The full documentation and implementation can be
-found at \url{...}.  \wss{provide the url for your repo}
+found at \url{https://github.com/mirzaim/ipcs}. 
+\wss{provide the url for your repo}
 
 \section{Notation}
 
@@ -105,9 +106,14 @@ The following table summarizes the primitive data types used by \progname.
 \textbf{Data Type} & \textbf{Notation} & \textbf{Description}\\ 
 \midrule
 character & char & a single symbol or digit\\
+string & $\text{char}^*$ & a sequence of characters\\
 integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
 natural number & $\mathbb{N}$ & a number without a fractional component in [1, $\infty$) \\
 real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
+linguistic variable & ling\_var & a linguistic variable that used in the fuzzy logic rules. 
+                               Its type is string.\\
+rule & rule & a rule that used in the fuzzy logic. Its type is string.\\
+fuzzy set & fuzzy\_set & a fuzzy set that is determined by the membership function ($R \rightarrow R$).\\
 \bottomrule
 \end{tabular} 
 \end{center}
@@ -131,21 +137,24 @@ The following table is taken directly from the Module Guide document for this pr
 \textbf{Level 1} & \textbf{Level 2}\\
 \midrule
 
-{Hardware-Hiding} & ~ \\
+{Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding} & Input Parameters\\
-& Output Format\\
-& Output Verification\\
-& Temperature ODEs\\
-& Energy Equations\\ 
-& Control Module\\
-& Specification Parameters Module\\
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module}
+& Fuzzy Logic Module\\
+& Parser Module\\
+% & Input Parameter Module\\
+% & Motion ODEs Module\\ 
+& Output Verification Module\\
+& Simulator Module\\
+& World Module\\
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision} & {Sequence Data Structure}\\
-& ODE Solver\\
-& Plotting\\
+\multirow{3}{0.3\textwidth}{Software Decision Module}
+& Controller Module\\
+& GUI Module\\
+% & ODE Solver Module\\
+& Sequence Data Structure Module\\
 \bottomrule
 
 \end{tabular}
@@ -156,7 +165,772 @@ The following table is taken directly from the Module Guide document for this pr
 \newpage
 ~\newpage
 
-\section{MIS of \wss{Module Name}} \label{Module} \wss{Use labels for
+% \section{MIS of \wss{Module Name}} \label{Module} \wss{Use labels for
+%   cross-referencing}
+
+% \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+% \wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+% \subsection{Module}
+
+% \wss{Short name for the module}
+
+% \subsection{Uses}
+
+
+% \subsection{Syntax}
+
+% \subsubsection{Exported Constants}
+
+% \subsubsection{Exported Access Programs}
+
+% \begin{center}
+% \begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+% \hline
+% \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+% \hline
+% \wss{accessProg} & - & - & - \\
+% \hline
+% \end{tabular}
+% \end{center}
+
+% \subsection{Semantics}
+
+% \subsubsection{State Variables}
+
+% \wss{Not all modules will have state variables.  State variables give the module
+%   a memory.}
+
+% \subsubsection{Environment Variables}
+
+% \wss{This section is not necessary for all modules.  Its purpose is to capture
+%   when the module has external interaction with the environment, such as for a
+%   device driver, screen interface, keyboard, file, etc.}
+
+% \subsubsection{Assumptions}
+
+% \wss{Try to minimize assumptions and anticipate programmer errors via
+%   exceptions, but for practical purposes assumptions are sometimes appropriate.}
+
+% \subsubsection{Access Routine Semantics}
+
+% \noindent \wss{accessProg}():
+% \begin{itemize}
+% \item transition: \wss{if appropriate} 
+% \item output: \wss{if appropriate} 
+% \item exception: \wss{if appropriate} 
+% \end{itemize}
+
+% \wss{A module without environment variables or state variables is unlikely to
+%   have a state transition.  In this case a state transition can only occur if
+%   the module is changing the state of another module.}
+
+% \wss{Modules rarely have both a transition and an output.  In most cases you
+%   will have one or the other.}
+
+% \subsubsection{Local Functions}
+
+% \wss{As appropriate} \wss{These functions are for the purpose of specification.
+%   They are not necessarily something that is going to be implemented
+%   explicitly.  Even if they are implemented, they are not exported; they only
+%   have local scope.}
+
+% \newpage
+
+\section{MIS of Fuzzy Logic Module} \label{mFuzzyLogic} \wss{Use labels for
+  cross-referencing}
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Fuzzy Logic}
+In this section, we provide some background information on fuzzy logic and 
+fuzzy controllers that will be used in the \progname{} project.
+
+\subsubsection{Fuzzy Sets}
+In the realm of control systems, traditional methods often struggle 
+to handle the inherent uncertainty and imprecision present in real-world data. 
+Fuzzy logic offers a solution by introducing the concept of fuzzy sets. 
+Unlike crisp sets, where elements are either fully inside or outside a set, 
+fuzzy sets allow for partial membership. This means that an element can 
+belong to a set to a certain degree, reflecting the uncertainty or 
+vagueness inherent in many real-world scenarios. A fuzzycontroller
+is a control system based on fuzzy logic, which uses fuzzy sets to
+represent linguistic variables and rules to make decisions.
+It consits of three main steps: fuzzification, rule processing, and
+defuzzification that are described below.
+
+\subsubsection{Fuzzy Controller Steps}
+
+\begin{enumerate}
+  \item \textbf{Fuzzification:}
+  Fuzzification is the initial step in a fuzzy controller where
+  crisp inputs are transformed into fuzzy sets. This process 
+  involves mapping numerical inputs to linguistic variables and 
+  assigning membership degrees to each linguistic variable's 
+  corresponding fuzzy set. For instance, in a temperature 
+  control system, a crisp input value like "25 degrees Celsius" 
+  might be fuzzified into linguistic variables such as "cold," 
+  "warm," and "hot," with each linguistic variable having 
+  membership degrees reflecting the degree to which the 
+  input belongs to each fuzzy set.
+   
+  \item \textbf{Rule Processing:}
+  Once the inputs are fuzzified, fuzzy rules are applied 
+  to determine the appropriate control actions. These rules, 
+  often expressed in the form of IF-THEN statements, map combinations 
+  of fuzzy input variables to fuzzy output variables. For example, 
+  a rule might state "IF temperature is cold AND humidity is high 
+  THEN heater is high." By evaluating these rules and considering 
+  the fuzzy input values, the fuzzy controller determines the 
+  appropriate control action to take.
+   
+  \item \textbf{Defuzzification:}
+  After applying fuzzy rules and obtaining fuzzy output sets, 
+  the final step is defuzzification. Here, the fuzzy output sets 
+  are aggregated to produce a crisp output value that represents 
+  the control action to be taken. Various defuzzification 
+  methods exist, such as centroid defuzzification or maximum 
+  membership principle. These methods translate the fuzzy output 
+  sets back into a single numerical value that guides the system's response.
+\end{enumerate}
+
+In conclusion, the fuzzy controller method offers a flexible and effective approach to control systems, allowing for the incorporation of human-like reasoning and handling uncertainty inherent in real-world environments.
+
+\subsection{Module}
+
+Fuzzy Logic
+\wss{Short name for the module}
+
+\subsection{Uses}
+
+parser module (Section \ref{mParser})
+
+\subsection{Syntax}
+
+% \subsubsection{Exported Constants}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{3cm} p{5cm} p{2cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+decide & World & $\mathbb{R}$ & - \\
+load\_fuzzy\_rules & fuzzy\_sets: 
+\textit{Array}[$\text{ling\_var} \times \text{fuzzy\_set}$], 
+rules: \textit{Array}[\text{rule}] & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+fuzzyInputSets: \textit{Array}[$\text{ling\_var} \times \text{fuzzy\_set}$] \\
+fuzzyOutputSets: \textit{Array}[$\text{ling\_var} \times \text{fuzzy\_set}$] \\
+fuzzyRules: \textit{Array}[\text{rule}] \\
+
+\wss{Not all modules will have state variables.  State variables give the module
+  a memory.}
+
+\subsubsection{Environment Variables}
+
+None
+\wss{This section is not necessary for all modules.  Its purpose is to capture
+  when the module has external interaction with the environment, such as for a
+  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+None
+\wss{Try to minimize assumptions and anticipate programmer errors via
+  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent decide(World):
+\begin{itemize}
+\item transition: -
+\item output: returns the force value.
+      \begin{enumerate}
+        \item In the first step, it fuzzifies the world state $x$, $\theta$, $\dot{x}$,
+        and $\dot{\theta}$ to get the fuzzy input sets. This step uses fuzzyInputSets
+        environment variable and measures the membership degree of each linguistic
+        variable's corresponding fuzzy set.
+        \item In the second step, it applies the fuzzy rules on fuzzified input sets to
+        get the fuzzy output sets. This step uses fuzzyRules environment variable.
+        At the end of this step we have membership degrees of each linguistic 
+        variable's corresponding fuzzyOutputSets.
+        \item In the third step, it defuzzifies the fuzzy output sets to get the force
+        value. In this step we use center of mass method as defuzzification method.
+      \end{enumerate}
+\item exception: -
+\end{itemize}
+
+\noindent load\_fuzzy\_rules(fuzzy\_sets, rules):
+\begin{itemize}
+\item transition: 
+      It sets the fuzzyInputSets, fuzzyOutputSets and fuzzyRules state variables.
+\item output: -
+\item exception: -
+\end{itemize}
+
+\wss{A module without environment variables or state variables is unlikely to
+  have a state transition.  In this case a state transition can only occur if
+  the module is changing the state of another module.}
+
+\wss{Modules rarely have both a transition and an output.  In most cases you
+  will have one or the other.}
+
+% \subsubsection{Local Functions}
+
+% \wss{As appropriate} \wss{These functions are for the purpose of specification.
+%   They are not necessarily something that is going to be implemented
+%   explicitly.  Even if they are implemented, they are not exported; they only
+%   have local scope.}
+
+\newpage
+
+\section{MIS of Parser Module} \label{mParser} \wss{Use labels for
+  cross-referencing}
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+
+Parser
+
+\wss{Short name for the module}
+
+\subsection{Uses}
+None
+
+\subsection{Syntax}
+
+% \subsubsection{Exported Constants}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{3cm} p{2cm} p{5cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+load\_config & file\_path: $\text{char}^*$ & World & FileNotFoundException, InvalidFileFormatException \\
+load\_Fuzzy\_logic & file\_path: $\text{chat}^*$ & 
+fuzzy\_sets: \textit{Array}[$\text{ling\_var} \times \text{fuzzy\_set}$],
+rules: \textit{Array}[\text{rule}] & FileNotFoundException, InvalidFileFormatException \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+None
+\wss{Not all modules will have state variables.  State variables give the module
+  a memory.}
+
+\subsubsection{Environment Variables}
+
+file: A text file.
+\wss{This section is not necessary for all modules.  Its purpose is to capture
+  when the module has external interaction with the environment, such as for a
+  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+None
+\wss{Try to minimize assumptions and anticipate programmer errors via
+  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent load\_config(file\_path):
+\begin{itemize}
+\item transition: -
+\item output: Read initial world configuration from the file and returns a
+      World.
+\item exception:
+      $exc := ( \\
+      \text{if } \text{file\_path} \text{ does not exist then }
+      \text{FileNotFoundException} \\
+      | \\
+      \text{if } \text{file\_path} \text{ is not in the correct format then }
+      \text{InvalidFileFormatException} \\
+      )$
+\end{itemize}
+
+\noindent load\_Fuzzy\_logic(file\_path):
+\begin{itemize}
+\item transition: -
+\item output: It acts like a complier and reads the file and returns the 
+      fuzzy sets and rules. returns: \\
+      fuzzy\_sets: Array[LinguisticVariable $\times$ FuzzySet], rules: fuzzyRules: Array[Rule]
+\item exception: 
+      $exc := ( \\
+      \text{if } \text{file\_path} \text{ does not exist then }
+      \text{FileNotFoundException} \\
+      | \\
+      \text{if } \text{file\_path} \text{ is not in the correct format then }
+      \text{InvalidFileFormatException} \\
+      )$
+\end{itemize}
+
+\wss{A module without environment variables or state variables is unlikely to
+  have a state transition.  In this case a state transition can only occur if
+  the module is changing the state of another module.}
+
+\wss{Modules rarely have both a transition and an output.  In most cases you
+  will have one or the other.}
+
+% \subsubsection{Local Functions}
+
+% \wss{As appropriate} \wss{These functions are for the purpose of specification.
+%   They are not necessarily something that is going to be implemented
+%   explicitly.  Even if they are implemented, they are not exported; they only
+%   have local scope.}
+
+\newpage
+
+% \section{MIS of Input Parameter Module} \label{mInputParamter} \wss{Use labels for
+%   cross-referencing}
+
+% \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+% \wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+% \subsection{Module}
+
+% \wss{Short name for the module}
+
+% \subsection{Uses}
+
+
+% \subsection{Syntax}
+
+% \subsubsection{Exported Constants}
+
+% \subsubsection{Exported Access Programs}
+
+% \begin{center}
+% \begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+% \hline
+% \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+% \hline
+% \wss{accessProg} & - & - & - \\
+% \hline
+% \end{tabular}
+% \end{center}
+
+% \subsection{Semantics}
+
+% \subsubsection{State Variables}
+
+% \wss{Not all modules will have state variables.  State variables give the module
+%   a memory.}
+
+% \subsubsection{Environment Variables}
+
+% \wss{This section is not necessary for all modules.  Its purpose is to capture
+%   when the module has external interaction with the environment, such as for a
+%   device driver, screen interface, keyboard, file, etc.}
+
+% \subsubsection{Assumptions}
+
+% \wss{Try to minimize assumptions and anticipate programmer errors via
+%   exceptions, but for practical purposes assumptions are sometimes appropriate.}
+
+% \subsubsection{Access Routine Semantics}
+
+% \noindent \wss{accessProg}():
+% \begin{itemize}
+% \item transition: \wss{if appropriate} 
+% \item output: \wss{if appropriate} 
+% \item exception: \wss{if appropriate} 
+% \end{itemize}
+
+% \wss{A module without environment variables or state variables is unlikely to
+%   have a state transition.  In this case a state transition can only occur if
+%   the module is changing the state of another module.}
+
+% \wss{Modules rarely have both a transition and an output.  In most cases you
+%   will have one or the other.}
+
+% \subsubsection{Local Functions}
+
+% \wss{As appropriate} \wss{These functions are for the purpose of specification.
+%   They are not necessarily something that is going to be implemented
+%   explicitly.  Even if they are implemented, they are not exported; they only
+%   have local scope.}
+
+% \newpage
+
+% \section{MIS of Motion ODEs} \label{mMotionODEs} \wss{Use labels for
+%   cross-referencing}
+
+% \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+% \wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+% \subsection{Module}
+
+% Motion ODEs
+
+% \wss{Short name for the module}
+
+% \subsection{Uses}
+% None
+
+% \subsection{Syntax}
+
+% % \subsubsection{Exported Constants}
+
+% \subsubsection{Exported Access Programs}
+
+% \begin{center}
+% \begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+% \hline
+% \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+% \hline
+% ODE\_Motion & - & $(\mathbb{R} \rightarrow \mathbb{R}) \rightarrow (\mathbb{R} \rightarrow \mathbb{R})^2$ & - \\
+% ODE\_Motion & - & $(\mathbb{R}^3 \rightarrow \mathbb{R})^2$ & - \\
+% \hline
+% \end{tabular}
+% \end{center}
+
+% \subsection{Semantics}
+
+% \subsubsection{State Variables}
+
+% \wss{Not all modules will have state variables.  State variables give the module
+%   a memory.}
+
+% \subsubsection{Environment Variables}
+
+% \wss{This section is not necessary for all modules.  Its purpose is to capture
+%   when the module has external interaction with the environment, such as for a
+%   device driver, screen interface, keyboard, file, etc.}
+
+% \subsubsection{Assumptions}
+
+% \wss{Try to minimize assumptions and anticipate programmer errors via
+%   exceptions, but for practical purposes assumptions are sometimes appropriate.}
+
+% \subsubsection{Access Routine Semantics}
+
+% \noindent \wss{accessProg}():
+% \begin{itemize}
+% \item transition: \wss{if appropriate} 
+% \item output: $x(t)$ and $\theta(t)$, such that 
+%       $F(t)$ = $(M+m)\ddot{x}(t) - ml\ddot{\theta}(t)\cos{\theta(t)} + 
+%       ml (\dot{\theta}^2(t)) \sin{\theta(t)}$ and $l \ddot{\theta}(t) + 
+%       g \sin{\theta(t)} = \ddot{x}(t) \cos{\theta(t)}$ holds.
+% \item exception: \wss{if appropriate} 
+% \end{itemize}
+
+% \wss{A module without environment variables or state variables is unlikely to
+%   have a state transition.  In this case a state transition can only occur if
+%   the module is changing the state of another module.}
+
+% \wss{Modules rarely have both a transition and an output.  In most cases you
+%   will have one or the other.}
+
+% \subsubsection{Local Functions}
+
+% \wss{As appropriate} \wss{These functions are for the purpose of specification.
+%   They are not necessarily something that is going to be implemented
+%   explicitly.  Even if they are implemented, they are not exported; they only
+%   have local scope.}
+
+% \newpage
+
+\section{MIS of Output Verification Module} \label{mOutputVerification} \wss{Use labels for
+  cross-referencing}
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+
+Output Verification
+
+\wss{Short name for the module}
+
+\subsection{Uses}
+
+World Module (Section \ref{mWorld})
+
+\subsection{Syntax}
+
+% \subsubsection{Exported Constants}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+verify & world & - & InvalidAngleException, InvalidPositionException \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+None
+
+\wss{Not all modules will have state variables.  State variables give the module
+  a memory.}
+
+\subsubsection{Environment Variables}
+
+None
+
+\wss{This section is not necessary for all modules.  Its purpose is to capture
+  when the module has external interaction with the environment, such as for a
+  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+None
+
+\wss{Try to minimize assumptions and anticipate programmer errors via
+  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent verify(world):
+\begin{itemize}
+\item transition: -
+\item output: -
+\item exception: 
+      $exc := ( \\
+      \text{if } \theta \leq -\pi \text{ or } \theta \geq \pi \text{ then }
+      \text{InvalidAngleException} \\
+      | \\
+      \text{if } x \leq \text{min\_x} \text{ or } x \geq \text{max\_x} 
+      \text{ then } \text{InvalidPositionException}\\
+      )$
+\end{itemize}
+
+\wss{A module without environment variables or state variables is unlikely to
+  have a state transition.  In this case a state transition can only occur if
+  the module is changing the state of another module.}
+
+\wss{Modules rarely have both a transition and an output.  In most cases you
+  will have one or the other.}
+
+% \subsubsection{Local Functions}
+
+% \wss{As appropriate} \wss{These functions are for the purpose of specification.
+%   They are not necessarily something that is going to be implemented
+%   explicitly.  Even if they are implemented, they are not exported; they only
+%   have local scope.}
+
+\newpage
+
+\section{MIS of Simulator Module} \label{mSimulator} \wss{Use labels for
+  cross-referencing}
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+
+\wss{Short name for the module}
+Simulator
+
+\subsection{Uses}
+
+World Module (Section \ref{mWorld}) \\
+
+\subsection{Syntax}
+
+% \subsubsection{Exported Constants}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+% \wss{accessProg} & - & - & - \\
+tick & R & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+world: World
+
+% \wss{Not all modules will have state variables.  State variables give the module
+%   a memory.}
+
+\subsubsection{Environment Variables}
+
+None
+% \wss{This section is not necessary for all modules.  Its purpose is to capture
+%   when the module has external interaction with the environment, such as for a
+%   device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+None
+% \wss{Try to minimize assumptions and anticipate programmer errors via
+%   exceptions, but for practical purposes assumptions are sometimes appropriate.}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent tick(dt):
+\begin{itemize}
+\item transition:
+      It updates the world state by one time step of size $dt$.
+      It follows the following steps:
+      \begin{itemize}
+        \item Caclulate and update the acceleration of the cart and the pendulum.
+        \item Update teh velocity of the cart and the pendulum.
+        \item Update the position of the cart and the pendulum.
+        \item Reset the forces acting on the cart and the pendulum.
+      \end{itemize}
+      It uses the two following equations to update the world state:
+      \begin{gather*}
+        F(t) = (M+m)\ddot{x}(t) - ml\ddot{\theta}(t)\cos{\theta(t)} 
+        + ml (\dot{\theta}^2(t)) \sin{\theta(t)} \\
+        l \ddot{\theta}(t) + g \sin{\theta(t)} = \ddot{x}(t) \cos{\theta(t)}
+      \end{gather*}
+\item output: -
+\item exception: -
+\end{itemize}
+
+\wss{A module without environment variables or state variables is unlikely to
+  have a state transition.  In this case a state transition can only occur if
+  the module is changing the state of another module.}
+
+\wss{Modules rarely have both a transition and an output.  In most cases you
+  will have one or the other.}
+
+% \subsubsection{Local Functions}
+
+% \wss{As appropriate} \wss{These functions are for the purpose of specification.
+%   They are not necessarily something that is going to be implemented
+%   explicitly.  Even if they are implemented, they are not exported; they only
+%   have local scope.}
+
+\newpage
+
+\section{MIS of World Module} \label{mWorld} \wss{Use labels for
+  cross-referencing}
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+
+\wss{Short name for the module}
+World
+
+\subsection{Uses}
+
+Parser Module (Section \ref{mParser})
+
+\subsection{Syntax}
+
+% \subsubsection{Exported Constants}
+
+\subsubsection{Exported Access Programs}
+
+
+
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+- & - & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+m: $\mathbb{R}$ \\
+M: $\mathbb{R}$ \\
+l: $\mathbb{R}$ \\
+g: $\mathbb{R}$ \\
+x: $\mathbb{R}$ \\
+$\dot{x}$: $\mathbb{R}$ \\
+$\ddot{x}$: $\mathbb{R}$ \\
+$\theta$: $\mathbb{R}$ \\
+$\dot{\theta}$: $\mathbb{R}$ \\
+$\ddot{\theta}$: $\mathbb{R}$ \\
+F: $\mathbb{R}$ \\
+
+\wss{Not all modules will have state variables.  State variables give the module
+  a memory.}
+
+\subsubsection{Environment Variables}
+
+None
+
+\wss{This section is not necessary for all modules.  Its purpose is to capture
+  when the module has external interaction with the environment, such as for a
+  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+None
+
+\wss{Try to minimize assumptions and anticipate programmer errors via
+  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+
+\subsubsection{Access Routine Semantics}
+
+None
+% \noindent \wss{accessProg}():
+% \begin{itemize}
+% \item transition: \wss{if appropriate} 
+% \item output: \wss{if appropriate} 
+% \item exception: \wss{if appropriate} 
+% \end{itemize}
+
+\wss{A module without environment variables or state variables is unlikely to
+  have a state transition.  In this case a state transition can only occur if
+  the module is changing the state of another module.}
+
+\wss{Modules rarely have both a transition and an output.  In most cases you
+  will have one or the other.}
+
+% \subsubsection{Local Functions}
+
+% \wss{As appropriate} \wss{These functions are for the purpose of specification.
+%   They are not necessarily something that is going to be implemented
+%   explicitly.  Even if they are implemented, they are not exported; they only
+%   have local scope.}
+
+\newpage
+
+\section{MIS of Controller Module} \label{mController} \wss{Use labels for
   cross-referencing}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
@@ -169,10 +943,11 @@ The following table is taken directly from the Module Guide document for this pr
 
 \subsection{Uses}
 
+Fuzzy Logic Module (Section \ref{mFuzzyLogic})
 
 \subsection{Syntax}
 
-\subsubsection{Exported Constants}
+% \subsubsection{Exported Constants}
 
 \subsubsection{Exported Access Programs}
 
@@ -181,7 +956,7 @@ The following table is taken directly from the Module Guide document for this pr
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+decide & World & $\mathbb{R}$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -190,27 +965,32 @@ The following table is taken directly from the Module Guide document for this pr
 
 \subsubsection{State Variables}
 
+None
 \wss{Not all modules will have state variables.  State variables give the module
   a memory.}
 
 \subsubsection{Environment Variables}
 
+None
 \wss{This section is not necessary for all modules.  Its purpose is to capture
   when the module has external interaction with the environment, such as for a
   device driver, screen interface, keyboard, file, etc.}
 
 \subsubsection{Assumptions}
 
+None
 \wss{Try to minimize assumptions and anticipate programmer errors via
   exceptions, but for practical purposes assumptions are sometimes appropriate.}
 
 \subsubsection{Access Routine Semantics}
+Because this module is interface so access routines doesn't have exact procedure.
 
-\noindent \wss{accessProg}():
+\noindent decide(world):
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
+\item transition: -
+\item output: Based on the current world situation, it should return proper 
+      force value to keep the pendulum up. 
+\item exception: -
 \end{itemize}
 
 \wss{A module without environment variables or state variables is unlikely to
@@ -220,14 +1000,166 @@ The following table is taken directly from the Module Guide document for this pr
 \wss{Modules rarely have both a transition and an output.  In most cases you
   will have one or the other.}
 
-\subsubsection{Local Functions}
+% \subsubsection{Local Functions}
 
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
+% \wss{As appropriate} \wss{These functions are for the purpose of specification.
+%   They are not necessarily something that is going to be implemented
+%   explicitly.  Even if they are implemented, they are not exported; they only
+%   have local scope.}
 
 \newpage
+
+\section{MIS of GUI Module} \label{mGUI} \wss{Use labels for
+  cross-referencing}
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+
+\wss{Short name for the module}
+GUI
+
+\subsection{Uses}
+World Module (Section \ref{mWorld})
+
+\subsection{Syntax}
+
+% \subsubsection{Exported Constants}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+draw & World & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+
+\wss{Not all modules will have state variables.  State variables give the module
+  a memory.}
+
+\subsubsection{Environment Variables}
+
+win: 2D diagram displayed on the screen
+
+\wss{This section is not necessary for all modules.  Its purpose is to capture
+  when the module has external interaction with the environment, such as for a
+  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+None
+\wss{Try to minimize assumptions and anticipate programmer errors via
+  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent draw(world):
+\begin{itemize}
+\item transition: Modify the win to display the current world state. The location 
+      and angle of pendulum should be clear.
+\item output: -
+\item exception: -
+\end{itemize}
+
+\wss{A module without environment variables or state variables is unlikely to
+  have a state transition.  In this case a state transition can only occur if
+  the module is changing the state of another module.}
+
+\wss{Modules rarely have both a transition and an output.  In most cases you
+  will have one or the other.}
+
+% \subsubsection{Local Functions}
+
+% \wss{As appropriate} \wss{These functions are for the purpose of specification.
+%   They are not necessarily something that is going to be implemented
+%   explicitly.  Even if they are implemented, they are not exported; they only
+%   have local scope.}
+
+\newpage
+
+% \section{MIS of ODE Solver Module} \label{mODESolver} \wss{Use labels for
+%   cross-referencing}
+
+% \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+% \wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+% \subsection{Module}
+
+% \wss{Short name for the module}
+
+% \subsection{Uses}
+
+
+% \subsection{Syntax}
+
+% \subsubsection{Exported Constants}
+
+% \subsubsection{Exported Access Programs}
+
+% \begin{center}
+% \begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+% \hline
+% \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+% \hline
+% \wss{accessProg} & - & - & - \\
+% \hline
+% \end{tabular}
+% \end{center}
+
+% \subsection{Semantics}
+
+% \subsubsection{State Variables}
+
+% \wss{Not all modules will have state variables.  State variables give the module
+%   a memory.}
+
+% \subsubsection{Environment Variables}
+
+% \wss{This section is not necessary for all modules.  Its purpose is to capture
+%   when the module has external interaction with the environment, such as for a
+%   device driver, screen interface, keyboard, file, etc.}
+
+% \subsubsection{Assumptions}
+
+% \wss{Try to minimize assumptions and anticipate programmer errors via
+%   exceptions, but for practical purposes assumptions are sometimes appropriate.}
+
+% \subsubsection{Access Routine Semantics}
+
+% \noindent \wss{accessProg}():
+% \begin{itemize}
+% \item transition: \wss{if appropriate} 
+% \item output: \wss{if appropriate} 
+% \item exception: \wss{if appropriate} 
+% \end{itemize}
+
+% \wss{A module without environment variables or state variables is unlikely to
+%   have a state transition.  In this case a state transition can only occur if
+%   the module is changing the state of another module.}
+
+% \wss{Modules rarely have both a transition and an output.  In most cases you
+%   will have one or the other.}
+
+% \subsubsection{Local Functions}
+
+% \wss{As appropriate} \wss{These functions are for the purpose of specification.
+%   They are not necessarily something that is going to be implemented
+%   explicitly.  Even if they are implemented, they are not exported; they only
+%   have local scope.}
+
+% \newpage
 
 \bibliographystyle {plainnat}
 \bibliography {../../../refs/References}

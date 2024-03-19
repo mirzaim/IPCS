@@ -46,8 +46,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+2024-03-18 & 1.0 & Initial Release.\\
 \bottomrule
 \end{tabularx}
 
@@ -159,9 +158,20 @@ change.
 \begin{description}
 \item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The specific
   hardware on which the software is running.
-\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
-  initial input data.
-\item ...
+\item[\refstepcounter{acnum} \actheacnum \label{acInputFormat}:] The format 
+      of the input data.
+\item[\refstepcounter{acnum} \actheacnum \label{acConstraint}:] The constraints 
+     on the parameters.
+\item[\refstepcounter{acnum} \actheacnum \label{acArrayDS}:] The choice of array 
+     data structures used for storing and manipulating the data input and output.
+\item[\refstepcounter{acnum} \actheacnum \label{acControlAlgo}:] Use other control 
+      algorithms to control the pendulum motion, like PID controller.
+\item[\refstepcounter{acnum} \actheacnum \label{acFriction}:] Consider friction 
+      in the cart and pendulum motion.
+% \item[\refstepcounter{acnum} \actheacnum \label{acODESolver}:] The algorithm used 
+%       for solving the ODEs.
+\item[\refstepcounter{acnum} \actheacnum \label{acGUI}:] The visualization method 
+      used for the pendulum motion (GUI).
 \end{description}
 
 \subsection{Unlikely Changes} \label{SecUchange}
@@ -176,7 +186,10 @@ decisions will be changed.
 \begin{description}
 \item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices
   (Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
-\item ...
+\item[\refstepcounter{ucnum} \uctheucnum \label{uc2D}:] The problem will 
+      always be a 2D inverted pendulum problem.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucClassicalMechanics}:] The motion of 
+      the cart and pendulum will always be governed by Classical Mechanics.
 \end{description}
 
 \section{Module Hierarchy} \label{SecMH}
@@ -188,7 +201,17 @@ actually be implemented.
 
 \begin{description}
 \item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
-\item ...
+\item [\refstepcounter{mnum} \mthemnum \label{mFuzzyLogic}:] Fuzzy Logic Module
+\item [\refstepcounter{mnum} \mthemnum \label{mParser}:] Parser Module
+% \item [\refstepcounter{mnum} \mthemnum \label{mInputParamter}:] Input Parameter Module
+% \item [\refstepcounter{mnum} \mthemnum \label{mMotionODEs}:] Motion ODEs Module
+\item [\refstepcounter{mnum} \mthemnum \label{mOutputVerification}:] Output Verification Module
+\item [\refstepcounter{mnum} \mthemnum \label{mSimulator}:] Simulator Module
+\item [\refstepcounter{mnum} \mthemnum \label{mWorld}:] World Module
+\item [\refstepcounter{mnum} \mthemnum \label{mController}:] Controller Module
+\item [\refstepcounter{mnum} \mthemnum \label{mGUI}:] GUI Module
+% \item [\refstepcounter{mnum} \mthemnum \label{mODESolver}:] ODE Solver Module
+\item [\refstepcounter{mnum} \mthemnum \label{mSequenceDS}:] Sequence Data Structure Module
 \end{description}
 
 
@@ -202,19 +225,21 @@ actually be implemented.
 {Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\ 
-& ?\\
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module}
+& Fuzzy Logic Module\\
+& Parser Module\\
+% & Input Parameter Module\\
+% & Motion ODEs Module\\ 
+& Output Verification Module\\
+& Simulator Module\\
+& World Module\\
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-& ?\\
-& ?\\
+\multirow{3}{0.3\textwidth}{Software Decision Module}
+& Controller Module\\
+& GUI Module\\
+% & ODE Solver Module\\
+& Sequence Data Structure Module\\
 \bottomrule
 
 \end{tabular}
@@ -274,18 +299,81 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Input Format Module (\mref{mInput})}
+\subsubsection{Fuzzy Logic Module (\mref{mFuzzyLogic})}
 
 \begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Secrets:] The algorithm used to implement the fuzzy logic.
+\item[Services:] Provides the fuzzy logic algorithm to control the pendulum motion.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Abstract Object
+  % [Information to include for leaf modules in the decomposition by secrets tree.]
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{Parser Module (\mref{mParser})}
+
+\begin{description}
+\item[Secrets:] The format and structure of the input data.
+\item[Services:] Reads the input data from input file into 
+                 the data structure used by \progname{}.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Abstract Object
+  %[Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+% \subsubsection{Input Parameter Module (\mref{mInputParamter})}
+
+% \begin{description}
+% \item[Secrets:] The value of the input parameters.
+% \item[Services:] Stores the parameters needed for the program, including properties, processing
+% conditions and numerical parameters. The values can be read from the file. This
+% module knows how many parameters it stores.
+% \item[Implemented By:] \progname{}
+% \item[Type of Module:] Record
+%   %[Information to include for leaf modules in the decomposition by secrets tree.]
+% \end{description}
+
+% \subsubsection{Motion ODEs Module (\mref{mMotionODEs})}
+
+% \begin{description}
+% \item[Secrets:] The ODEs for solving the pendulum state, using the input parameters.
+% \item[Services:] Defines the ODEs using the parameters in the input parameters module.
+% \item[Implemented By:] \progname{}
+% \item[Type of Module:] Abstract Data Type
+%   % [Information to include for leaf modules in the decomposition by secrets tree.]
+% \end{description}
+
+\subsubsection{Output Verification Module (\mref{mOutputVerification})}
+
+\begin{description}
+\item[Secrets:] The constraints that we have on the world parameters.
+\item[Services:] Verifies that the output results follow the law of inverted pendulum.
+                 Throws a warning if the relative error exceeds the error threshold.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Abstract Object
+\end{description}
+
+\subsubsection{Simulator Module (\mref{mSimulator})}
+
+\begin{description}
+\item[Secrets:] The algorithm used to simulate the pendulum motion.
+\item[Services:] Simulates the pendulum motion for a given small time step.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Abstract Object
+  % [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{World Module (\mref{mWorld})}
+
+\begin{description}
+\item[Secrets:] World properties.
+\item[Services:] Stores the properties of the world, including the location of the pendulum, the
+                 velocity of the pendulum, and the acceleration of the pendulum.
+\item[Implemented By:] \progname
+\item[Type of Module:] Record
+  % [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+% \subsubsection{Etc.}
 
 
 \subsection{Software Decision Module}
@@ -301,7 +389,52 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{Controller Module (\mref{mController})}
+
+\begin{description}
+\item[Secrets:] The interface for the control algorithm.
+\item[Services:] The general interface for the control algorithm. It provides the
+                 functions to control the pendulum motion.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Interface
+  % [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{GUI Module (\mref{mGUI})}
+
+\begin{description}
+\item[Secrets:] The data structures and algorithms for visualizing the pendulum motion.
+\item[Services:] Provides the visualization functioning.
+\item[Implemented By:] Pygame
+\item[Type of Module:] Library
+  % [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+% \subsubsection{ODE Solver Module (\mref{mODESolver})}
+
+% \begin{description}
+% \item[Secrets:] The algorithm to solve a system of first order ODEs initial value 
+%                 problem from a given starting time until the given event function 
+%                 shows termination.
+% \item[Services:] Solves an ODE using the governing equation, initial conditions,
+%                  event function and numerical parameters.
+% \item[Implemented By:] SciPy
+% \item[Type of Module:] Library
+%   % [Information to include for leaf modules in the decomposition by secrets tree.]
+% \end{description}
+
+\subsubsection{Sequence Data Structure Module (\mref{mSequenceDS})}
+
+\begin{description}
+\item[Secrets:]  The data structure for a sequence data type.
+\item[Services:] Provides array manipulation, including building an array, 
+                 accessing a specific entry, slicing an array, etc.
+\item[Implemented By:] Python
+\item[Type of Module:] Library
+  % [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+% \subsubsection{Etc.}
 
 \section{Traceability Matrix} \label{SecTM}
 
@@ -316,17 +449,11 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-R1 & \mref{mHH}, \mref{mInput}, \mref{mParams}, \mref{mControl}\\
-R2 & \mref{mInput}, \mref{mParams}\\
-R3 & \mref{mVerify}\\
-R4 & \mref{mOutput}, \mref{mControl}\\
-R5 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R6 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R7 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R8 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R9 & \mref{mVerifyOut}\\
-R10 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}\\
-R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
+R1 & \mref{acHardware}, \mref{mParser}, \mref{mSequenceDS}\\
+R2 & \mref{mSimulator}, \mref{mWorld}, \mref{mSequenceDS}\\
+R3 & \mref{mSimulator}, \mref{mWorld}, \mref{mSequenceDS}\\
+R4 & \mref{mFuzzyLogic}, \mref{mWorld}, \mref{mController}, \mref{mSequenceDS}\\
+R5 & \mref{mOutputVerification}, \mref{mGUI}, \mref{mSequenceDS}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Requirements and Modules}
@@ -340,17 +467,13 @@ R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
 \textbf{AC} & \textbf{Modules}\\
 \midrule
 \acref{acHardware} & \mref{mHH}\\
-\acref{acInput} & \mref{mInput}\\
-\acref{acParams} & \mref{mParams}\\
-\acref{acVerify} & \mref{mVerify}\\
-\acref{acOutput} & \mref{mOutput}\\
-\acref{acVerifyOut} & \mref{mVerifyOut}\\
-\acref{acODEs} & \mref{mODEs}\\
-\acref{acEnergy} & \mref{mEnergy}\\
-\acref{acControl} & \mref{mControl}\\
-\acref{acSeqDS} & \mref{mSeqDS}\\
-\acref{acSolver} & \mref{mSolver}\\
-\acref{acPlot} & \mref{mPlot}\\
+\acref{acInputFormat} & \mref{mParser}\\
+\acref{acConstraint} & \mref{mOutputVerification}\\
+\acref{acArrayDS} & \mref{mSequenceDS}\\
+\acref{acControlAlgo} & \mref{mController}\\
+\acref{acFriction} & \mref{mSimulator}\\
+% \acref{acODESolver} & \mref{mSimulator}\\
+\acref{acGUI} & \mref{mGUI}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Anticipated Changes and Modules}
@@ -372,27 +495,29 @@ because they use modules from the lower levels.
 
 \begin{figure}[H]
 \centering
-%\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
+\includegraphics[width=0.7\textwidth]{Use hierarchy 2.pdf}
 \caption{Use hierarchy among modules}
 \label{FigUH}
 \end{figure}
 
 %\section*{References}
 
-\section{User Interfaces}
+% \section{User Interfaces}
 
-\wss{Design of user interface for software and hardware.  Attach an appendix if
-needed. Drawings, Sketches, Figma}
+% \wss{Design of user interface for software and hardware.  Attach an appendix if
+% needed. Drawings, Sketches, Figma}
 
-\section{Design of Communication Protocols}
+% \section{Design of Communication Protocols}
 
-\wss{If appropriate}
+% \wss{If appropriate}
 
-\section{Timeline}
+% \section{Timeline}
 
-\wss{Schedule of tasks and who is responsible}
+% \wss{Schedule of tasks and who is responsible}
 
-\wss{You can point to GitHub if this information is included there}
+% \wss{You can point to GitHub if this information is included there}
+
+\newpage{}
 
 \bibliographystyle {plainnat}
 \bibliography{../../../refs/References}
