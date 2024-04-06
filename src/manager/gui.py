@@ -4,12 +4,17 @@ from math import sin, cos, pi
 # third-party imports
 import pygame
 
+# project imports
+from manager import Manager
 
-class GUI:
 
-    def __init__(self, width, height):
+class GUI(Manager):
+
+    def __init__(self, width=1200, height=300, fps=60, **config):
+        super().__init__(**config)
         self.width = int(width)
         self.height = int(height)
+        self.fps = fps
 
         self.rail_offset_x = self.width / 10.
         self.rail_offset_y = self.height / 2.
@@ -91,9 +96,17 @@ class GUI:
         # update screen
         pygame.display.update()
 
-    def check_close(self):
+    def _check_close(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
                 return True
         return False
+
+    def quit(self):
+        pygame.quit()
+
+    def resume(self):
+        return not self._check_close()
+
+    def tick(self):
+        self.clock.tick(self.fps)
