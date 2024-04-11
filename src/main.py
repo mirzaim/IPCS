@@ -15,6 +15,6 @@ if __name__ == '__main__':
     world = World(**conf.world_config())
     simulator = Simulator(deepcopy(world))
     controller = get_controller(**conf.controller_config())
-    manager = get_manager('gui', simulator=simulator, controller=controller,
+    manager = get_manager(simulator=simulator, controller=controller,
                           **conf.simulation_config())
     manager.run()
