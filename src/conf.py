@@ -1,5 +1,4 @@
 # python imports
-import sys
 import configparser
 
 
@@ -12,11 +11,16 @@ def to_float(value):
 
 class ConfigReader:
 
-    def __init__(self):
-        cfg_path = "configs/default.ini" if len(sys.argv) < 2 else sys.argv[1]
+    def __init__(self, file_path=None, conf_str=None):
+        if file_path is None and conf_str is None:
+            raise ValueError("Either file_path or conf_str must be provided.")
+
         self.cfg = configparser.ConfigParser()
         self.cfg.optionxform = str
-        self.cfg.read(cfg_path)
+        if file_path is not None:
+            self.cfg.read(file_path)
+        elif conf_str is not None:
+            self.cfg.read_string(conf_str)
 
     def simulation_config(self):
         return {item: to_float(value) for item, value in self.cfg.items('simulator')}
