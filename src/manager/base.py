@@ -1,6 +1,3 @@
-# python imports
-from copy import deepcopy
-
 # project imports
 from simulator import Simulator
 from controllers import Controller
@@ -9,19 +6,18 @@ from world import World
 
 class Manager:
 
-    def __init__(self, world: World, controller: Controller, dt=0.1, **config):
+    def __init__(self, simulator: Simulator, controller: Controller, dt=0.1, **config):
         self.dt = dt
         self.controller = controller
-
-        self.simulator = Simulator(deepcopy(world))
+        self.simulator = simulator
 
     def resume(self):
         raise NotImplementedError
 
-    def draw(self, world):
+    def draw(self, world: World):
         raise NotImplementedError
 
-    def tick(self):
+    def wait(self):
         raise NotImplementedError
 
     def quit(self):
@@ -36,7 +32,7 @@ class Manager:
                 self.simulator.tick(self.dt)
 
                 self.draw(self.simulator.world)
-                self.tick()
+                self.wait()
         finally:
             self.quit()
             print("Simulation ended")

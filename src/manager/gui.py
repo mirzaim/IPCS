@@ -108,5 +108,5 @@ class GUI(Manager):
     def resume(self):
         return not self._check_close()
 
-    def tick(self):
+    def wait(self):
         self.clock.tick(self.fps)
