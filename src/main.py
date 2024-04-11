@@ -1,6 +1,10 @@
+# python imports
+from copy import deepcopy
+
 # project imports
 from conf import ConfigReader
 from world import World
+from simulator import Simulator
 from controllers import get_controller
 from manager import get_manager
 
@@ -9,7 +13,8 @@ conf = ConfigReader()
 
 if __name__ == '__main__':
     world = World(**conf.world_config())
+    simulator = Simulator(deepcopy(world))
     controller = get_controller(**conf.controller_config())
-    # use 'gui' or 'file' as argument
-    manager = get_manager('gui', world=world, controller=controller, **conf.simulation_config())
+    manager = get_manager('gui', simulator=simulator, controller=controller,
+                          **conf.simulation_config())
     manager.run()
