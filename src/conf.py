@@ -3,6 +3,13 @@ import sys
 import configparser
 
 
+def to_float(value):
+    try:
+        return float(value)
+    except ValueError:
+        return value
+
+
 class ConfigReader:
 
     def __init__(self):
@@ -12,10 +19,10 @@ class ConfigReader:
         self.cfg.read(cfg_path)
 
     def simulation_config(self):
-        return {item: float(value) for item, value in self.cfg.items('simulator')}
+        return {item: to_float(value) for item, value in self.cfg.items('simulator')}
 
     def controller_config(self):
-        return {item: str(value) for item, value in self.cfg.items('controller')}
+        return {item: to_float(value) for item, value in self.cfg.items('controller')}
 
     def world_config(self):
-        return {item: float(value) for item, value in self.cfg.items('world')}
+        return {item: to_float(value) for item, value in self.cfg.items('world')}
