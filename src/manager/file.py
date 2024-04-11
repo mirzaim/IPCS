@@ -14,12 +14,12 @@ class FileOutput(Manager):
         self.file.write(f'x, theta' + "\n")
 
     def resume(self):
-        return next(self.iter, None)
+        return next(self.iter)
 
     def draw(self, world):
         self.file.write(f'{world.x}, {world.theta}' + "\n")
 
-    def tick(self):
+    def wait(self):
         pass
 
     def quit(self):

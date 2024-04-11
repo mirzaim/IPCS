@@ -17,7 +17,7 @@ class Manager:
     def draw(self, world: World):
         raise NotImplementedError
 
-    def tick(self):
+    def wait(self):
         raise NotImplementedError
 
     def quit(self):
@@ -32,7 +32,7 @@ class Manager:
                 self.simulator.tick(self.dt)
 
                 self.draw(self.simulator.world)
-                self.tick()
+                self.wait()
         finally:
             self.quit()
             print("Simulation ended")
