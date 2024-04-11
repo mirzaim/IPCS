@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # python imports
 from math import sin, cos, pi
 
