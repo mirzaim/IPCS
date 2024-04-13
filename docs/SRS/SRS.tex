@@ -718,7 +718,8 @@ includes the following elements:
   amount of technical language.  They should be understandable by non-domain
   experts.}
 
-\noindent Given the cart and the pendulum specifications and their initial 
+\noindent Given the cart and the pendulum specifications 
+(mass of cart, mass of ball, length of rod) and the initial 
 conditions, the goal statements are:
 
 % \begin{itemize}
@@ -730,12 +731,11 @@ conditions, the goal statements are:
 
 \begin{itemize}
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{G_calState}:]
-Calculate the state of the system, position of the cart and the angle of the pendulum arm, over time.
+Simulate the state of the system, position of the cart and the angle of the pendulum arm, over time.
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{G_control}:]
-Develop a control algorithm that effectively stabilizes
-the inverted pendulum system, maintaining the pendulum
-within a deviation of less than 20 degrees from the upright position
-after 20 seconds of operation.
+Implement Control Algorithm that effectively stabilizes
+the inverted pendulum system and maintain the pendulum
+within the upright position.
 \end{itemize}
 
 \subsection{Solution Characteristics Specification}
