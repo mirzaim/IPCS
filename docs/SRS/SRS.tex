@@ -1114,6 +1114,18 @@ $l$ is the length of the rod (\si{\metre}).
 \end{tabular}
 \end{minipage}\\
 
+\subsubsection*{Derivation of the cart motion equation}
+
+The acceleration of the pendulum can be obtained by computing the 
+second derivative of its position vector. Denoted as 
+$\vec{r}_P = (x_c(t)-l\sin\theta(t))\hat{i} + (l\cos\theta(t)) \hat{j}$, 
+this represents the pendulum's position vector. Its first derivative 
+is given by $ \frac{d}{dt} \vec{r}_P = (\dot{x_c}(t)-l\dot{\theta}(t)\cos\theta(t))\hat{i} 
++ (-l\dot{\theta}(t)\sin\theta(t)) \hat{j}$. Further differentiation leads 
+to the second derivative of the position vector, expressed as $\frac{d^2}{dt^2}
+\vec{r}_P = (\ddot{x_c}(t)+l\dot{\theta}^2(t)\sin\theta(t)-l\ddot{\theta}(t)\cos\theta(t))\hat{i} 
++ (-l\dot{\theta}^2(t)\cos\theta(t) - l\ddot{\theta}(t)\sin\theta(t)) \hat{j}$.
+
 % ~\newline
 
 % \noindent
