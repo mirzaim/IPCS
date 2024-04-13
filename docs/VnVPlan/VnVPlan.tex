@@ -554,6 +554,21 @@ Automatic test using Pytest.
 This part verifies Requirement 5 (R5), ensuring that the visualization 
 and graphical user interface (GUI) of the software meet the necessary standards.
 
+\begin{table}[ht]
+\centering
+\caption{Input test cases} \label{table:input_vis}
+\vspace*{2mm}
+ \begin{tabular}{|c|c|} 
+ \hline
+ \multicolumn{2}{|c|}{Input}   \\ \hline 
+  $x$ & $\theta$               \\ \hline
+  0   & 0                      \\ \hline
+  0   & $\pi$                  \\ \hline
+  -5  & $\pi$                  \\ \hline
+  -5  & $\frac{\pi}{2}$        \\ \hline
+\end{tabular}
+\end{table}  
+
 \wss{It would be nice to have a blurb here to explain why the subsections below
   cover the requirements.  References to the SRS would be good here.  If a section
   covers tests for input constraints, you should reference the data constraints
@@ -567,9 +582,9 @@ and graphical user interface (GUI) of the software meet the necessary standards.
 
 Control: Manual
 					
-Initial State: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
+Initial State: Specified in the \hyperref[table:input_vis]{Table \ref*{table:input_vis}}.
 					
-Input: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
+Input: Specified in the \hyperref[table:input_vis]{Table \ref*{table:input_vis}}.
 					
 Output: Visualization of the pendulum at different states.
 % \wss{The expected result for the given inputs}
