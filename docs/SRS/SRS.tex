@@ -1783,14 +1783,15 @@ the assumptions.
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-	& \tref{TM:1}& \dref{G_pendulum_location}& \dref{G_pendulum_acceleration}& \ddref{D_acceleration}& \iref{I_cart_motion}& \iref{I_pendulum_motion} \\
+	& \tref{TM:NSL}& \tref{TM:AF}& \dref{G_pendulum_location}& \dref{G_pendulum_acceleration}& \ddref{D_acceleration}& \iref{I_cart_motion} \\
 \hline
-\aref{A_1dRotaion}                & &X&X& & &X\\ \hline
-\aref{A_1dxAxis}                  & & & & &X& \\ \hline
-\aref{A_masslessRod}              & & &X& &X&X\\ \hline
-\aref{A_classicalMechanics}       &X& & & &X&X\\ \hline
-\aref{A_noFriction}               & &X&X& &X&X\\ \hline
-\aref{A_rigidBody}                & &X&X& &X&X\\
+\aref{A_1dRotaion}                & & &X&X& &X \\ \hline
+\aref{A_1dxAxis}                  & & & & & &X \\ \hline
+\aref{A_masslessRod}              & & & &X& &X \\ \hline
+\aref{A_classicalMechanics}       &X& & & & &X \\ \hline
+\aref{A_noFriction}               & & &X&X& &X \\ \hline
+\aref{A_noAirResistance}          & & &X&X& &X \\ \hline
+\aref{A_rigidBody}                & & &X&X& &X \\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Assumptions and Other Items}
@@ -1803,14 +1804,14 @@ the assumptions.
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-	& \tref{TM:1}& \dref{G_pendulum_location}& \dref{G_pendulum_acceleration}& \ddref{D_acceleration}& \iref{I_cart_motion}& \iref{I_pendulum_motion} \\
+	& \tref{TM:NSL}& \tref{TM:AF}& \dref{G_pendulum_location}& \dref{G_pendulum_acceleration}& \ddref{D_acceleration}& \iref{I_cart_motion} \\
 \hline
-\tref{TM:1}                       & & & & & & \\ \hline
+\tref{TM:NSL}                     & & & & & & \\ \hline
+\tref{TM:AF}                      & & & & & & \\ \hline
 \dref{G_pendulum_location}        & & & & & & \\ \hline
-\dref{G_pendulum_acceleration}    & &X& &X& & \\ \hline
-\ddref{D_acceleration}            & & & & & & \\ \hline
-\iref{I_cart_motion}              &X& &X& & & \\ \hline
-\iref{I_pendulum_motion}          &X& &X& & & \\
+\dref{G_pendulum_acceleration}    & & &X& &X& \\ \hline
+\ddref{D_acceleration}            & &X& & & & \\ \hline
+\iref{I_cart_motion}              &X& & &X& & \\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Items of Different Sections}
@@ -1821,13 +1822,13 @@ the assumptions.
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-	& \tref{TM:1}& \dref{G_pendulum_location}& \dref{G_pendulum_acceleration}& \ddref{D_acceleration}& \iref{I_cart_motion}& \iref{I_pendulum_motion} \\
+	& \tref{TM:NSL}& \tref{TM:AF}& \dref{G_pendulum_location}& \dref{G_pendulum_acceleration}& \ddref{D_acceleration}& \iref{I_cart_motion} \\
 \hline
-\rref{R_Inputs}              & & & & & & \\ \hline
-\rref{R_cart_position}       & & & &X&X&X\\ \hline
-\rref{R_pendulum_position}   & & & &X&X&X\\ \hline
-\rref{R_control_system}      & & & &X&X&X\\ \hline
-\rref{R_Output}              & & & & & & \\
+\rref{R_Inputs}              & & & & & &  \\ \hline
+\rref{R_cart_position}       & & & & &X&X \\ \hline
+\rref{R_pendulum_position}   & & & & &X&X \\ \hline
+\rref{R_control_system}      & & & & &X&X \\ \hline
+\rref{R_Output}              & & & & & &  \\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Requirements and Instance Models}
