@@ -458,6 +458,12 @@ the inverted pendulum physics. It assesses the requirements
 R2 and R3 for \progname{}. Essentially, it verifies that given the initial 
 position of the pendulum and a constant force acting on the cart, 
 the location of the pendulum is determined after a specified duration of time.
+Tests are designed for both normal cases and edge and boundary cases, as outlined 
+in \hyperref[table:input_output]{Table \ref*{table:input_output}}.
+We simply compare the results of the two methods at the end of the interval. 
+This approach makes documenting the results easier and enhances the clarity 
+of understanding the error. Additionally, since the error accumulates over time, 
+we do not sacrifice much accuracy by adopting this method.
 
 \begin{table}[ht]
 \centering
