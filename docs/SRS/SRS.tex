@@ -85,7 +85,7 @@
 \newpage
 \noindent \rule{\textwidth}{0.5mm}
 
-\paragraph{RefName: } \textbf{#2} \phantomsection 
+\paragraph{RefName: } \refstepcounter{theorynum}\tthetheorynum
 \label{#2}
 
 \paragraph{Label:} #3
@@ -128,7 +128,7 @@
 
 \begin{document}
 
-\title{Software Requirements Specification for \progname: subtitle describing software} 
+\title{Software Requirements Specification \\ for \\ \progname \\ (IPCS)} 
 \author{\authname}
 \date{\today}
 	
@@ -148,6 +148,7 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 2024-02-06 & 1.0 & Initial Release.\\
+2024-04-13 & 2.0 & Addressed reviewer comments.\\
 \bottomrule
 \end{tabularx}
 
@@ -268,8 +269,8 @@ $\ddot{\theta}(t)$ & \si {\radian\per\square\second} & Angular acceleration of t
 \subsection{Mathematical Notation}
 
 Vectors are represented with an arrow on top. 
-For example, $\hat{x}$ denotes a vector, while $m$ 
-represents a scalar. By default, a vector $\hat{x}$ 
+For example, $\vec{x}$ denotes a vector, while $m$ 
+represents a scalar. By default, a vector $\vec{x}$ 
 belongs to $\mathbb{R}^2$, and if it belongs to higher dimensions, 
 it is explicitly specified in the text. The symbol $\cdot$ 
 signifies the dot product between two vectors.
@@ -366,7 +367,11 @@ influencing advancements in areas like autonomous vehicles, robotics,
 and stability control for devices such as self-balancing scooters.
 The insights gained from solving this problem have practical applications,
 shaping developments in real-world systems that demand stability
-and dynamic control.
+and dynamic control. The \progname{} (IPCS) software aims to simulate the physical
+system of an inverted pendulum and design a control system to keep the pendulum
+upright. This document outlines the requirements for the \progname{} software,
+providing a clear and unambiguous description of the software's functionalities,
+features, and constraints.
 
 \plt{The introduction section is written to introduce the problem.  It starts
   general and focuses on the problem domain. The general advice is to start with
@@ -714,7 +719,8 @@ includes the following elements:
   amount of technical language.  They should be understandable by non-domain
   experts.}
 
-\noindent Given the cart and the pendulum specifications and their initial 
+\noindent Given the cart and the pendulum specifications 
+(mass of cart, mass of ball, length of rod) and the initial 
 conditions, the goal statements are:
 
 % \begin{itemize}
@@ -726,12 +732,11 @@ conditions, the goal statements are:
 
 \begin{itemize}
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{G_calState}:]
-Calculate the state of the system, position of the cart and the angle of the pendulum arm, over time.
+Simulate the state of the system, position of the cart and the angle of the pendulum arm, over time.
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{G_control}:]
-Develop a control algorithm that effectively stabilizes
-the inverted pendulum system, maintaining the pendulum
-within a deviation of less than 20 degrees from the upright position
-after 20 seconds of operation.
+Implement Control Algorithm that effectively stabilizes
+the inverted pendulum system and maintain the pendulum
+within the upright position.
 \end{itemize}
 
 \subsection{Solution Characteristics Specification}
@@ -841,7 +846,9 @@ change [LC], in which the respective assumption is used.
   \item[A\refstepcounter{assumpnum}\theassumpnum \label{A_classicalMechanics}:]
   Classical mechanics holds (Newton Laws).
   \item[A\refstepcounter{assumpnum}\theassumpnum \label{A_noFriction}:]
-  No friction.
+  No friction for the cart.
+  \item[A\refstepcounter{assumpnum}\theassumpnum \label{A_noAirResistance}:]
+  No air resistance.
   \item[A\refstepcounter{assumpnum}\theassumpnum \label{A_rigidBody}:]
   Every body is considered as a rigid body.
 \end{itemize}
@@ -864,7 +871,7 @@ on.  \plt{Modify the examples below for your problem, and add additional models
 \noindent
 \deftheory
 % #2 refname of theory
-{TM:1}
+{TM:NSL}
 % #3 label
 {Newton's Second Law}
 % #4 equation
@@ -897,7 +904,7 @@ None.
 }
 % #8 Referenced by
 {
-  \iref{I_cart_motion}, \iref{I_pendulum_motion}
+  \iref{I_cart_motion}
 }
 % #9 Preconditions
 {
@@ -907,6 +914,45 @@ None.
 {}
 
 \newpage
+
+\noindent
+\deftheory
+% #2 refname of theory
+{TM:AF}
+% #3 label
+{Acceleration of a function (the rate of change of the rate of change)}
+% #4 equation
+{
+  $\frac{d^2}{dx^2}f(x) = \lim\limits_{h \to 0}{\frac{f(x+h)-2f(x)+f(x-h)}{h^2}}$
+}
+% #5 description
+{
+  {Given any continous function $f(x)$, the acceleration of the function is
+  defined as the rate of change of the rate of change of the function. This
+  is equivalent to taking the second derivative of the function with respect
+  to $x$.}\\
+}
+% #6 Notes
+{
+None.
+}
+% #7 Source
+{
+  \url{https://en.wikipedia.org/wiki/Second_derivative}
+}
+% #8 Referenced by
+{
+  \ddref{D_acceleration}
+}
+% #9 Preconditions
+{
+  None.
+}
+% #1 derivation - not applicable by default
+{}
+
+\newpage
+
 
 % ~\newline
 
@@ -972,6 +1018,10 @@ None.
 
 This section collects the laws and equations that will be used in building the
 instance models.
+The global coordinate system referenced in the subsequent equations is 
+positioned within the plane. Consequently, the cart's position, which 
+consistently remains grounded relative to the general coordinate system, 
+is expressed as $\vec{r}_c = x_c(t) \hat{i}$.
 
 \plt{Some projects may not have any content for this section, but the section
   heading should be kept.}  \plt{Modify the examples below for your problem, and
@@ -993,14 +1043,14 @@ Label &\bf Pendulum position in 2D space \\
 % \hline
 SI Units& $(\si{\metre}, \si{\metre})^T$\\
 \hline
-Equation&$\vec{r}_P = (x-l\sin\theta)\hat{x}_I + (l\cos\theta) \hat{y}_I$  \\
+Equation&$\vec{r}_P = (x_c(t)-l\sin\theta(t))\hat{i} + (l\cos\theta(t)) \hat{j}$  \\
 \hline
 Description &
 The position of the pendulum in 2D space is given by the above equation, where
-$\vec{r}_P$ is the position vector of the pendulum, $x$ is the
-position of the cart (\si{\metre}), $l$ is the length of the rod (\si{\metre}),
-and $\theta$ is the angle of the pendulum arm with respect to the vertical axis
-(\si{\radian}).
+$\vec{r}_P$ is the position vector of the pendulum, $x_c(t)$ is the
+position of the cart (\si{\metre}) at time $t$, $l$ is the length of the rod (\si{\metre}),
+and $\theta(t)$ is the angle of the pendulum arm with respect to the vertical axis
+(\si{\radian}) at time $t$.
 \\
 \hline
   Source & N/A \\
@@ -1009,6 +1059,26 @@ and $\theta$ is the angle of the pendulum arm with respect to the vertical axis
   \hline
 \end{tabular}
 \end{minipage}\\
+
+
+\subsubsection*{Derivation of the cart motion equation}
+
+In reference to the relative coordinate system depicted in Figure \ref{Fig_InvertedPendulumSchematic}, 
+the position of the pendulum can be defined as 
+$\vec{r}_p = (-l\sin\theta(t)) \hat{i} + (l\cos\theta(t)) \hat{j}$. 
+The values $l\sin\theta(t)$ and $l\cos\theta(t)$ are straightforwardly 
+derived from the definitions of trigonometric functions within a 
+right triangle. The negative sign preceding $l\sin\theta(t)$ accounts 
+for the pendulum's angle increasing counter-clockwise 
+from the vertical axis, with its zero position at the top.
+
+The global coordinate system is situated somewhere within the plane. 
+Consequently, the cart's position, which consistently remains 
+grounded relative to the general coordinate system, is expressed 
+as $\vec{r}_c = x_c(t) \hat{i}$. By combining the cart's position with 
+that of the pendulum, we can ascertain the pendulum's position 
+relative to the global coordinate system. Thus, 
+$\vec{r}_p = \vec{r}_c + \vec{r}_p = (x_c(t)-l\sin\theta(t)) \hat{i} + (l\cos\theta(t)) \hat{j}$.
 
 ~\newline
 
@@ -1026,24 +1096,36 @@ Label &\bf Pendulum acceleration in 2D space \\
 % \hline
 SI Units& $(\si{\metre\per\square\second}, \si{\metre\per\square\second})^T$\\
 \hline
-Equation&$\vec{a}_P = (\ddot{x}+l\dot{\theta}^2\sin\theta-l\ddot{\theta}\cos\theta)\hat{x}_I
-          + (-l\dot{\theta}^2\cos\theta - l\ddot{\theta}\sin\theta) \hat{y}_I$  \\
+Equation&$\vec{a}_P = (\ddot{x_c}(t)+l\dot{\theta}^2(t)\sin\theta(t)-l\ddot{\theta}(t)\cos\theta(t))\hat{i}
+          + (-l\dot{\theta}^2(t)\cos\theta(t) - l\ddot{\theta}(t)\sin\theta(t)) \hat{j}$  \\
 \hline
 Description &
 The acceleration of the pendulum in 2D space is given by the above equation, where
 $\vec{a}_P$ is the acceleration vector of the pendulum, $\ddot{x}$ is the
-acceleration of the cart (\si{\metre\per\square\second}), $\dot{\theta}$ is the
-angular velocity of the pendulum arm (\si{\radian\per\second}), $\ddot{\theta}$ is the
+acceleration of the cart (\si{\metre\per\square\second}), $\dot{\theta}(t)$ is the
+angular velocity of the pendulum arm (\si{\radian\per\second}), $\ddot{\theta}(t)$ is the
 angular acceleration of the pendulum arm (\si{\radian\per\square\second}), and
 $l$ is the length of the rod (\si{\metre}).
 \\
 \hline
   Source & \dref{G_pendulum_location}, \ddref{D_acceleration} \\
   \hline
-  Ref.\ By & \iref{I_cart_motion}, \iref{I_pendulum_motion}\\
+  Ref.\ By & \iref{I_cart_motion}\\
   \hline
 \end{tabular}
 \end{minipage}\\
+
+\subsubsection*{Derivation of the cart motion equation}
+
+The acceleration of the pendulum can be obtained by computing the 
+second derivative of its position vector. Denoted as 
+$\vec{r}_P = (x_c(t)-l\sin\theta(t))\hat{i} + (l\cos\theta(t)) \hat{j}$, 
+this represents the pendulum's position vector. Its first derivative 
+is given by $ \frac{d}{dt} \vec{r}_P = (\dot{x_c}(t)-l\dot{\theta}(t)\cos\theta(t))\hat{i} 
++ (-l\dot{\theta}(t)\sin\theta(t)) \hat{j}$. Further differentiation leads 
+to the second derivative of the position vector, expressed as $\frac{d^2}{dt^2}
+\vec{r}_P = (\ddot{x_c}(t)+l\dot{\theta}^2(t)\sin\theta(t)-l\ddot{\theta}(t)\cos\theta(t))\hat{i} 
++ (-l\dot{\theta}^2(t)\cos\theta(t) - l\ddot{\theta}(t)\sin\theta(t)) \hat{j}$.
 
 % ~\newline
 
@@ -1125,12 +1207,12 @@ Symbol &$a$\\
   Equation&$a = \ddot{x}$\\
   \hline
   Description &
-              Velocity is the derivative of position concerning time and acceleration is the derivative of velocity for time, so acceleration is the second derivative of position to time. 
+              Acceleration is the second derivative of position to time. 
               $a$ is the acceleration of the object in \si {\metre\per\square\second},
               $x$ is the position of the object in \si{\metre}.
   \\
   \hline
-  Sources& \url{https://en.wikipedia.org/wiki/Acceleration} \\
+  Sources& \tref{TM:AF} \\
   \hline
   Ref.\ By & \dref{G_pendulum_acceleration}\\
   \hline
@@ -1239,8 +1321,7 @@ identified in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
   \end{center}
 \end{figure}
 
-The goals \gsref{G_calState} are solved by combining the results from the
-instance models \iref{I_cart_motion} and \iref{I_pendulum_motion}.
+The goals \gsref{G_calState} are solved instance model \iref{I_cart_motion}.
 % \plt{reference your instance
   % models}.  \plt{other details, with cross-references where appropriate.}
 \plt{Modify the examples below for your problem, and add additional models as
@@ -1258,20 +1339,24 @@ instance models \iref{I_cart_motion} and \iref{I_pendulum_motion}.
   \rowcolor[gray]{0.9}
   Number& IM\refstepcounter{instnum}\theinstnum \label{I_cart_motion}\\
   \hline
-  Label& \bf the cart motion equation\\
+  Label& \bf the cart and pendulum motion equation\\
   \hline
   Input& $F(t)$, $M$, $m$, $l$\\
   \hline
-  Output& $x(t)$, such that $F(t)$ = $(M+m)\ddot{x}(t) - ml\ddot{\theta}(t)\cos{\theta(t)} + ml (\dot{\theta}^2(t)) \sin{\theta(t)}$ \\
+  Output& $x_c(t)$ and $\theta(t)$, such that: \newline
+  $F(t)$ = $(M+m)\ddot{x_c}(t) - ml\ddot{\theta}(t)\cos{\theta(t)} + ml (\dot{\theta}^2(t)) \sin{\theta(t)}$ 
+  \newline 
+  $l \ddot{\theta}(t) + g \sin{\theta(t)} = \ddot{x_c}(t) \cos{\theta(t)}$\\
  
   \hline
   Description&
   $m$ is the mass of the pendulum (\si{\kilogram}).\\
   &$M$ is the mass of the cart (\si{\kilogram}).\\
   &$l$ is the length of pendulum (\si{\metre}).\\
-  &$\theta$ is the pendulum angle from vertical (\si{\radian}).\\
-  & and by writing equation of motion for the cart, the relationship between inputs and cart motion is clarified. \\
-  
+  &$F(t)$ is the force applied to the cart (\si{\newton}) at time $t$.\\
+  &$x_c(t)$ is the position of the cart (\si{\metre}) at time $t$.\\
+  &$\theta(t)$ is the angle of the pendulum arm with respect to the vertical axis
+  (\si{\radian}) at time $t$.\\  
   \hline
   Sources& \cite{wiki_inverted_pendulum_2024}\\
   \hline
@@ -1284,72 +1369,86 @@ instance models \iref{I_cart_motion} and \iref{I_pendulum_motion}.
 
 \subsubsection*{Derivation of the cart motion equation}
 
-If we write the second law of Newton (\tref{TM:1}) for the cart in the x-axis, 
+If we write the second law of Newton (\tref{TM:NSL}) for the cart in the x-axis, 
 we obtain $F - R_x = (M+m)\ddot{x}$, where $R_x$ represents the reaction 
 forces at the joint. It is known that 
 $R_x = m (\ddot{x} + l\dot{\theta}^2\sin\theta-l \ddot{\theta}\cos\theta)$ 
-by \tref{TM:1} and \dref{G_pendulum_acceleration}. 
+by \tref{TM:NSL} and \dref{G_pendulum_acceleration}. 
 By substituting $R_x$ into the first equation, 
-we derive the equation of motion for the cart (\iref{I_cart_motion}).
+we derive the equation of motion for the cart (first one).
 
-
-~\newline
-
-%Instance Model 2
-
-\noindent
-\begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-  \hline
-  \rowcolor[gray]{0.9}
-  Number& IM\refstepcounter{instnum}\theinstnum \label{I_pendulum_motion}\\
-  \hline
-  Label& \bf the pendulum motion equation\\
-  \hline
-  Input&  $M$, $m$, $l$\\
-
-  \hline
-  Output & $\theta(t)$, such that $l \ddot{\theta}(t) + g \sin{\theta(t)} = \ddot{x}(t) \cos{\theta(t)}$\\
-  \hline
-  Description&
-  $m$ is the mass of the pendulum (\si{\kilogram}).\\
-  &$M$ is the mass of the cart (\si{\kilogram}).\\
-  &$l$ is the length of pendulum (\si{\metre}).\\  
-  &This equation show the relationship between motion of pendulum and the system.\\
-  \hline
-  Sources& \cite{wiki_inverted_pendulum_2024}\\
-  \hline
-  Ref.\ By & -\\
-  \hline
-\end{tabular}
-\end{minipage}\\
-
-~\newline
-
-\subsubsection*{Derivation of the pendulum motion equation}
-
-Based on the second law of Newton (\tref{TM:1}), we can write 
+Based on the second law of Newton (\tref{TM:NSL}), we can write 
 the equation of motion for the pendulum as 
 $\Sigma \vec{F} = m \vec{a_P}$. We define a unit vector 
-$\hat{x_b} = \cos\theta \hat{x_I} + \sin\theta \hat{y_I}$, 
+$\vec{x_b} = \cos\theta \hat{i} + \sin\theta \hat{j}$, 
 which is perpendicular to the pendulum at all times. 
-Therefore, $\hat{x_b}^T \cdot \Sigma \vec{F} = -mg\sin\theta$, 
+Therefore, $\vec{x_b}^T \cdot \Sigma \vec{F} = -mg\sin\theta$, 
 indicating that $-mg\sin\theta$ is the only force acting 
 on the pendulum in the perpendicular direction. 
 Additionally, we can calculate the $\vec{a_P}$ 
 (\dref{G_pendulum_acceleration}) of the pendulum 
 in the perpendicular direction as 
-$\hat{x_b}^T \cdot m \vec{a_P} = m(\ddot{x}\cos\theta - l\ddot{\theta})$. 
+$\vec{x_b}^T \cdot m \vec{a_P} = m(\ddot{x}\cos\theta - l\ddot{\theta})$. 
 By equating these two equations, we obtain the equation 
-of motion for the pendulum (\iref{I_pendulum_motion}).
+of motion for the pendulum (second one).
+
+~\newline
+
+% %Instance Model 2
+
+% \noindent
+% \begin{minipage}{\textwidth}
+% \renewcommand*{\arraystretch}{1.5}
+% \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+%   \hline
+%   \rowcolor[gray]{0.9}
+%   Number& IM\refstepcounter{instnum}\theinstnum \label{I_pendulum_motion}\\
+%   \hline
+%   Label& \bf the pendulum motion equation\\
+%   \hline
+%   Input&  $M$, $m$, $l$\\
+
+%   \hline
+%   Output & $\theta(t)$, such that $l \ddot{\theta}(t) + g \sin{\theta(t)} = \ddot{x}(t) \cos{\theta(t)}$\\
+%   \hline
+%   Description&
+%   $m$ is the mass of the pendulum (\si{\kilogram}).\\
+%   &$M$ is the mass of the cart (\si{\kilogram}).\\
+%   &$l$ is the length of pendulum (\si{\metre}).\\  
+%   &This equation show the relationship between motion of pendulum and the system.\\
+%   \hline
+%   Sources& \cite{wiki_inverted_pendulum_2024}\\
+%   \hline
+%   Ref.\ By & -\\
+%   \hline
+% \end{tabular}
+% \end{minipage}\\
+
+% ~\newline
+
+% \subsubsection*{Derivation of the pendulum motion equation}
+
+% Based on the second law of Newton (\tref{TM:NSL}), we can write 
+% the equation of motion for the pendulum as 
+% $\Sigma \vec{F} = m \vec{a_P}$. We define a unit vector 
+% $\vec{x_b} = \cos\theta \hat{i} + \sin\theta \hat{j}$, 
+% which is perpendicular to the pendulum at all times. 
+% Therefore, $\vec{x_b}^T \cdot \Sigma \vec{F} = -mg\sin\theta$, 
+% indicating that $-mg\sin\theta$ is the only force acting 
+% on the pendulum in the perpendicular direction. 
+% Additionally, we can calculate the $\vec{a_P}$ 
+% (\dref{G_pendulum_acceleration}) of the pendulum 
+% in the perpendicular direction as 
+% $\vec{x_b}^T \cdot m \vec{a_P} = m(\ddot{x}\cos\theta - l\ddot{\theta})$. 
+% By equating these two equations, we obtain the equation 
+% of motion for the pendulum (\iref{I_pendulum_motion}).
 
 
-% If we write the second law of Newton (\tref{TM:1}) for the cart in the x-axis, 
+% If we write the second law of Newton (\tref{TM:NSL}) for the cart in the x-axis, 
 % we obtain $F - R_x = (M+m)\ddot{x}$, where $R_x$ represents the reaction 
 % forces at the joint. It is known that 
 % $R_x = m (\ddot{x} + l\dot{\theta}^2\sin\theta-l \ddot{\theta}\cos\theta)$ 
-% by \tref{TM:1} and \dref{G_pendulum_acceleration}. 
+% by \tref{TM:NSL} and \dref{G_pendulum_acceleration}. 
 % By substituting $R_x$ into the first equation, 
 % we derive the equation of motion for the cart (\iref{I_cart_motion}).
 
@@ -1488,7 +1587,7 @@ of the pendulum in a manner consistent with Newton's laws.
   \textbf{Var} & \textbf{Physical Constraints} \\
   \midrule 
   $\theta(t)$ &  $0\leq \theta(t) < 2\pi$   \si{\radian}\\
-  $x(t)$      &  $ x(t)$ \si{\metre}
+  $x(t)$      &  -
   % $T_W$ & $T_\text{init} \leq T_W \leq T_C$ (by~\aref{A_charge})
   \\
   \bottomrule
@@ -1513,9 +1612,8 @@ qualities that the software is expected to exhibit.
 \noindent \begin{itemize}
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs}:]
-    The user is required to input values,
-    including the masses of the cart and pendulum,
-    as well as the initial positions of both the cart and pendulum,
+    Check validity of the input data, like the masses of the cart and pendulum,
+    and the initial positions of both the cart and pendulum,
     based on the specifications provided in \hyperref[TblInputVar]{Table \ref*{TblInputVar}}.
     % \plt{Requirements
     % for the inputs that are supplied by the user.  This information has to be
@@ -1523,14 +1621,14 @@ qualities that the software is expected to exhibit.
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_cart_position}:]
     The system shall calculate the position of
-    the cart over the simulation time.
+    the cart over the simulation time. (\iref{I_cart_motion})
     % \plt{It isn't
     % always required, but often echoing the inputs as part of the output is a
     % good idea.}
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_pendulum_position}:]
     The system shall calculate the angular position
-    of the pendulum over the simulation time.
+    of the pendulum over the simulation time. (\iref{I_cart_motion})
     % \plt{Calculation
     % related requirements.}
 
@@ -1572,8 +1670,9 @@ be covered in the Verification and Validation document.}
 \noindent \begin{itemize}
 
 \item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Accuracy}:] 
-\textbf{Accuracy} The level of accuracy for \progname{} will 
-be specified in Verification and Validation Plan.
+\textbf{Accuracy} The relative error in the location of the cart and pendulum 
+for \progname{} will be compared with that of the benchmark program. 
+Refer to the Verification and Validation Plan for details.
   %  \plt{Characterize the accuracy by giving the context/use for
   %   the software.  Maybe something like, ``The accuracy of the computed
   %   solutions should meet the level needed for $<$engineering or scientific
@@ -1591,7 +1690,7 @@ be specified in Verification and Validation Plan.
 
 \item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Maintainability}:]
   \textbf{Maintainability}
-  Main three modules shall be independent and easily replaceable with clear API.
+  Main modules shall be independent and easily replaceable with clear API.
   % \plt{The effort required to make any of the likely
   %   changes listed for \progname{} should be less than FRACTION of the original
   %   development time.  FRACTION is then a symbolic constant that can be defined
@@ -1599,7 +1698,7 @@ be specified in Verification and Validation Plan.
 
 \item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Portability}:]
   \textbf{Portability}
-  \progname should be possible to run on a system with doeckers installed.
+  \progname{} should be able to run on both Linux and MacOS operating systems.
   % \plt{This NFR is easier to write than the others.  The
   %   systems that \progname{} should run on should be listed here.  When possible
   %   the specific versions of the potential operating environments should be
@@ -1614,12 +1713,21 @@ be specified in Verification and Validation Plan.
 
 \subsection{Rationale}
 
-The requirements outlined in this section serve to guide 
-the development of the pendulum control system, ensuring 
-its functionality and usability. Functional requirements 
-address key aspects like input processing, position calculation, 
-control strategy implementation, and real-time visualization, 
-aiming for accuracy and user-friendliness. 
+The assumptions made for the inverted pendulum problem are geared 
+towards simplifying the system's dynamics to facilitate analysis 
+and solution development. Among these, pivotal assumptions entail 
+treating the pole as possessing a single degree of rotational 
+freedom (\aref{A_1dRotaion}) and the cart as having one degree 
+of freedom for its forward and backward motion (\aref{A_1dxAxis}).
+These simplifications significantly facilitate the process of 
+formulating equations governing the motion of both the cart 
+and the pendulum (\iref{I_cart_motion}).
+% The requirements outlined in this section serve to guide 
+% the development of the pendulum control system, ensuring 
+% its functionality and usability. Functional requirements 
+% address key aspects like input processing, position calculation, 
+% control strategy implementation, and real-time visualization, 
+% aiming for accuracy and user-friendliness.
 
 \plt{Provide a rationale for the decisions made in the documentation.  Rationale
 should be provided for scope decisions, modelling decisions, assumptions and
@@ -1676,14 +1784,15 @@ the assumptions.
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-	& \tref{TM:1}& \dref{G_pendulum_location}& \dref{G_pendulum_acceleration}& \ddref{D_acceleration}& \iref{I_cart_motion}& \iref{I_pendulum_motion} \\
+	& \tref{TM:NSL}& \tref{TM:AF}& \dref{G_pendulum_location}& \dref{G_pendulum_acceleration}& \ddref{D_acceleration}& \iref{I_cart_motion} \\
 \hline
-\aref{A_1dRotaion}                & &X&X& & &X\\ \hline
-\aref{A_1dxAxis}                  & & & & &X& \\ \hline
-\aref{A_masslessRod}              & & &X& &X&X\\ \hline
-\aref{A_classicalMechanics}       &X& & & &X&X\\ \hline
-\aref{A_noFriction}               & &X&X& &X&X\\ \hline
-\aref{A_rigidBody}                & &X&X& &X&X\\
+\aref{A_1dRotaion}                & & &X&X& &X \\ \hline
+\aref{A_1dxAxis}                  & & & & & &X \\ \hline
+\aref{A_masslessRod}              & & & &X& &X \\ \hline
+\aref{A_classicalMechanics}       &X& & & & &X \\ \hline
+\aref{A_noFriction}               & & &X&X& &X \\ \hline
+\aref{A_noAirResistance}          & & &X&X& &X \\ \hline
+\aref{A_rigidBody}                & & &X&X& &X \\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Assumptions and Other Items}
@@ -1696,14 +1805,14 @@ the assumptions.
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-	& \tref{TM:1}& \dref{G_pendulum_location}& \dref{G_pendulum_acceleration}& \ddref{D_acceleration}& \iref{I_cart_motion}& \iref{I_pendulum_motion} \\
+	& \tref{TM:NSL}& \tref{TM:AF}& \dref{G_pendulum_location}& \dref{G_pendulum_acceleration}& \ddref{D_acceleration}& \iref{I_cart_motion} \\
 \hline
-\tref{TM:1}                       & & & & & & \\ \hline
+\tref{TM:NSL}                     & & & & & & \\ \hline
+\tref{TM:AF}                      & & & & & & \\ \hline
 \dref{G_pendulum_location}        & & & & & & \\ \hline
-\dref{G_pendulum_acceleration}    & &X& &X& & \\ \hline
-\ddref{D_acceleration}            & & & & & & \\ \hline
-\iref{I_cart_motion}              &X& &X& & & \\ \hline
-\iref{I_pendulum_motion}          &X& &X& & & \\
+\dref{G_pendulum_acceleration}    & & &X& &X& \\ \hline
+\ddref{D_acceleration}            & &X& & & & \\ \hline
+\iref{I_cart_motion}              &X& & &X& & \\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Items of Different Sections}
@@ -1714,13 +1823,13 @@ the assumptions.
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-	& \tref{TM:1}& \dref{G_pendulum_location}& \dref{G_pendulum_acceleration}& \ddref{D_acceleration}& \iref{I_cart_motion}& \iref{I_pendulum_motion} \\
+	& \tref{TM:NSL}& \tref{TM:AF}& \dref{G_pendulum_location}& \dref{G_pendulum_acceleration}& \ddref{D_acceleration}& \iref{I_cart_motion} \\
 \hline
-\rref{R_Inputs}              & & & & & & \\ \hline
-\rref{R_cart_position}       & & & &X&X&X\\ \hline
-\rref{R_pendulum_position}   & & & &X&X&X\\ \hline
-\rref{R_control_system}      & & & &X&X&X\\ \hline
-\rref{R_Output}              & & & & & & \\
+\rref{R_Inputs}              & & & & & &  \\ \hline
+\rref{R_cart_position}       & & & & &X&X \\ \hline
+\rref{R_pendulum_position}   & & & & &X&X \\ \hline
+\rref{R_control_system}      & & & & &X&X \\ \hline
+\rref{R_Output}              & & & & & &  \\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Requirements and Instance Models}
