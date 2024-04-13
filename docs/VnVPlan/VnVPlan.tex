@@ -323,16 +323,22 @@ and \hyperref[unit_test]{Section \ref*{unit_test}}.
 \subsection{Automated Testing and Verification Tools}
 
 \begin{itemize}
-  \item Pytest: A unit testing framework for Python that allows 
+  \item \href{https://docs.pytest.org/}{Pytest}: A unit testing framework for Python that allows 
         for easy and scalable testing of Python code.
-  \item Flake8: A static code analysis tool for Python that checks code 
-        against coding style (PEP 8), detects syntax errors, 
-        and identifies potential bugs or problematic constructs.
-  \item GitHub: This platform will be used for version control and collaboration.
-  \item GitHub CI workflow: This will automate regression tests and checks 
-        that \progname{} builds are passing before code is merged into a protected branch.
-  \item Docker: A mechanism used to containerize applications, 
+  \item \href{https://flake8.pycqa.org/}{Flake8}: A static code analysis tool for 
+        Python that checks code against coding style (PEP 8), detects syntax errors (missing indent error), 
+        or problematic constructs (cyclomatic complexity).
+  \item \href{https://www.docker.com/}{Docker}: A mechanism used to containerize applications, 
         ensuring their installability and understandability throughout the project.
+  \item \href{https://github.com/}{GitHub}: This platform will be used for 
+        version control and collaboration.
+  \item \href{https://docs.github.com/en/actions}{GitHub CI workflow}: This will 
+        automate regression tests and checks that \progname{} builds are passing before 
+        code is merged into a protected branch. Every push or pull request on the 
+        main branch triggers the test. Additionally, after every update of 
+        the main branch, the CI workflow publishes the new version of 
+        the Docker container to \href{https://hub.docker.com/}{Docker Hub}.
+
 \end{itemize}
 
 
