@@ -1339,20 +1339,24 @@ instance models \iref{I_cart_motion} and \iref{I_pendulum_motion}.
   \rowcolor[gray]{0.9}
   Number& IM\refstepcounter{instnum}\theinstnum \label{I_cart_motion}\\
   \hline
-  Label& \bf the cart motion equation\\
+  Label& \bf the cart and pendulum motion equation\\
   \hline
   Input& $F(t)$, $M$, $m$, $l$\\
   \hline
-  Output& $x(t)$, such that $F(t)$ = $(M+m)\ddot{x}(t) - ml\ddot{\theta}(t)\cos{\theta(t)} + ml (\dot{\theta}^2(t)) \sin{\theta(t)}$ \\
+  Output& $x_c(t)$ and $\theta(t)$, such that: \newline
+  $F(t)$ = $(M+m)\ddot{x_c}(t) - ml\ddot{\theta}(t)\cos{\theta(t)} + ml (\dot{\theta}^2(t)) \sin{\theta(t)}$ 
+  \newline 
+  $l \ddot{\theta}(t) + g \sin{\theta(t)} = \ddot{x_c}(t) \cos{\theta(t)}$\\
  
   \hline
   Description&
   $m$ is the mass of the pendulum (\si{\kilogram}).\\
   &$M$ is the mass of the cart (\si{\kilogram}).\\
   &$l$ is the length of pendulum (\si{\metre}).\\
-  &$\theta$ is the pendulum angle from vertical (\si{\radian}).\\
-  & and by writing equation of motion for the cart, the relationship between inputs and cart motion is clarified. \\
-  
+  &$F(t)$ is the force applied to the cart (\si{\newton}) at time $t$.\\
+  &$x_c(t)$ is the position of the cart (\si{\metre}) at time $t$.\\
+  &$\theta(t)$ is the angle of the pendulum arm with respect to the vertical axis
+  (\si{\radian}) at time $t$.\\  
   \hline
   Sources& \cite{wiki_inverted_pendulum_2024}\\
   \hline
@@ -1365,65 +1369,79 @@ instance models \iref{I_cart_motion} and \iref{I_pendulum_motion}.
 
 \subsubsection*{Derivation of the cart motion equation}
 
-If we write the second law of Newton (\tref{TM:1}) for the cart in the x-axis, 
+If we write the second law of Newton (\tref{TM:NSL}) for the cart in the x-axis, 
 we obtain $F - R_x = (M+m)\ddot{x}$, where $R_x$ represents the reaction 
 forces at the joint. It is known that 
 $R_x = m (\ddot{x} + l\dot{\theta}^2\sin\theta-l \ddot{\theta}\cos\theta)$ 
-by \tref{TM:1} and \dref{G_pendulum_acceleration}. 
+by \tref{TM:NSL} and \dref{G_pendulum_acceleration}. 
 By substituting $R_x$ into the first equation, 
-we derive the equation of motion for the cart (\iref{I_cart_motion}).
+we derive the equation of motion for the cart (first one).
 
-
-~\newline
-
-%Instance Model 2
-
-\noindent
-\begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-  \hline
-  \rowcolor[gray]{0.9}
-  Number& IM\refstepcounter{instnum}\theinstnum \label{I_pendulum_motion}\\
-  \hline
-  Label& \bf the pendulum motion equation\\
-  \hline
-  Input&  $M$, $m$, $l$\\
-
-  \hline
-  Output & $\theta(t)$, such that $l \ddot{\theta}(t) + g \sin{\theta(t)} = \ddot{x}(t) \cos{\theta(t)}$\\
-  \hline
-  Description&
-  $m$ is the mass of the pendulum (\si{\kilogram}).\\
-  &$M$ is the mass of the cart (\si{\kilogram}).\\
-  &$l$ is the length of pendulum (\si{\metre}).\\  
-  &This equation show the relationship between motion of pendulum and the system.\\
-  \hline
-  Sources& \cite{wiki_inverted_pendulum_2024}\\
-  \hline
-  Ref.\ By & -\\
-  \hline
-\end{tabular}
-\end{minipage}\\
-
-~\newline
-
-\subsubsection*{Derivation of the pendulum motion equation}
-
-Based on the second law of Newton (\tref{TM:1}), we can write 
+Based on the second law of Newton (\tref{TM:NSL}), we can write 
 the equation of motion for the pendulum as 
 $\Sigma \vec{F} = m \vec{a_P}$. We define a unit vector 
-$\hat{x_b} = \cos\theta \hat{x_I} + \sin\theta \hat{y_I}$, 
+$\vec{x_b} = \cos\theta \hat{i} + \sin\theta \hat{j}$, 
 which is perpendicular to the pendulum at all times. 
-Therefore, $\hat{x_b}^T \cdot \Sigma \vec{F} = -mg\sin\theta$, 
+Therefore, $\vec{x_b}^T \cdot \Sigma \vec{F} = -mg\sin\theta$, 
 indicating that $-mg\sin\theta$ is the only force acting 
 on the pendulum in the perpendicular direction. 
 Additionally, we can calculate the $\vec{a_P}$ 
 (\dref{G_pendulum_acceleration}) of the pendulum 
 in the perpendicular direction as 
-$\hat{x_b}^T \cdot m \vec{a_P} = m(\ddot{x}\cos\theta - l\ddot{\theta})$. 
+$\vec{x_b}^T \cdot m \vec{a_P} = m(\ddot{x}\cos\theta - l\ddot{\theta})$. 
 By equating these two equations, we obtain the equation 
-of motion for the pendulum (\iref{I_pendulum_motion}).
+of motion for the pendulum (second one).
+
+~\newline
+
+% %Instance Model 2
+
+% \noindent
+% \begin{minipage}{\textwidth}
+% \renewcommand*{\arraystretch}{1.5}
+% \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+%   \hline
+%   \rowcolor[gray]{0.9}
+%   Number& IM\refstepcounter{instnum}\theinstnum \label{I_pendulum_motion}\\
+%   \hline
+%   Label& \bf the pendulum motion equation\\
+%   \hline
+%   Input&  $M$, $m$, $l$\\
+
+%   \hline
+%   Output & $\theta(t)$, such that $l \ddot{\theta}(t) + g \sin{\theta(t)} = \ddot{x}(t) \cos{\theta(t)}$\\
+%   \hline
+%   Description&
+%   $m$ is the mass of the pendulum (\si{\kilogram}).\\
+%   &$M$ is the mass of the cart (\si{\kilogram}).\\
+%   &$l$ is the length of pendulum (\si{\metre}).\\  
+%   &This equation show the relationship between motion of pendulum and the system.\\
+%   \hline
+%   Sources& \cite{wiki_inverted_pendulum_2024}\\
+%   \hline
+%   Ref.\ By & -\\
+%   \hline
+% \end{tabular}
+% \end{minipage}\\
+
+% ~\newline
+
+% \subsubsection*{Derivation of the pendulum motion equation}
+
+% Based on the second law of Newton (\tref{TM:NSL}), we can write 
+% the equation of motion for the pendulum as 
+% $\Sigma \vec{F} = m \vec{a_P}$. We define a unit vector 
+% $\vec{x_b} = \cos\theta \hat{i} + \sin\theta \hat{j}$, 
+% which is perpendicular to the pendulum at all times. 
+% Therefore, $\vec{x_b}^T \cdot \Sigma \vec{F} = -mg\sin\theta$, 
+% indicating that $-mg\sin\theta$ is the only force acting 
+% on the pendulum in the perpendicular direction. 
+% Additionally, we can calculate the $\vec{a_P}$ 
+% (\dref{G_pendulum_acceleration}) of the pendulum 
+% in the perpendicular direction as 
+% $\vec{x_b}^T \cdot m \vec{a_P} = m(\ddot{x}\cos\theta - l\ddot{\theta})$. 
+% By equating these two equations, we obtain the equation 
+% of motion for the pendulum (\iref{I_pendulum_motion}).
 
 
 % If we write the second law of Newton (\tref{TM:1}) for the cart in the x-axis, 
