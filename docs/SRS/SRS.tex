@@ -1712,12 +1712,21 @@ Refer to the Verification and Validation Plan for details.
 
 \subsection{Rationale}
 
-The requirements outlined in this section serve to guide 
-the development of the pendulum control system, ensuring 
-its functionality and usability. Functional requirements 
-address key aspects like input processing, position calculation, 
-control strategy implementation, and real-time visualization, 
-aiming for accuracy and user-friendliness. 
+The assumptions made for the inverted pendulum problem are geared 
+towards simplifying the system's dynamics to facilitate analysis 
+and solution development. Among these, pivotal assumptions entail 
+treating the pole as possessing a single degree of rotational 
+freedom (\aref{A_1dRotaion}) and the cart as having one degree 
+of freedom for its forward and backward motion (\aref{A_1dxAxis}).
+These simplifications significantly facilitate the process of 
+formulating equations governing the motion of both the cart 
+and the pendulum (\iref{I_cart_motion}).
+% The requirements outlined in this section serve to guide 
+% the development of the pendulum control system, ensuring 
+% its functionality and usability. Functional requirements 
+% address key aspects like input processing, position calculation, 
+% control strategy implementation, and real-time visualization, 
+% aiming for accuracy and user-friendliness.
 
 \plt{Provide a rationale for the decisions made in the documentation.  Rationale
 should be provided for scope decisions, modelling decisions, assumptions and
