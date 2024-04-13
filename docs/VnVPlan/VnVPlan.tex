@@ -734,9 +734,33 @@ The relative error between software simulation and specified values should be le
 
 \item{test-useable-1\\}
 
-Type: Automatic
+Type: Manual with group of people
+					
+Initial State: None 
+					
+Input: None 
+					
+Output: Survey can help to know about the user perspective towards the system. 
 
-Refer to \hyperref[func_test_visualization]{Section \ref*{func_test_visualization}}.
+How test will be performed: The domain expert will be asked to fill out the survey
+specified in \autoref{tab:useable}. This test will be done after the implementation 
+of the software. More than 3 questions should be answered with yes to pass the test.
+
+\begin{table}[!h]
+  \centering
+  \caption{Usability test survey.}
+  \label{tab:useable}
+  \begin{tabular}{ p{0.5cm}|p{10cm} }
+    \hline
+    No. &  Question                                             \\
+    \hline
+    1. & Could you run the software on your operating system?   \\
+    2. & Is system running smoothly on your computer?           \\
+    3. & Is invalid input's message clear?                      \\
+    4. & Is text easy to read?                                  \\
+    \hline
+    \end{tabular}
+\end{table}
 
 \end{enumerate}
 
@@ -760,6 +784,8 @@ How test will be performed: We use survey in the
 \hyperref[sebsec_design_verification_plan]{Section \ref*{sebsec_design_verification_plan}} as 
 a measure of maintainability. The design and survey will be given to the experts and 
 they will provide feedback on the maintainability of the software.
+This will be done after the implementation of the software.
+Author and domain expert will do the survey.
 
 \end{enumerate}
 
