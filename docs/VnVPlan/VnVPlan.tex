@@ -417,14 +417,14 @@ in \hyperref[table:input_constraints]{Table \ref*{table:input_constraints}}.
 \centering
 \caption{Input validation test cases} \label{table:input_constraints}
 \vspace*{2mm}
- \begin{tabular}{|c c c c c c|c|} 
+ \begin{tabular}{|c c c c c c|c|c|} 
  \hline
- \multicolumn{6}{|c|}{Input}                     & Output \\ \hline 
-  $F$ & $x$ & $\theta$         & $m$ & $M$ & $l$ & Valid  \\ \hline
-  4   & 0   & $\pi$            & 16  & 80  &  1  & Yes    \\ \hline
-  10  & 4   & $\frac{3\pi}{4}$ & 4   & 200 &  20 & No     \\ \hline
-  20  & 0   & $\pi$            & 6   & 20  &  30 & No     \\ \hline
-  -3  & -5  & $\pi$            & -5  & 30  &  5  & No     \\ \hline
+ \multicolumn{6}{|c|}{Input}                     & \multicolumn{2}{c|}{Output}            \\ \hline 
+  $F$ & $x$ & $\theta$         & $m$ & $M$ & $l$ & Valid  &  Description                  \\ \hline
+  4   & 0   & $\pi$            & 16  & 80  &  1  & Yes    &  -                            \\ \hline
+  10  & 4   & $\frac{3\pi}{4}$ & 4   & 200 &  20 & No     &  $M$ is bigger than $M_{max}$ \\ \hline
+  20  & 0   & $\pi$            & 6   & 20  &  30 & No     &  $l$ is bigger than $l_{max}$ \\ \hline
+  -3  & -5  & $\pi$            & -5  & 30  &  5  & No     &  negetive value for $m$       \\ \hline
 \end{tabular}
 \end{table}  
 
