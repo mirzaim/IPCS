@@ -97,6 +97,33 @@ test_integration.py::test_input_1[0.0-20.0--90.0-16.0-80.0-1.0-True]  PASSED
   \end{verbatim}
 \end{small}
 
+\subsection{test-sim-1}
+This section focuses on testing the world simulator responsible for 
+executing the inverted pendulum physics. 
+The testing procedure involves verifying that given the initial 
+position of the pendulum the location of the pendulum is accurately 
+determined after a specified duration of time.
+This test is implemented in 
+the file \url{https://github.com/mirzaim/ipcs/blob/main/test/test_integration.py}, 
+and the function name is \texttt{test\_sim\_1}. If the relative error
+between the expected and actual values is less than $5\%$, the test is considered
+successful. All the test passed successfully.
+
+\begin{small}
+  \begin{verbatim}
+test_integration.py::test_sim_1[0.0-0.0--90.0-16.0-80.0-1.0-5.0-0.25]   PASSED 
+test_integration.py::test_sim_1[0.0--5.0--90.0-16.0-80.0-1.0-5.0--4.75] PASSED
+test_integration.py::test_sim_1[0.0-5.0--90.0-16.0-80.0-1.0-5.0-5.25]   PASSED 
+test_integration.py::test_sim_1[0.0-0.0-0.0-16.0-80.0-1.0-6.0-0.08]     PASSED   
+test_integration.py::test_sim_1[0.0-0.0--45.0-16.0-80.0-1.0-2.5--0.3]   PASSED 
+test_integration.py::test_sim_1[0.0-0.0--90.0-30.0-80.0-1.0-1.5-0.8]    PASSED  
+test_integration.py::test_sim_1[0.0-0.0--90.0-16.0-50.0-1.0-1.45-1.3]   PASSED 
+test_integration.py::test_sim_1[0.0-0.0--90.0-16.0-80.0-20.0-5.0-0.25]  PASSED
+test_integration.py::test_sim_1[5.0-0.0--90.0-16.0-80.0-1.0-2.7-0.65]   PASSED 
+test_integration.py::test_sim_1[-5.0-0.0--90.0-16.0-80.0-1.0-5.5-0.0]   PASSED
+  \end{verbatim}
+\end{small}
+
 
 \section{Nonfunctional Requirements Evaluation}
 
