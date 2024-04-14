@@ -10,7 +10,7 @@ class World:
                  theta = 0.     , omega = 0.    , alpha = 0.,
                  g = 9.8        , b = .1        , I = .006,
                  min_x = -10.   , max_x = 10.,
-                 force = 0.):
+                 force = 0., **config):
 
         self.M = M # cart mass, kg
         self.m = m # pendulum mass, kg
