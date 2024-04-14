@@ -11,16 +11,18 @@
     urlcolor=blue
 }
 \usepackage[round]{natbib}
+\usepackage{graphicx}
+
 
 \input{../Comments}
 \input{../Common}
 
 \begin{document}
 
-\title{Verification and Validation Report: \progname} 
+\title{Verification and Validation Report:\\ \progname \\ (IPCS)}
 \author{\authname}
 \date{\today}
-	
+
 \maketitle
 
 \pagenumbering{roman}
@@ -28,11 +30,10 @@
 \section{Revision History}
 
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-\midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
-\bottomrule
+  \toprule {\bf Date} & {\bf Version} & {\bf Notes}      \\
+  \midrule
+  2024-04-13          & 1.0           & Initial Release. \\
+  \bottomrule
 \end{tabularx}
 
 ~\newpage
@@ -40,11 +41,12 @@ Date 2 & 1.1 & Notes\\
 \section{Symbols, Abbreviations and Acronyms}
 
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{l l} 
-  \toprule		
-  \textbf{symbol} & \textbf{description}\\
-  \midrule 
-  T & Test\\
+\begin{tabular}{l l}
+  \toprule
+  \textbf{symbol} & \textbf{description} \\
+  \midrule
+  T               & Test                 \\
+  UT              & Unit Test            \\
   \bottomrule
 \end{tabular}\\
 
@@ -62,57 +64,284 @@ Date 2 & 1.1 & Notes\\
 
 \pagenumbering{arabic}
 
-This document ...
+This document reports the results of executing the
+\href{https://github.com/mirzaim/ipcs/blob/main/docs/VnVPlan/VnVPlan.pdf}{VnV Plan}.
 
 \section{Functional Requirements Evaluation}
+This section covers the evaluation of the functional requirements.
+
+\subsection{test-input-1}
+This test checks if the software returns proper exceptions for invalid inputs 
+and works properly for valid inputs. This test is implemented in 
+the file \url{https://github.com/mirzaim/ipcs/blob/main/test/test_integration.py}, 
+and the function name is \texttt{test\_input\_1}. The test passed successfully.
+
+\begin{small}
+  \begin{verbatim}
+test_integration.py::test_input_1[0.0-0.0--90.0-16.0-80.0-1.0-False]  PASSED
+test_integration.py::test_input_1[abc-0.0--90.0-16.0-80.0-1.0-True]   PASSED 
+test_integration.py::test_input_1[0.0-abc--90.0-16.0-80.0-1.0-True]   PASSED 
+test_integration.py::test_input_1[0.0-0.0-abc-16.0-80.0-1.0-True]     PASSED   
+test_integration.py::test_input_1[0.0-0.0--90.0-abc-80.0-1.0-True]    PASSED  
+test_integration.py::test_input_1[0.0-0.0--90.0-16.0-abc-1.0-True]    PASSED  
+test_integration.py::test_input_1[0.0-0.0--90.0-16.0-80.0-abc-True]   PASSED 
+test_integration.py::test_input_1[0.0-0.0--90.0--16.0-80.0-1.0-True]  PASSED
+test_integration.py::test_input_1[0.0-0.0--90.0-16.0--80.0-1.0-True]  PASSED
+test_integration.py::test_input_1[0.0-0.0--90.0-16.0-80.0--1.0-True]  PASSED
+test_integration.py::test_input_1[0.0-0.0--90.0-100.0-80.0-1.0-True]  PASSED
+test_integration.py::test_input_1[0.0-0.0--90.0-16.0-100.0-1.0-True]  PASSED
+test_integration.py::test_input_1[0.0-0.0--90.0-16.0-80.0-50.0-True]  PASSED
+test_integration.py::test_input_1[0.0-0.0--90.0-5.0-80.0-1.0-True]    PASSED  
+test_integration.py::test_input_1[0.0-0.0--90.0-90.0-80.0-1.0-True]   PASSED 
+test_integration.py::test_input_1[0.0--20.0--90.0-16.0-80.0-1.0-True] PASSED
+test_integration.py::test_input_1[0.0-20.0--90.0-16.0-80.0-1.0-True]  PASSED
+  \end{verbatim}
+\end{small}
+
+\subsection{test-sim-1}
+This section focuses on testing the world simulator responsible for 
+executing the inverted pendulum physics. 
+The testing procedure involves verifying that given the initial 
+position of the pendulum the location of the pendulum is accurately 
+determined after a specified duration of time.
+This test is implemented in 
+the file \url{https://github.com/mirzaim/ipcs/blob/main/test/test_integration.py}, 
+and the function name is \texttt{test\_sim\_1}. If the relative error
+between the expected and actual values is less than $5\%$, the test is considered
+successful. All the test passed successfully.
+
+\begin{small}
+  \begin{verbatim}
+test_integration.py::test_sim_1[0.0-0.0--90.0-16.0-80.0-1.0-5.0-0.25]   PASSED 
+test_integration.py::test_sim_1[0.0--5.0--90.0-16.0-80.0-1.0-5.0--4.75] PASSED
+test_integration.py::test_sim_1[0.0-5.0--90.0-16.0-80.0-1.0-5.0-5.25]   PASSED 
+test_integration.py::test_sim_1[0.0-0.0-0.0-16.0-80.0-1.0-6.0-0.08]     PASSED   
+test_integration.py::test_sim_1[0.0-0.0--45.0-16.0-80.0-1.0-2.5--0.3]   PASSED 
+test_integration.py::test_sim_1[0.0-0.0--90.0-30.0-80.0-1.0-1.5-0.8]    PASSED  
+test_integration.py::test_sim_1[0.0-0.0--90.0-16.0-50.0-1.0-1.45-1.3]   PASSED 
+test_integration.py::test_sim_1[0.0-0.0--90.0-16.0-80.0-20.0-5.0-0.25]  PASSED
+test_integration.py::test_sim_1[5.0-0.0--90.0-16.0-80.0-1.0-2.7-0.65]   PASSED 
+test_integration.py::test_sim_1[-5.0-0.0--90.0-16.0-80.0-1.0-5.5-0.0]   PASSED
+  \end{verbatim}
+\end{small}
+
+\subsection{test-control-1}
+The testing procedure involves verifying that given the initial
+position of the pendulum the control system can keeping the pendulum
+upright for 10 seconds after 30 seconds.
+The test is implemented in the file 
+\url{https://github.com/mirzaim/ipcs/blob/main/test/test_integration.py}
+and the function name is \texttt{test\_control\_1}.
+All the test passed successfully.
+
+\begin{small}
+  \begin{verbatim}
+test_integration.py::test_control_1[0.0-0.0--90.0-16.0-80.0-1.0]  PASSED 
+test_integration.py::test_control_1[0.0--5.0--90.0-16.0-80.0-1.0] PASSED
+test_integration.py::test_control_1[0.0-5.0--90.0-16.0-80.0-1.0]  PASSED 
+test_integration.py::test_control_1[0.0-0.0-0.0-16.0-80.0-1.0]    PASSED   
+test_integration.py::test_control_1[0.0-0.0--45.0-16.0-80.0-1.0]  PASSED 
+test_integration.py::test_control_1[0.0-0.0--90.0-30.0-80.0-1.0]  PASSED 
+test_integration.py::test_control_1[0.0-0.0--90.0-16.0-50.0-1.0]  PASSED 
+test_integration.py::test_control_1[0.0-0.0--90.0-16.0-80.0-20.0] PASSED
+test_integration.py::test_control_1[5.0-0.0--90.0-16.0-80.0-1.0]  PASSED 
+test_integration.py::test_control_1[-5.0-0.0--90.0-16.0-80.0-1.0] PASSED
+  \end{verbatim}
+\end{small}
+
+\subsection{test-vis-1}
+This test checks the correctness of the visualization. We took 4 screenshots
+(\autoref{fig:test_vis_1_1}, \autoref{fig:test_vis_1_2}, \autoref{fig:test_vis_1_3}, 
+and \autoref{fig:test_vis_1_4}) of the visualization with different inputs.
+The correctness of the visualization is evaluated and all the test passed successfully.
+
+\begin{figure}[h!]
+  \begin{center}
+    \includegraphics[width=\textwidth]{test_vis_1_1.png}
+  \end{center}
+  \caption{$x=0$ and $\theta=0$}
+  \label{fig:test_vis_1_1}
+\end{figure}
+
+\begin{figure}[h!]
+  \begin{center}
+    \includegraphics[width=\textwidth]{test_vis_1_2.png}
+  \end{center}
+  \caption{$x=0$ and $\theta=\pi$}
+  \label{fig:test_vis_1_2}
+\end{figure}
+
+\begin{figure}[h!]
+  \begin{center}
+    \includegraphics[width=\textwidth]{test_vis_1_3.png}
+  \end{center}
+  \caption{$x=-5$ and $\theta=\pi$}
+  \label{fig:test_vis_1_3}
+\end{figure}
+
+\begin{figure}[h!]
+  \begin{center}
+    \includegraphics[width=\textwidth]{test_vis_1_4.png}
+  \end{center}
+  \caption{$x=-5$ and $\theta=\frac{\pi}{2}$}
+  \label{fig:test_vis_1_4}
+\end{figure}
+
+\newpage
+
+\subsection{test-vis-2}
+This section focuses on testing the user-friendliness of the visualization aspect of the system. 
+The survey results conducted by the domain expert are shown in \autoref{tab:test_vis_2}. 
+The average score obtained is 4.75, which indicates a successful outcome.
+
+\begin{table}[!h]
+  \centering
+  \caption{Domain expert feedback for test-vis-2. The average score is 4.75.}
+  \label{tab:test_vis_2}
+  \begin{tabular}{ p{0.5cm}|p{12cm}|c}
+    \hline
+    No. & Question                                                                        & Answer \\
+    \hline
+    1.  & On a scale of 1 to 5, how clear is the visualization to you?                    & 5      \\
+    2.  & On a scale of 1 to 5, how clear is the location of the cart to you?             & 5      \\
+    3.  & On a scale of 1 to 5, how clear is the angular position of the pendulum to you? & 5      \\
+    4.  & On a scale of 1 to 5, how smooth is the visualization to you?                   & 4      \\
+    \hline
+  \end{tabular}
+\end{table}
 
 \section{Nonfunctional Requirements Evaluation}
+This section covers the evaluation of the nonfunctional requirements.
+
+\subsection{Accuracy}
+The test is implemented in the file
+\url{https://github.com/mirzaim/ipcs/blob/main/test/test_integration.py}
+and the function name is \texttt{test\_acc\_1}.
+The average relative error for cart location is $1.2\%$ and for pendulum angle is $2.4\%$.
+The test passed successfully.
 
 \subsection{Usability}
-		
-\subsection{Performance}
+This section focuses on testing the usability of the system. 
+The survey results conducted by the domain expert are shown in \autoref{tab:useable}.
+All the answers are positive, which indicates a successful outcome.
 
-\subsection{etc.}
-	
-\section{Comparison to Existing Implementation}	
+\begin{table}[!h]
+  \centering
+  \caption{Usability test survey, filled by the domain expert.}
+  \label{tab:useable}
+  \begin{tabular}{ p{0.5cm}|p{10cm}|c}
+    \hline
+    No. & Question                                             & Answer \\
+    \hline
+    1.  & Could you run the software on your operating system? & Yes    \\
+    2.  & Is system running smoothly on your computer?         & Yes    \\
+    3.  & Is invalid input's message clear?                    & Yes    \\
+    4.  & Is text easy to read?                                & Yes    \\
+    \hline
+  \end{tabular}
+\end{table}
 
-This section will not be appropriate for every project.
+\subsection{Maintainability}
+This section is dedicated to assessing the system's maintainability. 
+The results of the survey, administered by a domain expert, 
+are presented in \autoref{tab:maintain}. All responses received were affirmative, 
+indicating a successful outcome.
+
+\begin{table}[!h]
+  \centering
+  \caption{Maintainability test survey, filled by the domain expert.}
+  \label{tab:maintain}
+  \begin{tabular}{ p{0.5cm}|p{10cm}|c}
+    \hline
+    No. & Question                                                                                       & Answer \\
+    \hline
+    1.  & Does the design meet all specified requirements outlined in the design specification document? & Yes    \\
+    2.  & Are all interfaces between design components specified clearly?                                & Yes    \\
+    3.  & Are all components of the design testable separately?                                          & Yes    \\
+    4.  & Is the design scalable to accommodate future growth or changes in requirements?                & Yes    \\
+    5.  & Are the design components separated as much as possible?                                       & Yes    \\
+    6.  & Does each design component have a logical task?                                                & Yes    \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{Portability}
+This section is dedicated to assessing the system's portability, 
+for which we conducted the following two tests.
+
+\subsubsection*{test-port-1}
+This test evaluates the system's portability across different operating systems, 
+specifically focusing on Linux and Mac OS.
+
+\begin{enumerate}
+    \item \textbf{Linux Testing:} 
+    The software is rigorously tested on Linux using GitHub workflows. 
+    After each push to the main branch, all tests are automatically 
+    executed on Ubuntu 22.04. The test results demonstrate 
+    successful execution.
+    
+    \item \textbf{Mac OS Testing:} 
+    Similarly, testing is conducted on Mac OS using a MacBook Pro 2022 
+    equipped with the M2 chip. All tests are executed on this platform, 
+    and once again, all tests pass successfully.
+\end{enumerate}
+
+\subsubsection*{test-port-2}
+This test evaluates docker version of the software.
+Every update to the main branch is automatically built and pushed to the
+Docker Hub. The docker image is available at \url{https://hub.docker.com/r/mirzaim/ipcs}.
+The docker image can be run using the following command:
+\begin{small}
+  \begin{verbatim}
+sudo docker run -v ./out/:/ipcs/out --rm -it mirzaim/ipcs:latest
+or
+sudo docker run -v ./out/:/ipcs/out \
+                -v <path to config file>:/ipcs/configs/default.ini \
+                --rm -it mirzaim/ipcs:latest
+  \end{verbatim}
+\end{small}
+The test passed successfully.
+
+% \section{Comparison to Existing Implementation}
+
+% This section will not be appropriate for every project.
 
 \section{Unit Testing}
 
 \section{Changes Due to Testing}
 
-\wss{This section should highlight how feedback from the users and from 
-the supervisor (when one exists) shaped the final product.  In particular 
-the feedback from the Rev 0 demo to the supervisor (or to potential users) 
-should be highlighted.}
+\wss{This section should highlight how feedback from the users and from
+  the supervisor (when one exists) shaped the final product.  In particular
+  the feedback from the Rev 0 demo to the supervisor (or to potential users)
+  should be highlighted.}
 
 \section{Automated Testing}
-		
+
 \section{Trace to Requirements}
-		
-\section{Trace to Modules}		
+
+\section{Trace to Modules}
 
 \section{Code Coverage Metrics}
+N/A.
 
-\bibliographystyle{plainnat}
-\bibliography{../../refs/References}
+% \bibliographystyle{plainnat}
+% \bibliography{../../refs/References}
 
-\newpage{}
-\section*{Appendix --- Reflection}
+% \newpage{}
+% \section*{Appendix --- Reflection}
 
-The information in this section will be used to evaluate the team members on the
-graduate attribute of Reflection.  Please answer the following question:
+% The information in this section will be used to evaluate the team members on the
+% graduate attribute of Reflection.  Please answer the following question:
 
-\begin{enumerate}
-  \item In what ways was the Verification and Validation (VnV) Plan different
-  from the activities that were actually conducted for VnV?  If there were
-  differences, what changes required the modification in the plan?  Why did
-  these changes occur?  Would you be able to anticipate these changes in future
-  projects?  If there weren't any differences, how was your team able to clearly
-  predict a feasible amount of effort and the right tasks needed to build the
-  evidence that demonstrates the required quality?  (It is expected that most
-  teams will have had to deviate from their original VnV Plan.)
-\end{enumerate}
+% \begin{enumerate}
+%   \item In what ways was the Verification and Validation (VnV) Plan different
+%         from the activities that were actually conducted for VnV?  If there were
+%         differences, what changes required the modification in the plan?  Why did
+%         these changes occur?  Would you be able to anticipate these changes in future
+%         projects?  If there weren't any differences, how was your team able to clearly
+%         predict a feasible amount of effort and the right tasks needed to build the
+%         evidence that demonstrates the required quality?  (It is expected that most
+%         teams will have had to deviate from their original VnV Plan.)
+% \end{enumerate}
 
 \end{document}

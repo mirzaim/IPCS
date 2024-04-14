@@ -142,7 +142,7 @@ def test_control_1(force, x, theta, m, M, l, csv_file_path):
     (+5.0, 0.0 , -90.0, 16.0, 80.0, 1.0 , 2.7 , 0.65  ),
     (-5.0, 0.0 , -90.0, 16.0, 80.0, 1.0 , 5.5 , 0.0   ),
 ])
-def test_sim_1(force, x, theta, m, M, l, t_theta, t_x, csv_file_path):
+def test_acc_1(force, x, theta, m, M, l, t_theta, t_x, csv_file_path):
     configs = make_config(force, x, theta, m, M, l, 5.0)
     configs = configs.replace('%%csv_file%%', csv_file_path)
     conf = ConfigReader(conf_str=configs)
