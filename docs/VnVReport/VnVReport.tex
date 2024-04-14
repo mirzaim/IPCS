@@ -11,6 +11,8 @@
     urlcolor=blue
 }
 \usepackage[round]{natbib}
+\usepackage{graphicx}
+
 
 \input{../Comments}
 \input{../Common}
@@ -124,6 +126,69 @@ test_integration.py::test_sim_1[-5.0-0.0--90.0-16.0-80.0-1.0-5.5-0.0]   PASSED
   \end{verbatim}
 \end{small}
 
+\subsection{test-control-1}
+The testing procedure involves verifying that given the initial
+position of the pendulum the control system can keeping the pendulum
+upright for 10 seconds after 30 seconds.
+The test is implemented in the file 
+\url{https://github.com/mirzaim/ipcs/blob/main/test/test_integration.py}
+and the function name is \texttt{test\_control\_1}.
+All the test passed successfully.
+
+\begin{small}
+  \begin{verbatim}
+test_integration.py::test_control_1[0.0-0.0--90.0-16.0-80.0-1.0]  PASSED 
+test_integration.py::test_control_1[0.0--5.0--90.0-16.0-80.0-1.0] PASSED
+test_integration.py::test_control_1[0.0-5.0--90.0-16.0-80.0-1.0]  PASSED 
+test_integration.py::test_control_1[0.0-0.0-0.0-16.0-80.0-1.0]    PASSED   
+test_integration.py::test_control_1[0.0-0.0--45.0-16.0-80.0-1.0]  PASSED 
+test_integration.py::test_control_1[0.0-0.0--90.0-30.0-80.0-1.0]  PASSED 
+test_integration.py::test_control_1[0.0-0.0--90.0-16.0-50.0-1.0]  PASSED 
+test_integration.py::test_control_1[0.0-0.0--90.0-16.0-80.0-20.0] PASSED
+test_integration.py::test_control_1[5.0-0.0--90.0-16.0-80.0-1.0]  PASSED 
+test_integration.py::test_control_1[-5.0-0.0--90.0-16.0-80.0-1.0] PASSED
+  \end{verbatim}
+\end{small}
+
+\subsection{test-vis-1}
+This test checks the correctness of the visualization. We took 4 screenshots
+(\autoref{fig:test_vis_1_1}, \autoref{fig:test_vis_1_2}, \autoref{fig:test_vis_1_3}, 
+and \autoref{fig:test_vis_1_4}) of the visualization with different inputs.
+The correctness of the visualization is evaluated and all the test passed successfully.
+
+\begin{figure}[h!]
+  \begin{center}
+    \includegraphics[width=\textwidth]{test_vis_1_1.png}
+  \end{center}
+  \caption{$x=0$ and $\theta=0$}
+  \label{fig:test_vis_1_1}
+\end{figure}
+
+\begin{figure}[h!]
+  \begin{center}
+    \includegraphics[width=\textwidth]{test_vis_1_2.png}
+  \end{center}
+  \caption{$x=0$ and $\theta=\pi$}
+  \label{fig:test_vis_1_2}
+\end{figure}
+
+\begin{figure}[h!]
+  \begin{center}
+    \includegraphics[width=\textwidth]{test_vis_1_3.png}
+  \end{center}
+  \caption{$x=-5$ and $\theta=\pi$}
+  \label{fig:test_vis_1_3}
+\end{figure}
+
+\begin{figure}[h!]
+  \begin{center}
+    \includegraphics[width=\textwidth]{test_vis_1_4.png}
+  \end{center}
+  \caption{$x=-5$ and $\theta=\frac{\pi}{2}$}
+  \label{fig:test_vis_1_4}
+\end{figure}
+
+\newpage
 
 \section{Nonfunctional Requirements Evaluation}
 
