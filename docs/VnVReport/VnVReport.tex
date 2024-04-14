@@ -258,6 +258,43 @@ indicating a successful outcome.
   \end{tabular}
 \end{table}
 
+\subsection{Portability}
+This section is dedicated to assessing the system's portability, 
+for which we conducted the following two tests.
+
+\subsubsection*{test-port-1}
+This test evaluates the system's portability across different operating systems, 
+specifically focusing on Linux and Mac OS.
+
+\begin{enumerate}
+    \item \textbf{Linux Testing:} 
+    The software is rigorously tested on Linux using GitHub workflows. 
+    After each push to the main branch, all tests are automatically 
+    executed on Ubuntu 22.04. The test results demonstrate 
+    successful execution.
+    
+    \item \textbf{Mac OS Testing:} 
+    Similarly, testing is conducted on Mac OS using a MacBook Pro 2022 
+    equipped with the M2 chip. All tests are executed on this platform, 
+    and once again, all tests pass successfully.
+\end{enumerate}
+
+\subsubsection*{test-port-2}
+This test evaluates docker version of the software.
+Every update to the main branch is automatically built and pushed to the
+Docker Hub. The docker image is available at \url{https://hub.docker.com/r/mirzaim/ipcs}.
+The docker image can be run using the following command:
+\begin{small}
+  \begin{verbatim}
+sudo docker run -v ./out/:/ipcs/out --rm -it mirzaim/ipcs:latest
+or
+sudo docker run -v ./out/:/ipcs/out \
+                -v <path to config file>:/ipcs/configs/default.ini \
+                --rm -it mirzaim/ipcs:latest
+  \end{verbatim}
+\end{small}
+The test passed successfully.
+
 \section{Unit Testing}
 
 \section{Changes Due to Testing}
