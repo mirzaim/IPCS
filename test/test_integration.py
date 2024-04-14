@@ -49,26 +49,27 @@ l = {l}
 """
 
 
-@pytest.mark.parametrize('configs, exception', [
-    (make_config(0.0, 0.0, -90.0, 16.0, 80.0, 1.0, 1.0), False),
-    (make_config('abc', 0.0, -90.0, 16.0, 80.0, 1.0, 1.0), True),
-    (make_config(0.0, 'abc', -90.0, 16.0, 80.0, 1.0, 1.0), True),
-    (make_config(0.0, 0.0, 'abc', 16.0, 80.0, 1.0, 1.0), True),
-    (make_config(0.0, 0.0, -90.0, 'abc', 80.0, 1.0, 1.0), True),
-    (make_config(0.0, 0.0, -90.0, 16.0, 'abc', 1.0, 1.0), True),
-    (make_config(0.0, 0.0, -90.0, 16.0, 80.0, 'abc', 1.0), True),
-    (make_config(0.0, 0.0, -90.0, -16.0, 80.0, 1.0, 1.0), True),
-    (make_config(0.0, 0.0, -90.0, 16.0, -80.0, 1.0, 1.0), True),
-    (make_config(0.0, 0.0, -90.0, 16.0, 80.0, -1.0, 1.0), True),
-    (make_config(0.0, 0.0, -90.0, 100.0, 80.0, 1.0, 1.0), True),
-    (make_config(0.0, 0.0, -90.0, 16.0, 100.0, 1.0, 1.0), True),
-    (make_config(0.0, 0.0, -90.0, 16.0, 80.0, 50.0, 1.0), True),
-    (make_config(0.0, 0.0, -90.0, 5.0, 80.0, 1.0, 1.0), True),
-    (make_config(0.0, 0.0, -90.0, 90.0, 80.0, 1.0, 1.0), True),
-    (make_config(0.0, -20.0, -90.0, 16.0, 80.0, 1.0, 1.0), True),
-    (make_config(0.0, 20.0, -90.0, 16.0, 80.0, 1.0, 1.0), True),
+@pytest.mark.parametrize('force, x, theta, m, M, l, exception', [
+    (0.0  , 0.0  , -90.0, 16.0 , 80.0 , 1.0  , False),
+    ('abc', 0.0  , -90.0, 16.0 , 80.0 , 1.0  , True ),
+    (0.0  , 'abc', -90.0, 16.0 , 80.0 , 1.0  , True ),
+    (0.0  , 0.0  , 'abc', 16.0 , 80.0 , 1.0  , True ),
+    (0.0  , 0.0  , -90.0, 'abc', 80.0 , 1.0  , True ),
+    (0.0  , 0.0  , -90.0, 16.0 , 'abc', 1.0  , True ),
+    (0.0  , 0.0  , -90.0, 16.0 , 80.0 , 'abc', True ),
+    (0.0  , 0.0  , -90.0, -16.0, 80.0 , 1.0  , True ),
+    (0.0  , 0.0  , -90.0, 16.0 , -80.0, 1.0  , True ),
+    (0.0  , 0.0  , -90.0, 16.0 , 80.0 , -1.0 , True ),
+    (0.0  , 0.0  , -90.0, 100.0, 80.0 , 1.0  , True ),
+    (0.0  , 0.0  , -90.0, 16.0 , 100.0, 1.0  , True ),
+    (0.0  , 0.0  , -90.0, 16.0 , 80.0 , 50.0 , True ),
+    (0.0  , 0.0  , -90.0, 5.0  , 80.0 , 1.0  , True ),
+    (0.0  , 0.0  , -90.0, 90.0 , 80.0 , 1.0  , True ),
+    (0.0  , -20.0, -90.0, 16.0 , 80.0 , 1.0  , True ),
+    (0.0  , 20.0 , -90.0, 16.0 , 80.0 , 1.0  , True ),
 ])
-def test_input_1(configs, exception, csv_file_path):
+def test_input_1(force, x, theta, m, M, l, exception, csv_file_path):
+    configs = make_config(force, x, theta, m, M, l, 1.0)
     configs = configs.replace('%%csv_file%%', csv_file_path)
     conf = ConfigReader(conf_str=configs)
     if exception:
@@ -78,19 +79,20 @@ def test_input_1(configs, exception, csv_file_path):
         main(conf)
 
 
-@pytest.mark.parametrize('configs, theta, x', [
-    (make_config(0.0, 0.0, -90.0, 16.0, 80.0, 1.0, 5.0), 5.0, 0.25,),
-    (make_config(0.0, -5.0, -90.0, 16.0, 80.0, 1.0, 5.0), 5.0, -4.75,),
-    (make_config(0.0, +5.0, -90.0, 16.0, 80.0, 1.0, 5.0), 5.0, 5.25,),
-    (make_config(0.0, 0.0, 0.0, 16.0, 80.0, 1.0, 5.0), 6.0, 0.08,),
-    (make_config(0.0, 0.0, -45.0, 16.0, 80.0, 1.0, 5.0), 2.5, -0.3,),
-    (make_config(0.0, 0.0, -90.0, 30.0, 80.0, 1.0, 5.0), 1.5, 0.8,),
-    (make_config(0.0, 0.0, -90.0, 16.0, 50.0, 1.0, 5.0), 1.45, 1.3,),
-    (make_config(0.0, 0.0, -90.0, 16.0, 80.0, 20.0, 5.0), 5.0, 0.25,),
-    (make_config(+5.0, 0.0, -90.0, 16.0, 80.0, 1.0, 5.0), 2.7, 0.65,),
-    (make_config(-5.0, 0.0, -90.0, 16.0, 80.0, 1.0, 5.0), 5.5, 0.0,),
+@pytest.mark.parametrize('force, x, theta, m, M, l, t_theta, t_x', [
+    (0.0 , 0.0 , -90.0, 16.0, 80.0, 1.0 , 5.0 , 0.25  ),
+    (0.0 , -5.0, -90.0, 16.0, 80.0, 1.0 , 5.0 , -4.75 ),
+    (0.0 , +5.0, -90.0, 16.0, 80.0, 1.0 , 5.0 , 5.25  ),
+    (0.0 , 0.0 , 0.0  , 16.0, 80.0, 1.0 , 6.0 , 0.08  ),
+    (0.0 , 0.0 , -45.0, 16.0, 80.0, 1.0 , 2.5 , -0.3  ),
+    (0.0 , 0.0 , -90.0, 30.0, 80.0, 1.0 , 1.5 , 0.8   ),
+    (0.0 , 0.0 , -90.0, 16.0, 50.0, 1.0 , 1.45, 1.3   ),
+    (0.0 , 0.0 , -90.0, 16.0, 80.0, 20.0, 5.0 , 0.25  ),
+    (+5.0, 0.0 , -90.0, 16.0, 80.0, 1.0 , 2.7 , 0.65  ),
+    (-5.0, 0.0 , -90.0, 16.0, 80.0, 1.0 , 5.5 , 0.0   ),
 ])
-def test_sim_1(configs, theta, x, csv_file_path):
+def test_sim_1(force, x, theta, m, M, l, t_theta, t_x, csv_file_path):
+    configs = make_config(force, x, theta, m, M, l, 5.0)
     configs = configs.replace('%%csv_file%%', csv_file_path)
     conf = ConfigReader(conf_str=configs)
 
@@ -99,23 +101,24 @@ def test_sim_1(configs, theta, x, csv_file_path):
     sim = pd.read_csv(csv_file_path)
     observed_theta, observed_x = sim['theta'].iloc[-1], sim['x'].iloc[-1]
 
-    assert relative_error(observed_theta, theta) < EPSILON
-    assert relative_error(observed_x,  x) < EPSILON
+    assert relative_error(observed_theta, t_theta) < EPSILON
+    assert relative_error(observed_x,  t_x) < EPSILON
 
 
-@pytest.mark.parametrize('configs', [
-    make_config(0.0, 0.0, -90.0, 16.0, 80.0, 1.0),
-    make_config(0.0, -5.0, -90.0, 16.0, 80.0, 1.0),
-    make_config(0.0, +5.0, -90.0, 16.0, 80.0, 1.0),
-    make_config(0.0, 0.0, 0.0, 16.0, 80.0, 1.0),
-    make_config(0.0, 0.0, -45.0, 16.0, 80.0, 1.0),
-    make_config(0.0, 0.0, -90.0, 30.0, 80.0, 1.0),
-    make_config(0.0, 0.0, -90.0, 16.0, 50.0, 1.0),
-    make_config(0.0, 0.0, -90.0, 16.0, 80.0, 20.0),
-    make_config(+5.0, 0.0, -90.0, 16.0, 80.0, 1.0),
-    make_config(-5.0, 0.0, -90.0, 16.0, 80.0, 1.0),
+@pytest.mark.parametrize('force, x, theta, m, M, l', [
+    (0.0 , 0.0 , -90.0, 16.0, 80.0, 1.0 ),
+    (0.0 , -5.0, -90.0, 16.0, 80.0, 1.0 ),
+    (0.0 , +5.0, -90.0, 16.0, 80.0, 1.0 ),
+    (0.0 , 0.0 , 0.0  , 16.0, 80.0, 1.0 ),
+    (0.0 , 0.0 , -45.0, 16.0, 80.0, 1.0 ),
+    (0.0 , 0.0 , -90.0, 30.0, 80.0, 1.0 ),
+    (0.0 , 0.0 , -90.0, 16.0, 50.0, 1.0 ),
+    (0.0 , 0.0 , -90.0, 16.0, 80.0, 20.0),
+    (+5.0, 0.0 , -90.0, 16.0, 80.0, 1.0 ),
+    (-5.0, 0.0 , -90.0, 16.0, 80.0, 1.0 ),
 ])
-def test_control_1(configs, csv_file_path):
+def test_control_1(force, x, theta, m, M, l, csv_file_path):
+    configs = make_config(force, x, theta, m, M, l, 40.0)
     configs = configs.replace('%%csv_file%%', csv_file_path)
     conf = ConfigReader(conf_str=configs)
 
@@ -127,19 +130,20 @@ def test_control_1(configs, csv_file_path):
     assert sim.tail(int(10 / dt)).between(pi/3, 2*pi/3).all()
 
 
-@pytest.mark.parametrize('configs, theta, x', [
-    (make_config(0.0, 0.0, -90.0, 16.0, 80.0, 1.0, 5.0), 5.0, 0.25,),
-    (make_config(0.0, -5.0, -90.0, 16.0, 80.0, 1.0, 5.0), 5.0, -4.75,),
-    (make_config(0.0, +5.0, -90.0, 16.0, 80.0, 1.0, 5.0), 5.0, 5.25,),
-    (make_config(0.0, 0.0, 0.0, 16.0, 80.0, 1.0, 5.0), 6.0, 0.08,),
-    (make_config(0.0, 0.0, -45.0, 16.0, 80.0, 1.0, 5.0), 2.5, -0.3,),
-    (make_config(0.0, 0.0, -90.0, 30.0, 80.0, 1.0, 5.0), 1.5, 0.8,),
-    (make_config(0.0, 0.0, -90.0, 16.0, 50.0, 1.0, 5.0), 1.45, 1.3,),
-    (make_config(0.0, 0.0, -90.0, 16.0, 80.0, 20.0, 5.0), 5.0, 0.25,),
-    (make_config(+5.0, 0.0, -90.0, 16.0, 80.0, 1.0, 5.0), 2.7, 0.65,),
-    (make_config(-5.0, 0.0, -90.0, 16.0, 80.0, 1.0, 5.0), 5.5, 0.0,),
+@pytest.mark.parametrize('force, x, theta, m, M, l, t_theta, t_x', [
+    (0.0 , 0.0 , -90.0, 16.0, 80.0, 1.0 , 5.0 , 0.25  ),
+    (0.0 , -5.0, -90.0, 16.0, 80.0, 1.0 , 5.0 , -4.75 ),
+    (0.0 , +5.0, -90.0, 16.0, 80.0, 1.0 , 5.0 , 5.25  ),
+    (0.0 , 0.0 , 0.0  , 16.0, 80.0, 1.0 , 6.0 , 0.08  ),
+    (0.0 , 0.0 , -45.0, 16.0, 80.0, 1.0 , 2.5 , -0.3  ),
+    (0.0 , 0.0 , -90.0, 30.0, 80.0, 1.0 , 1.5 , 0.8   ),
+    (0.0 , 0.0 , -90.0, 16.0, 50.0, 1.0 , 1.45, 1.3   ),
+    (0.0 , 0.0 , -90.0, 16.0, 80.0, 20.0, 5.0 , 0.25  ),
+    (+5.0, 0.0 , -90.0, 16.0, 80.0, 1.0 , 2.7 , 0.65  ),
+    (-5.0, 0.0 , -90.0, 16.0, 80.0, 1.0 , 5.5 , 0.0   ),
 ])
-def test_acc_1(configs, theta, x, csv_file_path):
+def test_sim_1(force, x, theta, m, M, l, t_theta, t_x, csv_file_path):
+    configs = make_config(force, x, theta, m, M, l, 5.0)
     configs = configs.replace('%%csv_file%%', csv_file_path)
     conf = ConfigReader(conf_str=configs)
 
@@ -148,5 +152,5 @@ def test_acc_1(configs, theta, x, csv_file_path):
     sim = pd.read_csv(csv_file_path)
     observed_theta, observed_x = sim['theta'].iloc[-1], sim['x'].iloc[-1]
 
-    assert relative_error(observed_theta, theta) < EPSILON
-    assert relative_error(observed_x,  x) < EPSILON
+    assert relative_error(observed_theta, t_theta) < EPSILON
+    assert relative_error(observed_x,  t_x) < EPSILON
