@@ -1391,6 +1391,92 @@ None
 %   have local scope.}
 
 \newpage
+
+\section{MIS of File Output Module} \label{mFileOutput} \wss{Use labels for
+  cross-referencing}
+
+File Output module is child of Manager module.
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+
+\wss{Short name for the module}
+File Output
+
+\subsection{Uses}
+World Module (Section \ref{mWorld}) \\
+Manager Module (Section \ref{mManager})
+
+\subsection{Syntax}
+
+% \subsubsection{Exported Constants}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+resume & -     & $\mathbb{B}$ & - \\
+draw   & World & - & - \\
+wait   & -     & - & - \\
+quit   & -     & - & - \\\hline\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+
+\wss{Not all modules will have state variables.  State variables give the module
+  a memory.}
+
+\subsubsection{Environment Variables}
+
+file: output csv file.
+
+\wss{This section is not necessary for all modules.  Its purpose is to capture
+  when the module has external interaction with the environment, such as for a
+  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+None
+\wss{Try to minimize assumptions and anticipate programmer errors via
+  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent resume():
+\begin{itemize}
+\item transition: -
+\item output: It returns true for n steps of simulation time.
+\item exception: -
+\end{itemize}
+
+\noindent draw(world):
+\begin{itemize}
+\item transition: Write the current world state to a file.
+\item output: -
+\item exception: -
+\end{itemize}
+
+\noindent wait():
+\begin{itemize}
+\item transition: Do nothing.
+\item output: -
+\item exception: -
+\end{itemize}
+
+\noindent quit():
+\begin{itemize}
+\item transition: Closes the file.
+\item output: -
 \item exception: -
 \end{itemize}
 
