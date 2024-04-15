@@ -658,7 +658,7 @@ None
 
 % \newpage
 
-\section{MIS of Output Verification Module} \label{mOutputVerification} \wss{Use labels for
+\section{MIS of World Checker Module} \label{mOutputVerification} \wss{Use labels for
   cross-referencing}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
@@ -667,7 +667,7 @@ None
 
 \subsection{Module}
 
-Output Verification
+World Checker
 
 \wss{Short name for the module}
 
@@ -686,7 +686,7 @@ World Module (Section \ref{mWorld})
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-verify & world & - & InvalidAngleException, InvalidPositionException \\
+check & World & World & ValueError \\
 \hline
 \end{tabular}
 \end{center}
@@ -717,17 +717,26 @@ None
 
 \subsubsection{Access Routine Semantics}
 
-\noindent verify(world):
+\noindent check(world):
 \begin{itemize}
 \item transition: -
-\item output: -
+\item output: world
 \item exception: 
       $exc := ( \\
-      \text{if } \theta \leq -\pi \text{ or } \theta \geq \pi \text{ then }
-      \text{InvalidAngleException} \\
+      \text{if not } (\text{all parameters in world is float}) \text{ then }
+      \text{ValueError} \\
       | \\
-      \text{if } x \leq \text{min\_x} \text{ or } x \geq \text{max\_x} 
-      \text{ then } \text{InvalidPositionException}\\
+      \text{if not } (0 \leq m \leq 80) \text{ then }
+      \text{ValueError} \\
+      | \\
+      \text{if not } (0 \leq M \leq 80) \text{ then }
+      \text{ValueError} \\
+      | \\
+      \text{if not } (0 \leq l \leq 20) \text{ then }
+      \text{ValueError} \\
+      | \\
+      \text{if } (\text{min\_x} \leq \text{x} \leq \text{max\_x}) 
+      \text{ then } \text{ValueError}\\
       )$
 \end{itemize}
 
