@@ -957,19 +957,118 @@ None
 
 \newpage
 
+\section{MIS of Manager Module} \label{mManager} \wss{Use labels for
+  cross-referencing}
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+
+\wss{Short name for the module}
+Manager
+
+\subsection{Uses}
+
+Simulator Module (Section \ref{mSimulator}) \\
+Controller Module (Section \ref{mController})
+
+\subsection{Syntax}
+
+% \subsubsection{Exported Constants}
+
+\subsubsection{Exported Access Programs}
+
+
+
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+run    & -     & - & - \\
+resume & -     & $\mathbb{B}$ & - \\
+draw   & World & - & - \\
+wait   & -     & - & - \\
+quit   & -     & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+None
+
+\wss{Not all modules will have state variables.  State variables give the module
+  a memory.}
+
+\subsubsection{Environment Variables}
+
+None
+
+\wss{This section is not necessary for all modules.  Its purpose is to capture
+  when the module has external interaction with the environment, such as for a
+  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+None
 
 \wss{Try to minimize assumptions and anticipate programmer errors via
   exceptions, but for practical purposes assumptions are sometimes appropriate.}
 
 \subsubsection{Access Routine Semantics}
 
-None
-% \noindent \wss{accessProg}():
-% \begin{itemize}
-% \item transition: \wss{if appropriate} 
-% \item output: \wss{if appropriate} 
-% \item exception: \wss{if appropriate} 
-% \end{itemize}
+\noindent run():
+\begin{itemize}
+\item transition:
+      It follows the following steps:
+      \begin{itemize}
+        \item Get world from Simulator.
+        \item give it to Controller to get the force.
+        \item Give the force to Simulator to update the world state.
+        \item Call draw() to draw the updated world.
+        \item Call wait() to wait for some time.
+        \item Repeat the above steps until resume() returns false.
+      \end{itemize}
+\item output: -
+\item exception: -
+\end{itemize}
+
+\noindent resume():
+\begin{itemize}
+\item transition: -
+\item output: It's abstract method that will be implemented by the derived class.
+      It returns true if the simulation should continue, otherwise false.
+\item exception: -
+\end{itemize}
+
+\noindent draw(world):
+\begin{itemize}
+\item transition: It's abstract method that will be implemented by the derived class. 
+      It draws the world state.
+\item output: -
+\item exception: -
+\end{itemize}
+
+\noindent wait():
+\begin{itemize}
+\item transition: It's abstract method that will be implemented by the derived class. 
+      It waits for some time.
+\item output: -
+\item exception: -
+\end{itemize}
+
+\noindent quit():
+\begin{itemize}
+\item transition: It's abstract method that will be implemented by the derived class. 
+      It quits the simulation.
+\item output: -
+\item exception: -
+\end{itemize}
 
 \wss{A module without environment variables or state variables is unlikely to
   have a state transition.  In this case a state transition can only occur if
