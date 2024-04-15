@@ -793,7 +793,10 @@ tick & R & - & - \\
 
 \subsubsection{State Variables}
 
-world: World
+world: World \\
+(The `world' variable could either reside in the simulator module or the manager module. 
+However, since the simulator module is the only one with write access to 
+the `world' variable, it is more logical to keep it there.)
 
 % \wss{Not all modules will have state variables.  State variables give the module
 %   a memory.}
@@ -819,8 +822,8 @@ None
       It updates the world state by one time step of size $dt$.
       It follows the following steps:
       \begin{itemize}
-        \item Caclulate and update the acceleration of the cart and the pendulum.
-        \item Update teh velocity of the cart and the pendulum.
+        \item Calculate and update the acceleration of the cart and the pendulum.
+        \item Update the velocity of the cart and the pendulum.
         \item Update the position of the cart and the pendulum.
         \item Reset the forces acting on the cart and the pendulum.
       \end{itemize}
@@ -830,6 +833,16 @@ None
         + ml (\dot{\theta}^2(t)) \sin{\theta(t)} \\
         l \ddot{\theta}(t) + g \sin{\theta(t)} = \ddot{x}(t) \cos{\theta(t)}
       \end{gather*}
+      This module solves the above equations using the Runge-Kutta method.
+      It treat the above equations as a system of linear equations.
+
+      There are more advanced equations that considers the friction and the
+      damping of the cart and the pendulum.
+      \url{https://github.com/jitendra825/Inverted-Pendulum-Simulink},
+      This repository contains matlab code that simulates the inverted pendulum 
+      with the friction and the damping of the cart and the pendulum. 
+      If it's easier to implement the friction and the damping, we can use the
+      code in this repository.
 \item output: -
 \item exception: -
 \end{itemize}
