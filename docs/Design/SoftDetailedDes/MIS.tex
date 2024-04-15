@@ -1288,6 +1288,7 @@ Because this module is interface so access routines doesn't have exact procedure
 
 \section{MIS of GUI Module} \label{mGUI} \wss{Use labels for
   cross-referencing}
+GUI module is child of Manager module.
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
 
@@ -1299,7 +1300,8 @@ Because this module is interface so access routines doesn't have exact procedure
 GUI
 
 \subsection{Uses}
-World Module (Section \ref{mWorld})
+World Module (Section \ref{mWorld}) \\
+Manager Module (Section \ref{mManager})
 
 \subsection{Syntax}
 
@@ -1312,8 +1314,10 @@ World Module (Section \ref{mWorld})
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-draw & World & - & - \\
-\hline
+resume & -     & $\mathbb{B}$ & - \\
+draw   & World & - & - \\
+wait   & -     & - & - \\
+quit   & -     & - & - \\\hline
 \end{tabular}
 \end{center}
 
@@ -1341,11 +1345,52 @@ None
 
 \subsubsection{Access Routine Semantics}
 
+\noindent resume():
+\begin{itemize}
+\item transition: -
+\item output: It checks if the user clicked on the close button of the window. 
+      If yes, it returns false, otherwise true.
+\item exception: -
+\end{itemize}
+
 \noindent draw(world):
 \begin{itemize}
 \item transition: Modify the win to display the current world state. The location 
       and angle of pendulum should be clear.
 \item output: -
+\item exception: -
+\end{itemize}
+
+\noindent wait():
+\begin{itemize}
+\item transition: The wait time is dynamically determined by the GUI module to meet 
+                  the frame rate requirements.
+\item output: -
+\item exception: -
+\end{itemize}
+
+\noindent quit():
+\begin{itemize}
+\item transition: Closes the gui window.
+\item output: -
+\item exception: -
+\end{itemize}
+
+\wss{A module without environment variables or state variables is unlikely to
+  have a state transition.  In this case a state transition can only occur if
+  the module is changing the state of another module.}
+
+\wss{Modules rarely have both a transition and an output.  In most cases you
+  will have one or the other.}
+
+% \subsubsection{Local Functions}
+
+% \wss{As appropriate} \wss{These functions are for the purpose of specification.
+%   They are not necessarily something that is going to be implemented
+%   explicitly.  Even if they are implemented, they are not exported; they only
+%   have local scope.}
+
+\newpage
 \item exception: -
 \end{itemize}
 
