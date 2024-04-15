@@ -107,6 +107,7 @@ The following table summarizes the primitive data types used by \progname.
 \midrule
 character & char & a single symbol or digit\\
 string & $\text{char}^*$ & a sequence of characters\\
+boolean & $\mathbb{B}$ & a binary variable that can be either true or false\\
 integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
 natural number & $\mathbb{N}$ & a number without a fractional component in [1, $\infty$) \\
 real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
@@ -114,6 +115,8 @@ linguistic variable & ling\_var & a linguistic variable that used in the fuzzy l
                                Its type is string.\\
 rule & rule & a rule that used in the fuzzy logic. Its type is string.\\
 fuzzy set & fuzzy\_set & a fuzzy set that is determined by the membership function ($R \rightarrow R$).\\
+array & Array[T] & a sequence of elements of type T.\\
+dictionary & Dict[K, V] & a collection of key-value pairs, where K is the key type and V is the value type.\\
 \bottomrule
 \end{tabular} 
 \end{center}
