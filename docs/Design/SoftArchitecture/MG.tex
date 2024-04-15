@@ -33,7 +33,7 @@
 
 \begin{document}
 
-\title{Module Guide for \progname{}} 
+\title{Module Guide\\ for\\ \progname{}\\ (IPCS)} 
 \author{\authname}
 \date{\today}
 
@@ -47,6 +47,7 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 2024-03-18 & 1.0 & Initial Release.\\
+2024-04-14 & 2.0 & Address comments.\\
 \bottomrule
 \end{tabularx}
 
@@ -55,6 +56,9 @@
 \section{Reference Material}
 
 This section records information for easy reference.
+See SRS Documentation at 
+\url{https://github.com/mirzaim/IPCS/blob/main/docs/SRS/SRS.pdf}
+when referenced in this document.
 
 \subsection{Abbreviations and Acronyms}
 
@@ -162,8 +166,8 @@ change.
       of the input data.
 \item[\refstepcounter{acnum} \actheacnum \label{acConstraint}:] The constraints 
      on the parameters.
-\item[\refstepcounter{acnum} \actheacnum \label{acArrayDS}:] The choice of array 
-     data structures used for storing and manipulating the data input and output.
+% \item[\refstepcounter{acnum} \actheacnum \label{acArrayDS}:] The choice of array 
+%      data structures used for storing and manipulating the data input and output.
 \item[\refstepcounter{acnum} \actheacnum \label{acControlAlgo}:] Use other control 
       algorithms to control the pendulum motion, like PID controller.
 \item[\refstepcounter{acnum} \actheacnum \label{acFriction}:] Consider friction 
@@ -202,16 +206,19 @@ actually be implemented.
 \begin{description}
 \item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
 \item [\refstepcounter{mnum} \mthemnum \label{mFuzzyLogic}:] Fuzzy Logic Module
-\item [\refstepcounter{mnum} \mthemnum \label{mParser}:] Parser Module
+\item [\refstepcounter{mnum} \mthemnum \label{mConfigReader}:] Config Reader Module
 % \item [\refstepcounter{mnum} \mthemnum \label{mInputParamter}:] Input Parameter Module
 % \item [\refstepcounter{mnum} \mthemnum \label{mMotionODEs}:] Motion ODEs Module
-\item [\refstepcounter{mnum} \mthemnum \label{mOutputVerification}:] Output Verification Module
+\item [\refstepcounter{mnum} \mthemnum \label{mWorldChecker}:] World Checker Module
 \item [\refstepcounter{mnum} \mthemnum \label{mSimulator}:] Simulator Module
 \item [\refstepcounter{mnum} \mthemnum \label{mWorld}:] World Module
 \item [\refstepcounter{mnum} \mthemnum \label{mController}:] Controller Module
+\item [\refstepcounter{mnum} \mthemnum \label{mManager}:] Manager Module
 \item [\refstepcounter{mnum} \mthemnum \label{mGUI}:] GUI Module
+\item [\refstepcounter{mnum} \mthemnum \label{mFileOutput}:] File Output Module
+\item [\refstepcounter{mnum} \mthemnum \label{mMain}:] Main Module
 % \item [\refstepcounter{mnum} \mthemnum \label{mODESolver}:] ODE Solver Module
-\item [\refstepcounter{mnum} \mthemnum \label{mSequenceDS}:] Sequence Data Structure Module
+% \item [\refstepcounter{mnum} \mthemnum \label{mSequenceDS}:] Sequence Data Structure Module
 \end{description}
 
 
@@ -227,19 +234,22 @@ actually be implemented.
 
 \multirow{7}{0.3\textwidth}{Behaviour-Hiding Module}
 & Fuzzy Logic Module\\
-& Parser Module\\
+& Config Reader Module\\
 % & Input Parameter Module\\
 % & Motion ODEs Module\\ 
-& Output Verification Module\\
+& World Checker Module\\
 & Simulator Module\\
 & World Module\\
+& Manager Module\\
+& Main Module\\
 \midrule
 
 \multirow{3}{0.3\textwidth}{Software Decision Module}
 & Controller Module\\
 & GUI Module\\
+& File Output Module\\
 % & ODE Solver Module\\
-& Sequence Data Structure Module\\
+% & Sequence Data Structure Module\\
 \bottomrule
 
 \end{tabular}
@@ -309,7 +319,7 @@ to be implemented.
   % [Information to include for leaf modules in the decomposition by secrets tree.]
 \end{description}
 
-\subsubsection{Parser Module (\mref{mParser})}
+\subsubsection{Config Reader Module (\mref{mConfigReader})}
 
 \begin{description}
 \item[Secrets:] The format and structure of the input data.
@@ -342,12 +352,11 @@ to be implemented.
 %   % [Information to include for leaf modules in the decomposition by secrets tree.]
 % \end{description}
 
-\subsubsection{Output Verification Module (\mref{mOutputVerification})}
+\subsubsection{World Checker Module (\mref{mWorldChecker})}
 
 \begin{description}
-\item[Secrets:] The constraints that we have on the world parameters.
-\item[Services:] Verifies that the output results follow the law of inverted pendulum.
-                 Throws a warning if the relative error exceeds the error threshold.
+\item[Secrets:] The constraints that we have on the initial world parameters.
+\item[Services:] Checks the constraints on the initial world parameters.
 \item[Implemented By:] \progname{}
 \item[Type of Module:] Abstract Object
 \end{description}
@@ -368,8 +377,28 @@ to be implemented.
 \item[Secrets:] World properties.
 \item[Services:] Stores the properties of the world, including the location of the pendulum, the
                  velocity of the pendulum, and the acceleration of the pendulum.
-\item[Implemented By:] \progname
+\item[Implemented By:] \progname{}
 \item[Type of Module:] Record
+  % [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{Manager Module (\mref{mManager})}
+
+\begin{description}
+\item[Secrets:] The algorithm used to manage the simulation and control.
+\item[Services:] Manages the simulation and control of the pendulum motion.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Abstract Class
+  % [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{Main Module (\mref{mMain})}
+
+\begin{description}
+\item[Secrets:] The algorithm used to run the program.
+\item[Services:] Runs the program.
+\item[Implemented By:] \progname{}
+\item[Type of Module:] Abstract Object
   % [Information to include for leaf modules in the decomposition by secrets tree.]
 \end{description}
 
@@ -410,6 +439,16 @@ to be implemented.
   % [Information to include for leaf modules in the decomposition by secrets tree.]
 \end{description}
 
+\subsubsection{File Output Module (\mref{mFileOutput})}
+
+\begin{description}
+\item[Secrets:] The format and structure of the output data.
+\item[Services:] Writes the output data to the output file.
+\item[Implemented By:] Python
+\item[Type of Module:] Library
+  % [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
 % \subsubsection{ODE Solver Module (\mref{mODESolver})}
 
 % \begin{description}
@@ -423,16 +462,16 @@ to be implemented.
 %   % [Information to include for leaf modules in the decomposition by secrets tree.]
 % \end{description}
 
-\subsubsection{Sequence Data Structure Module (\mref{mSequenceDS})}
+% \subsubsection{Sequence Data Structure Module (\mref{mSequenceDS})}
 
-\begin{description}
-\item[Secrets:]  The data structure for a sequence data type.
-\item[Services:] Provides array manipulation, including building an array, 
-                 accessing a specific entry, slicing an array, etc.
-\item[Implemented By:] Python
-\item[Type of Module:] Library
-  % [Information to include for leaf modules in the decomposition by secrets tree.]
-\end{description}
+% \begin{description}
+% \item[Secrets:]  The data structure for a sequence data type.
+% \item[Services:] Provides array manipulation, including building an array, 
+%                  accessing a specific entry, slicing an array, etc.
+% \item[Implemented By:] Python
+% \item[Type of Module:] Library
+%   % [Information to include for leaf modules in the decomposition by secrets tree.]
+% \end{description}
 
 % \subsubsection{Etc.}
 
@@ -449,11 +488,11 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-R1 & \mref{acHardware}, \mref{mParser}, \mref{mSequenceDS}\\
-R2 & \mref{mSimulator}, \mref{mWorld}, \mref{mSequenceDS}\\
-R3 & \mref{mSimulator}, \mref{mWorld}, \mref{mSequenceDS}\\
-R4 & \mref{mFuzzyLogic}, \mref{mWorld}, \mref{mController}, \mref{mSequenceDS}\\
-R5 & \mref{mOutputVerification}, \mref{mGUI}, \mref{mSequenceDS}\\
+R1 & \mref{acHardware}, \mref{mConfigReader}, \mref{mWorldChecker}\\
+R2 & \mref{mSimulator}, \mref{mWorld}\\
+R3 & \mref{mSimulator}, \mref{mWorld}\\
+R4 & \mref{mFuzzyLogic}, \mref{mWorld}\\
+R5 & \mref{mManager}, \mref{mGUI}, \mref{mFileOutput}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Requirements and Modules}
@@ -467,13 +506,13 @@ R5 & \mref{mOutputVerification}, \mref{mGUI}, \mref{mSequenceDS}\\
 \textbf{AC} & \textbf{Modules}\\
 \midrule
 \acref{acHardware} & \mref{mHH}\\
-\acref{acInputFormat} & \mref{mParser}\\
-\acref{acConstraint} & \mref{mOutputVerification}\\
-\acref{acArrayDS} & \mref{mSequenceDS}\\
+\acref{acInputFormat} & \mref{mConfigReader}\\
+\acref{acConstraint} & \mref{mWorldChecker}\\
+% \acref{acArrayDS} & \mref{mSequenceDS}\\
 \acref{acControlAlgo} & \mref{mController}\\
 \acref{acFriction} & \mref{mSimulator}\\
 % \acref{acODESolver} & \mref{mSimulator}\\
-\acref{acGUI} & \mref{mGUI}\\
+\acref{acGUI} & \mref{mManager}, \mref{mGUI}, \mref{mFileOutput}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Anticipated Changes and Modules}
@@ -495,7 +534,7 @@ because they use modules from the lower levels.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\textwidth]{Use hierarchy 2.pdf}
+\includegraphics[width=0.9\textwidth]{Use hierarchy 3.pdf}
 \caption{Use hierarchy among modules}
 \label{FigUH}
 \end{figure}
