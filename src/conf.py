@@ -1,5 +1,6 @@
 # python imports
 import configparser
+from pathlib import Path
 
 
 def to_float(value):
@@ -14,6 +15,9 @@ class ConfigReader:
     def __init__(self, file_path=None, conf_str=None):
         if file_path is None and conf_str is None:
             raise ValueError("Either file_path or conf_str must be provided.")
+
+        if file_path is not None and not Path(file_path).is_file():
+            raise FileNotFoundError(f"File not found: {file_path}")
 
         self.cfg = configparser.ConfigParser()
         self.cfg.optionxform = str
