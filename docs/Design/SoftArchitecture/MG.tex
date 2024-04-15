@@ -211,6 +211,7 @@ actually be implemented.
 \item [\refstepcounter{mnum} \mthemnum \label{mController}:] Controller Module
 \item [\refstepcounter{mnum} \mthemnum \label{mManager}:] Manager Module
 \item [\refstepcounter{mnum} \mthemnum \label{mGUI}:] GUI Module
+\item [\refstepcounter{mnum} \mthemnum \label{mFileOutput}:] File Output Module
 \item [\refstepcounter{mnum} \mthemnum \label{mMain}:] Main Module
 % \item [\refstepcounter{mnum} \mthemnum \label{mODESolver}:] ODE Solver Module
 % \item [\refstepcounter{mnum} \mthemnum \label{mSequenceDS}:] Sequence Data Structure Module
@@ -242,6 +243,7 @@ actually be implemented.
 \multirow{3}{0.3\textwidth}{Software Decision Module}
 & Controller Module\\
 & GUI Module\\
+& File Output Module\\
 % & ODE Solver Module\\
 % & Sequence Data Structure Module\\
 \bottomrule
@@ -429,6 +431,16 @@ to be implemented.
 \item[Secrets:] The data structures and algorithms for visualizing the pendulum motion.
 \item[Services:] Provides the visualization functioning.
 \item[Implemented By:] Pygame
+\item[Type of Module:] Library
+  % [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{File Output Module (\mref{mFileOutput})}
+
+\begin{description}
+\item[Secrets:] The format and structure of the output data.
+\item[Services:] Writes the output data to the output file.
+\item[Implemented By:] Python
 \item[Type of Module:] Library
   % [Information to include for leaf modules in the decomposition by secrets tree.]
 \end{description}
