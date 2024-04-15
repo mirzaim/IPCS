@@ -786,7 +786,7 @@ World Module (Section \ref{mWorld}) \\
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
 % \wss{accessProg} & - & - & - \\
-tick & R & - & - \\
+tick & $\mathbb{R}$ & - & ValueError \\
 \hline
 \end{tabular}
 \end{center}
@@ -846,7 +846,11 @@ None
       If it's easier to implement the friction and the damping, we can use the
       code in this repository.
 \item output: -
-\item exception: -
+\item exception: 
+      $exc := ( \\
+      \text{if } dt \leq 0 \text{ then }
+      \text{ValueError} \\
+      )$
 \end{itemize}
 
 \wss{A module without environment variables or state variables is unlikely to
