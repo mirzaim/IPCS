@@ -303,7 +303,9 @@ defuzzification that are described below.
   sets back into a single numerical value that guides the system's response.
 \end{enumerate}
 
-In conclusion, the fuzzy controller method offers a flexible and effective approach to control systems, allowing for the incorporation of human-like reasoning and handling uncertainty inherent in real-world environments.
+In conclusion, the fuzzy controller method offers a flexible and effective 
+approach to control systems, allowing for the incorporation of human-like 
+reasoning and handling uncertainty inherent in real-world environments.
 
 \subsection{Module}
 
@@ -312,7 +314,7 @@ Fuzzy Logic
 
 \subsection{Uses}
 
-parser module (Section \ref{mParser})
+World module (Section \ref{mWorld})
 
 \subsection{Syntax}
 
@@ -321,14 +323,12 @@ parser module (Section \ref{mParser})
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{3cm} p{5cm} p{2cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{3cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
 decide & World & $\mathbb{R}$ & - \\
-load\_fuzzy\_rules & fuzzy\_sets: 
-\textit{Array}[$\text{ling\_var} \times \text{fuzzy\_set}$], 
-rules: \textit{Array}[\text{rule}] & - & - \\
+read\_fuzzy\_rules & file\_path: $\text{char}^*$ & $\text{Array}[\text{rule}]$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -337,9 +337,11 @@ rules: \textit{Array}[\text{rule}] & - & - \\
 
 \subsubsection{State Variables}
 
-fuzzyInputSets: \textit{Array}[$\text{ling\_var} \times \text{fuzzy\_set}$] \\
-fuzzyOutputSets: \textit{Array}[$\text{ling\_var} \times \text{fuzzy\_set}$] \\
+fuzzyInputSets: \textit{Dict}[$\text{ling\_var}, \text{fuzzy\_set}$] \\
+fuzzyOutputSets: \textit{Dict}[$\text{ling\_var}, \text{fuzzy\_set}$] \\
 fuzzyRules: \textit{Array}[\text{rule}] \\
+(The fuzzyInputSets, fuzzyOutputSets are hardcoded in the module,
+but the fuzzyRules are read from a file.)
 
 \wss{Not all modules will have state variables.  State variables give the module
   a memory.}
@@ -369,7 +371,7 @@ None
         environment variable and measures the membership degree of each linguistic
         variable's corresponding fuzzy set.
         \item In the second step, it applies the fuzzy rules on fuzzified input sets to
-        get the fuzzy output sets. This step uses fuzzyRules environment variable.
+        get the fuzzy output sets. This step uses fuzzyRules state variable.
         At the end of this step we have membership degrees of each linguistic 
         variable's corresponding fuzzyOutputSets.
         \item In the third step, it defuzzifies the fuzzy output sets to get the force
@@ -378,11 +380,11 @@ None
 \item exception: -
 \end{itemize}
 
-\noindent load\_fuzzy\_rules(fuzzy\_sets, rules):
+\noindent read\_fuzzy\_logic(file\_path):
 \begin{itemize}
-\item transition: 
-      It sets the fuzzyInputSets, fuzzyOutputSets and fuzzyRules state variables.
-\item output: -
+\item transition: -
+\item output: It acts like a compiler and reads the file and. 
+              returns: fuzzyRules $\text{Array}[\text{rule}]$
 \item exception: -
 \end{itemize}
 
