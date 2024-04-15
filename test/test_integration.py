@@ -9,14 +9,7 @@ import pandas as pd
 from main import main
 from conf import ConfigReader
 
-
-EPSILON = 0.05
-
-
-def relative_error(observed, expected):
-    if expected == 0:
-        return abs(observed)
-    return abs((observed - expected) / expected)
+from utils import relative_error, EPSILON
 
 
 @pytest.fixture(scope="session")
