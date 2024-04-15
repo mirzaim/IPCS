@@ -7,8 +7,10 @@ class Simulator:
     def __init__(self, world):
         self.world = world
 
-
     def tick(self, dt):
+        if dt <= 0.:
+            raise ValueError('dt must be greater than zero')
+
         w = self.world
         theta = w.theta + (pi / 2.)
 
