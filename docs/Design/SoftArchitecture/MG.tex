@@ -484,11 +484,11 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-R1 & \mref{acHardware}, \mref{mParser}, \mref{mSequenceDS}\\
-R2 & \mref{mSimulator}, \mref{mWorld}, \mref{mSequenceDS}\\
-R3 & \mref{mSimulator}, \mref{mWorld}, \mref{mSequenceDS}\\
-R4 & \mref{mFuzzyLogic}, \mref{mWorld}, \mref{mController}, \mref{mSequenceDS}\\
-R5 & \mref{mOutputVerification}, \mref{mGUI}, \mref{mSequenceDS}\\
+R1 & \mref{acHardware}, \mref{mConfigReader}, \mref{mWorldChecker}\\
+R2 & \mref{mSimulator}, \mref{mWorld}\\
+R3 & \mref{mSimulator}, \mref{mWorld}\\
+R4 & \mref{mFuzzyLogic}, \mref{mWorld}\\
+R5 & \mref{mManager}, \mref{mGUI}, \mref{mFileOutput}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Requirements and Modules}
@@ -502,13 +502,13 @@ R5 & \mref{mOutputVerification}, \mref{mGUI}, \mref{mSequenceDS}\\
 \textbf{AC} & \textbf{Modules}\\
 \midrule
 \acref{acHardware} & \mref{mHH}\\
-\acref{acInputFormat} & \mref{mParser}\\
-\acref{acConstraint} & \mref{mOutputVerification}\\
-\acref{acArrayDS} & \mref{mSequenceDS}\\
+\acref{acInputFormat} & \mref{mConfigReader}\\
+\acref{acConstraint} & \mref{mWorldChecker}\\
+% \acref{acArrayDS} & \mref{mSequenceDS}\\
 \acref{acControlAlgo} & \mref{mController}\\
 \acref{acFriction} & \mref{mSimulator}\\
 % \acref{acODESolver} & \mref{mSimulator}\\
-\acref{acGUI} & \mref{mGUI}\\
+\acref{acGUI} & \mref{mManager}, \mref{mGUI}, \mref{mFileOutput}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Anticipated Changes and Modules}
