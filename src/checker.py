@@ -13,11 +13,11 @@ class WorldChecker:
                 raise ValueError(f"Input Value {key} Should be a float.")
 
     def check_m(self, world: World):
-        if not (0.0 <= world.m <= 80.0):
+        if not (0.0 < world.m <= 80.0):
             raise ValueError("m should be between 0.0 and 80.0.")
 
     def check_M(self, world: World):
-        if not (0.0 <= world.M <= 80.0):
+        if not (0.0 < world.M <= 80.0):
             raise ValueError("M should be between 0.0 and 80.0.")
 
     def check_l(self, world: World):
