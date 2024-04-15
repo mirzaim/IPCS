@@ -1086,18 +1086,83 @@ None
 
 \newpage
 
+\section{MIS of Main Module} \label{mMain} \wss{Use labels for
+  cross-referencing}
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+
+\wss{Short name for the module}
+Main
+
+\subsection{Uses}
+
+Config Reader Module (Section \ref{mConfigReader}) \\
+World Module (Section \ref{mWorld}) \\
+Manager Module (Section \ref{mManager}) \\
+Simulator Module (Section \ref{mSimulator}) \\
+Controller Module (Section \ref{mController})
+
+\subsection{Syntax}
+
+% \subsubsection{Exported Constants}
+
+\subsubsection{Exported Access Programs}
+
+
+
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+main & - & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+None
+
+\wss{Not all modules will have state variables.  State variables give the module
+  a memory.}
+
+\subsubsection{Environment Variables}
+
+None
+
+\wss{This section is not necessary for all modules.  Its purpose is to capture
+  when the module has external interaction with the environment, such as for a
+  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+None
+
 \wss{Try to minimize assumptions and anticipate programmer errors via
   exceptions, but for practical purposes assumptions are sometimes appropriate.}
 
 \subsubsection{Access Routine Semantics}
 
-None
-% \noindent \wss{accessProg}():
-% \begin{itemize}
-% \item transition: \wss{if appropriate} 
-% \item output: \wss{if appropriate} 
-% \item exception: \wss{if appropriate} 
-% \end{itemize}
+\noindent main():
+\begin{itemize}
+\item transition:
+      This is the main function of the program. It follows the following steps:
+      \begin{itemize}
+        \item Read the configuration file using Config Reader.
+        \item Create the world using the configuration.
+        \item Create the Manager, Simulator, and Controller.
+        \item Call the run() method of the Manager.
+      \end{itemize}
+\item output: \wss{if appropriate} 
+\item exception: \wss{if appropriate} 
+\end{itemize}
 
 \wss{A module without environment variables or state variables is unlikely to
   have a state transition.  In this case a state transition can only occur if
@@ -1112,8 +1177,6 @@ None
 %   They are not necessarily something that is going to be implemented
 %   explicitly.  Even if they are implemented, they are not exported; they only
 %   have local scope.}
-
-\newpage
 
 \wss{Try to minimize assumptions and anticipate programmer errors via
   exceptions, but for practical purposes assumptions are sometimes appropriate.}
