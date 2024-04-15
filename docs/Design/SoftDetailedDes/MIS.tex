@@ -404,7 +404,7 @@ None
 
 \newpage
 
-\section{MIS of Parser Module} \label{mParser} \wss{Use labels for
+\section{MIS of Config Reader Module} \label{mConfigReader} \wss{Use labels for
   cross-referencing}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
@@ -413,7 +413,7 @@ None
 
 \subsection{Module}
 
-Parser
+Config Reader
 
 \wss{Short name for the module}
 
@@ -427,14 +427,14 @@ None
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{3cm} p{2cm} p{5cm} p{2cm}}
+\begin{tabular}{p{2cm} p{3cm} p{2cm} p{5cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-load\_config & file\_path: $\text{char}^*$ & World & FileNotFoundException, InvalidFileFormatException \\
-load\_Fuzzy\_logic & file\_path: $\text{chat}^*$ & 
-fuzzy\_sets: \textit{Array}[$\text{ling\_var} \times \text{fuzzy\_set}$],
-rules: \textit{Array}[\text{rule}] & FileNotFoundException, InvalidFileFormatException \\
+load\_config & file\_path: $\text{char}^*$ & World & FileNotFoundException \\
+% load\_Fuzzy\_logic & file\_path: $\text{char}^*$ & 
+% fuzzy\_sets: \textit{Array}[$\text{ling\_var} \times \text{fuzzy\_set}$],
+% rules: \textit{Array}[\text{rule}] & FileNotFoundException, InvalidFileFormatException \\
 \hline
 \end{tabular}
 \end{center}
@@ -471,27 +471,24 @@ None
       $exc := ( \\
       \text{if } \text{file\_path} \text{ does not exist then }
       \text{FileNotFoundException} \\
-      | \\
-      \text{if } \text{file\_path} \text{ is not in the correct format then }
-      \text{InvalidFileFormatException} \\
       )$
 \end{itemize}
 
-\noindent load\_Fuzzy\_logic(file\_path):
-\begin{itemize}
-\item transition: -
-\item output: It acts like a complier and reads the file and returns the 
-      fuzzy sets and rules. returns: \\
-      fuzzy\_sets: Array[LinguisticVariable $\times$ FuzzySet], rules: fuzzyRules: Array[Rule]
-\item exception: 
-      $exc := ( \\
-      \text{if } \text{file\_path} \text{ does not exist then }
-      \text{FileNotFoundException} \\
-      | \\
-      \text{if } \text{file\_path} \text{ is not in the correct format then }
-      \text{InvalidFileFormatException} \\
-      )$
-\end{itemize}
+% \noindent load\_Fuzzy\_logic(file\_path):
+% \begin{itemize}
+% \item transition: -
+% \item output: It acts like a compiler and reads the file and returns the 
+%       fuzzy sets and rules. returns: \\
+%       fuzzy\_sets: Array[LinguisticVariable $\times$ FuzzySet], rules: fuzzyRules: Array[Rule]
+% \item exception: 
+%       $exc := ( \\
+%       \text{if } \text{file\_path} \text{ does not exist then }
+%       \text{FileNotFoundException} \\
+%       | \\
+%       \text{if } \text{file\_path} \text{ is not in the correct format then }
+%       \text{InvalidFileFormatException} \\
+%       )$
+% \end{itemize}
 
 \wss{A module without environment variables or state variables is unlikely to
   have a state transition.  In this case a state transition can only occur if
