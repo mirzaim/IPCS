@@ -1,6 +1,6 @@
 # Inverted Pendulum Control Systems (IPCS)
 
-[//]: # (Include a video simulation of IPCS here)
+https://github.com/mirzaim/ipcs/assets/14794797/dbb25648-a200-43f2-ba07-b77c07779e93
 
 Welcome to the Inverted Pendulum Control Systems (IPCS) project! This system is designed to simulate and control the dynamics of an inverted pendulum.
 
@@ -26,6 +26,8 @@ To begin, ensure you have Python 3.9 or above installed on your system.
    python3 main.py src/configs/default.ini
    ```
 
+### Docker
+
 If you prefer to use Docker, you can run the program with the following commands:
 
 ```bash
@@ -37,6 +39,7 @@ sudo docker run -v ./out/:/ipcs/out --rm -it mirzaim/ipcs:latest
 # For custom configuration
 sudo docker run -v ./out/:/ipcs/out -v ./default.ini:/ipcs/configs/default.ini --rm -it mirzaim/ipcs:latest
 ```
+**Notice**: The Docker version doesn't support GUI.
 
 ### Installation
 
