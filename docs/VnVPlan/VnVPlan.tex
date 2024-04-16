@@ -17,12 +17,15 @@
 \input{../Comments}
 \input{../Common}
 
+\newcommand{\utestref}[1]{UT\ref{#1}} \newcounter{utestnum}
+\newcommand{\UTthetestnum}{UT\theutestnum}
+
 \begin{document}
 
-\title{System Verification and Validation Plan\\ for\\ \progname{}\\(IPCS)} 
+\title{System Verification and Validation Plan\\ for\\ \progname{}\\(IPCS)}
 \author{\authname}
 \date{\today}
-	
+
 \maketitle
 
 \pagenumbering{roman}
@@ -30,27 +33,27 @@
 \section*{Revision History}
 
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-\midrule
-2024-02-18 & 1.0 & Initial Release.\\
-2024-04-13 & 2.0 & Address the comments.\\
-\bottomrule
+  \toprule {\bf Date} & {\bf Version} & {\bf Notes}           \\
+  \midrule
+  2024-02-18          & 1.0           & Initial Release.      \\
+  2024-04-13          & 2.0           & Address the comments. \\
+  \bottomrule
 \end{tabularx}
 
 ~\\
 \wss{The intention of the VnV plan is to increase confidence in the software.
-However, this does not mean listing every verification and validation technique
-that has ever been devised.  The VnV plan should also be a \textbf{feasible}
-plan. Execution of the plan should be possible with the time and team available.
-If the full plan cannot be completed during the time available, it can either be
-modified to ``fake it'', or a better solution is to add a section describing
-what work has been completed and what work is still planned for the future.}
+  However, this does not mean listing every verification and validation technique
+  that has ever been devised.  The VnV plan should also be a \textbf{feasible}
+  plan. Execution of the plan should be possible with the time and team available.
+  If the full plan cannot be completed during the time available, it can either be
+  modified to ``fake it'', or a better solution is to add a section describing
+  what work has been completed and what work is still planned for the future.}
 
 \wss{The VnV plan is typically started after the requirements stage, but before
-the design stage.  This means that the sections related to unit testing cannot
-initially be completed.  The sections will be filled in after the design stage
-is complete.  the final version of the VnV plan should have all sections filled
-in.}
+  the design stage.  This means that the sections related to unit testing cannot
+  initially be completed.  The sections will be filled in after the design stage
+  is complete.  the final version of the VnV plan should have all sections filled
+  in.}
 
 \newpage
 
@@ -66,7 +69,7 @@ in.}
 
 \section{Symbols, Abbreviations, and Acronyms}
 
-For complete symbols used within the system, please refer the section 1 in 
+For complete symbols used within the system, please refer the section 1 in
 \href{https://github.com/mirzaim/ipcs/blob/main/docs/SRS/SRS.pdf}{SRS} document.
 \hyperref[table_abb]{Table \ref*{table_abb}} defines some
 abbreviations and acronyms used in this document.
@@ -88,16 +91,16 @@ abbreviations and acronyms used in this document.
   \centering
   \caption{Table of Abbreviations and Acronyms.}
   \renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{l l} 
-    \toprule		
-    \textbf{symbol} & \textbf{description}\\
-    \midrule 
-    SRS & Software Requirement Specification\\
-    VnV & Verification and Validation \\ 
-    MIS & Module Interface Specification \\
-    IPCS & Inverted Pendulum Control Systems \\ 
-    TC & Test Case \\
-    \bottomrule 
+  \begin{tabular}{l l}
+    \toprule
+    \textbf{symbol} & \textbf{description}               \\
+    \midrule
+    SRS             & Software Requirement Specification \\
+    VnV             & Verification and Validation        \\
+    MIS             & Module Interface Specification     \\
+    IPCS            & Inverted Pendulum Control Systems  \\
+    TC              & Test Case                          \\
+    \bottomrule
   \end{tabular}\\
   \label{table_abb}
 \end{table}
@@ -111,14 +114,14 @@ abbreviations and acronyms used in this document.
 
 \pagenumbering{arabic}
 
-This document outlines the framework for Verification and Validation (VnV), 
-delineating the objectives, scope, and methodologies for confirming 
-the correctness and suitability of the software solution. Verification entails 
-scrutinizing whether the software aligns with predetermined requirements and 
-design parameters, whereas validation ensures it meets user expectations and 
-demands effectively. Through this VnV framework, the team can uphold the integrity, 
-dependability, and utility of the software, while also identifying and 
-rectifying any flaws or discrepancies before deployment or release. 
+This document outlines the framework for Verification and Validation (VnV),
+delineating the objectives, scope, and methodologies for confirming
+the correctness and suitability of the software solution. Verification entails
+scrutinizing whether the software aligns with predetermined requirements and
+design parameters, whereas validation ensures it meets user expectations and
+demands effectively. Through this VnV framework, the team can uphold the integrity,
+dependability, and utility of the software, while also identifying and
+rectifying any flaws or discrepancies before deployment or release.
 \wss{provide an introductory blurb and roadmap of the
   Verification and Validation plan}
 
@@ -127,11 +130,11 @@ This section will provide the background and objectives for this document.
 
 \subsection{Summary}
 
-This document presents a verification and validation plan for \progname{}, 
+This document presents a verification and validation plan for \progname{},
 which aims to simulate, control, and visualize an inverted pendulum on a cart.
 For complete information about the software, please refer to the
 \href{https://github.com/mirzaim/ipcs/blob/main/docs/SRS/SRS.pdf}{Software
-Requirement Specification} document.
+  Requirement Specification} document.
 
 \wss{Say what software is being tested.  Give its name and a brief overview of
   its general functions.}
@@ -141,13 +144,13 @@ Requirement Specification} document.
 The objectives outlined in this Verification and Validation plan are as follows:
 
 \begin{itemize}
-    \item Verify the software's capability to precisely simulate an 
-          inverted pendulum.
-    \item Verify the proper functioning of the control system to sustain
-          the pendulum in an upright position.
-    \item Confirm the correctness of the visualization.
-    \item Confirm the userfriendliness and ease of understanding of the 
-          visualization.
+  \item Verify the software's capability to precisely simulate an
+        inverted pendulum.
+  \item Verify the proper functioning of the control system to sustain
+        the pendulum in an upright position.
+  \item Confirm the correctness of the visualization.
+  \item Confirm the userfriendliness and ease of understanding of the
+        visualization.
 \end{itemize}
 
 Performance testing and stress testing are outside of the scope of this project.
@@ -158,28 +161,28 @@ Performance testing and stress testing are outside of the scope of this project.
   ``demonstrate adequate usability.'' etc.  You won't list all of the qualities,
   just those that are most important.}
 
-\wss{You should also list the objectives that are out of scope.  You don't have 
-the resources to do everything, so what will you be leaving out.  For instance, 
-if you are not going to verify the quality of usability, state this.  It is also 
-worthwhile to justify why the objectives are left out.}
+\wss{You should also list the objectives that are out of scope.  You don't have
+  the resources to do everything, so what will you be leaving out.  For instance,
+  if you are not going to verify the quality of usability, state this.  It is also
+  worthwhile to justify why the objectives are left out.}
 
-\wss{The objectives are important because they highlight that you are aware of 
-limitations in your resources for verification and validation.  You can't do everything, 
-so what are you going to prioritize?  As an example, if your system depends on an 
-external library, you can explicitly state that you will assume that external library 
-has already been verified by its implementation team.}
+\wss{The objectives are important because they highlight that you are aware of
+  limitations in your resources for verification and validation.  You can't do everything,
+  so what are you going to prioritize?  As an example, if your system depends on an
+  external library, you can explicitly state that you will assume that external library
+  has already been verified by its implementation team.}
 
 \subsection{Relevant Documentation}
 
-Refer to the 
-\href{https://github.com/mirzaim/ipcs/blob/main/docs/SRS/SRS.pdf}{Software 
-Requirements Specification} for comprehensive information regarding 
-the objectives, requirements, assumptions, and underlying 
+Refer to the
+\href{https://github.com/mirzaim/ipcs/blob/main/docs/SRS/SRS.pdf}{Software
+  Requirements Specification} for comprehensive information regarding
+the objectives, requirements, assumptions, and underlying
 principles of the software. You could also refer to the
-\href{https://github.com/mirzaim/ipcs/blob/main/docs/Design/SoftArchitecture/MG.pdf}{Module Guide} and 
+\href{https://github.com/mirzaim/ipcs/blob/main/docs/Design/SoftArchitecture/MG.pdf}{Module Guide} and
 \href{https://github.com/mirzaim/ipcs/blob/main/docs/Design/SoftDetailedDes/MIS.pdf}{Module Interface Specification}
 for detailed information on the software's design and architecture.
-The final report of running the test which described in this document, 
+The final report of running the test which described in this document,
 will be shown in \href{https://github.com/mirzaim/ipcs/blob/main/docs/VnVReport/VnVReport.pdf}{VnV Report}.
 
 \wss{Reference relevant documentation.  This will definitely include your SRS
@@ -189,14 +192,14 @@ will be shown in \href{https://github.com/mirzaim/ipcs/blob/main/docs/VnVReport/
 
 % \citet{SRS}
 
-\wss{Don't just list the other documents.  You should explain why they are relevant and 
-how they relate to your VnV efforts.}
+\wss{Don't just list the other documents.  You should explain why they are relevant and
+  how they relate to your VnV efforts.}
 
 \section{Plan}
 
-This section will outline the strategy for validating the documentation 
-and software for \progname{}. The main components to be validated 
-include the Software Requirements Specification (SRS), design, 
+This section will outline the strategy for validating the documentation
+and software for \progname{}. The main components to be validated
+include the Software Requirements Specification (SRS), design,
 Verification and Validation (VnV) plan, and implementation.
 
 
@@ -211,21 +214,21 @@ The team members and their responsibilities are specified in \hyperref[team]{Tab
   \caption{Verification and Validation Team} \label{team}
   \vspace*{3mm}
   \begin{tabular}{|p{0.27\textwidth}|p{0.18\textwidth}|p{0.30\textwidth}|p{0.25\textwidth}|}
-  \hline
-  \textbf{Name} & \textbf{Document} & \textbf{Role} & \textbf{Description} \\
-  \hline
-  Morteza Mirzaei & All & Author & Create and manage all the documents, create the VnV plan, perform the VnV testing, verify the implementation. \\  
-  \hline
-  Dr. Spencer Smith & All & Instructor/Reviewer & Review the documents, design and documentation style. \\ 
-  \hline
-  Seyed Ali Mousavi & All & Domain Expert Reviewer & Review all the documents. \\  
-  \hline
-  Al Jubair Hossain & SRS & Secondary Reviewer & Review the SRS document \\
-  \hline
-  Hunter Ceranic & VnV Plan & Secondary Reviewer & Review the VnV plan. \\ 
-  \hline 
-  Adrian Sochaniwsky & MG + MIS & Secondary Reviewer & Review the MG and MIS document. \\
-  \hline 
+    \hline
+    \textbf{Name}      & \textbf{Document} & \textbf{Role}          & \textbf{Description}                                                                                          \\
+    \hline
+    Morteza Mirzaei    & All               & Author                 & Create and manage all the documents, create the VnV plan, perform the VnV testing, verify the implementation. \\
+    \hline
+    Dr. Spencer Smith  & All               & Instructor/Reviewer    & Review the documents, design and documentation style.                                                         \\
+    \hline
+    Seyed Ali Mousavi  & All               & Domain Expert Reviewer & Review all the documents.                                                                                     \\
+    \hline
+    Al Jubair Hossain  & SRS               & Secondary Reviewer     & Review the SRS document                                                                                       \\
+    \hline
+    Hunter Ceranic     & VnV Plan          & Secondary Reviewer     & Review the VnV plan.                                                                                          \\
+    \hline
+    Adrian Sochaniwsky & MG + MIS          & Secondary Reviewer     & Review the MG and MIS document.                                                                               \\
+    \hline
   \end{tabular}
 \end{table}
 
@@ -240,37 +243,37 @@ The team members and their responsibilities are specified in \hyperref[team]{Tab
 The SRS document will be verified in the following way:
 
 \begin{enumerate}
-\item Initial review will be performed by the assigned members
-      (Dr. Spencer Smith, Seyed Ali Mousavi, and Al Jubair Hossain).
-      For this, a manual review will be conducted using the provided 
-      \href{https://github.com/mirzaim/ipcs/blob/main/docs/Checklists/SRS-Checklist.pdf}{SRS Checklist} 
-      and following additional checklist gather from 
-      \href{https://www.cs.toronto.edu/~sme/CSC340F/2005/assignments/inspections/reqts_checklist.pdf}{here}.
-      \begin{itemize}\renewcommand{\labelitemi}{\scriptsize$\square$}
-        \item Are all requirements actually requirements, not design or implementation solutions?
-        \item Is each requirement uniquely and correctly identified?
-        \item Is each requirement verifiable by testing, demonstration, review, or analysis?
-        \item Do any requirements conflict with or duplicate other requirements?
-        \item Is each requirement in scope for the project?
-        \item Are all requirements written at a consistent and appropriate level of detail?
-        \item Do the requirements provide an adequate basis for design?
-      \end{itemize}
-\item The reviewers will provide feedback to the author by creating an issue on GitHub,
-      referencing the checklist mentioned above.
-\item Morteza Mirzaei, the author, is responsible for addressing the issues.
+  \item Initial review will be performed by the assigned members
+        (Dr. Spencer Smith, Seyed Ali Mousavi, and Al Jubair Hossain).
+        For this, a manual review will be conducted using the provided
+        \href{https://github.com/mirzaim/ipcs/blob/main/docs/Checklists/SRS-Checklist.pdf}{SRS Checklist}
+        and following additional checklist gather from
+        \href{https://www.cs.toronto.edu/~sme/CSC340F/2005/assignments/inspections/reqts_checklist.pdf}{here}.
+        \begin{itemize}\renewcommand{\labelitemi}{\scriptsize$\square$}
+          \item Are all requirements actually requirements, not design or implementation solutions?
+          \item Is each requirement uniquely and correctly identified?
+          \item Is each requirement verifiable by testing, demonstration, review, or analysis?
+          \item Do any requirements conflict with or duplicate other requirements?
+          \item Is each requirement in scope for the project?
+          \item Are all requirements written at a consistent and appropriate level of detail?
+          \item Do the requirements provide an adequate basis for design?
+        \end{itemize}
+  \item The reviewers will provide feedback to the author by creating an issue on GitHub,
+        referencing the checklist mentioned above.
+  \item Morteza Mirzaei, the author, is responsible for addressing the issues.
 \end{enumerate}
 
 
 \wss{List any approaches you intend to use for SRS verification.  This may include
-  ad hoc feedback from reviewers, like your classmates, or you may plan for 
+  ad hoc feedback from reviewers, like your classmates, or you may plan for
   something more rigorous/systematic.}
 
 \wss{Maybe create an SRS checklist?}
 
 \subsection{Design Verification Plan} \label{sebsec_design_verification_plan}
 
-Initial review will be performed by the assigned members 
-(Dr. Spencer Smith, Seyed Ali Mousavi, and Adrian Sochaniwsky). 
+Initial review will be performed by the assigned members
+(Dr. Spencer Smith, Seyed Ali Mousavi, and Adrian Sochaniwsky).
 For this, a manual review will be conducted using the following checklist.
 
 \begin{itemize}\renewcommand{\labelitemi}{\scriptsize$\square$}
@@ -288,33 +291,33 @@ For this, a manual review will be conducted using the following checklist.
 \wss{Create a checklists?}
 
 \subsection{Verification and Validation Plan Verification Plan}
-The designated members (Dr. Spencer Smith, Seyed Ali Mousavi, and Hunter Ceranic) 
-will conduct the initial review. This review will entail 
+The designated members (Dr. Spencer Smith, Seyed Ali Mousavi, and Hunter Ceranic)
+will conduct the initial review. This review will entail
 a manual assessment utilizing the following checklist.
 
 \begin{itemize}\renewcommand{\labelitemi}{\scriptsize$\square$}
-  \item Does the VnV plan verify all the functional and 
+  \item Does the VnV plan verify all the functional and
         non-functional requirements?
   \item Are all input and output pairs for test cases correct?
-  \item Are roles and responsibilities clearly defined for individuals 
+  \item Are roles and responsibilities clearly defined for individuals
         or teams involved in verification and validation activities?
 \end{itemize}
 
 \wss{The verification and validation plan is an artifact that should also be
-verified.  Techniques for this include review and mutation testing.}
+  verified.  Techniques for this include review and mutation testing.}
 
 \wss{The review will include reviews by your classmates}
 
 \wss{Create a checklists?}
 
 \subsection{Implementation Verification Plan}
-\progname{} will be developed using Python programming language. 
-For static testing, we will use \href{https://flake8.pycqa.org/}{Flake8}. 
-Additionally, we conduct code 
-walkthroughs with domain expert (Ali Mousavi). For dynamic testing, 
-we employ system and unit level testing, as explained 
-in detail in sections 
-\hyperref[system_test]{Section \ref*{system_test}} 
+\progname{} will be developed using Python programming language.
+For static testing, we will use \href{https://flake8.pycqa.org/}{Flake8}.
+Additionally, we conduct code
+walkthroughs with domain expert (Ali Mousavi). For dynamic testing,
+we employ system and unit level testing, as explained
+in detail in sections
+\hyperref[system_test]{Section \ref*{system_test}}
 and \hyperref[unit_test]{Section \ref*{unit_test}}.
 
 \wss{You should at least point to the tests listed in this document and the unit
@@ -327,20 +330,20 @@ and \hyperref[unit_test]{Section \ref*{unit_test}}.
 \subsection{Automated Testing and Verification Tools}
 
 \begin{itemize}
-  \item \href{https://docs.pytest.org/}{Pytest}: A unit testing framework for Python that allows 
+  \item \href{https://docs.pytest.org/}{Pytest}: A unit testing framework for Python that allows
         for easy and scalable testing of Python code.
-  \item \href{https://flake8.pycqa.org/}{Flake8}: A static code analysis tool for 
-        Python that checks code against coding style (PEP 8), detects syntax errors (missing indent error), 
+  \item \href{https://flake8.pycqa.org/}{Flake8}: A static code analysis tool for
+        Python that checks code against coding style (PEP 8), detects syntax errors (missing indent error),
         or problematic constructs (cyclomatic complexity).
-  \item \href{https://www.docker.com/}{Docker}: A mechanism used to containerize applications, 
+  \item \href{https://www.docker.com/}{Docker}: A mechanism used to containerize applications,
         ensuring their installability and understandability throughout the project.
-  \item \href{https://github.com/}{GitHub}: This platform will be used for 
+  \item \href{https://github.com/}{GitHub}: This platform will be used for
         version control and collaboration.
-  \item \href{https://docs.github.com/en/actions}{GitHub CI workflow}: This will 
-        automate regression tests and checks that \progname{} builds are passing before 
-        code is merged into a protected branch. Every push or pull request on the 
-        main branch triggers the test. Additionally, after every update of 
-        the main branch, the CI workflow publishes the new version of 
+  \item \href{https://docs.github.com/en/actions}{GitHub CI workflow}: This will
+        automate regression tests and checks that \progname{} builds are passing before
+        code is merged into a protected branch. Every push or pull request on the
+        main branch triggers the test. Additionally, after every update of
+        the main branch, the CI workflow publishes the new version of
         the Docker container to \href{https://hub.docker.com/}{Docker Hub}.
 
 \end{itemize}
@@ -356,7 +359,7 @@ and \hyperref[unit_test]{Section \ref*{unit_test}}.
   Python.}
 
 \wss{If you have already done this in the development plan, you can point to
-that document.}
+  that document.}
 
 \wss{The details of this section will likely evolve as you get closer to the
   implementation.}
@@ -365,7 +368,7 @@ that document.}
 
 No plan for software validation is currently in place.
 Software validation plan is beyond the scope for \progname{}
-as we do not have enough experimental data 
+as we do not have enough experimental data
 for the validation of the system behavior.
 
 \wss{If there is any external data that can be used for validation, you should
@@ -373,29 +376,29 @@ for the validation of the system behavior.
   here.}
 
 \wss{You might want to use review sessions with the stakeholder to check that
-the requirements document captures the right requirements.  Maybe task based
-inspection?}
+  the requirements document captures the right requirements.  Maybe task based
+  inspection?}
 
-\wss{For those capstone teams with an external supervisor, the Rev 0 demo should 
-be used as an opportunity to validate the requirements.  You should plan on 
-demonstrating your project to your supervisor shortly after the scheduled Rev 0 demo.  
-The feedback from your supervisor will be very useful for improving your project.}
+\wss{For those capstone teams with an external supervisor, the Rev 0 demo should
+  be used as an opportunity to validate the requirements.  You should plan on
+  demonstrating your project to your supervisor shortly after the scheduled Rev 0 demo.
+  The feedback from your supervisor will be very useful for improving your project.}
 
-\wss{For teams without an external supervisor, user testing can serve the same purpose 
-as a Rev 0 demo for the supervisor.}
+\wss{For teams without an external supervisor, user testing can serve the same purpose
+  as a Rev 0 demo for the supervisor.}
 
 \wss{This section might reference back to the SRS verification section.}
 
 \section{System Test Description} \label{system_test}
 
-This section will define the tests to ensure IP Simulator meets 
-the functional requirements seen in section 5 of the SRS document 
-for simulating inverted pendulum system. The subsections combine 
+This section will define the tests to ensure IP Simulator meets
+the functional requirements seen in section 5 of the SRS document
+for simulating inverted pendulum system. The subsections combine
 several requirements that are separated based on common ideas.
-	
+
 \subsection{Tests for Functional Requirements}
 
-This section contains the system test cases for the functional 
+This section contains the system test cases for the functional
 requirements which are described in the SRS.
 
 \wss{Subsets of the tests may be in related, so this section is divided into
@@ -409,7 +412,7 @@ requirements which are described in the SRS.
 
 This part verifies the input and output restrictions outlined in R1 for \progname{}.
 To review these constraints, refer to the ``Input Data Constraints" section in the SRS.
-Tests are designed for both normal cases and edge and boundary cases, as outlined 
+Tests are designed for both normal cases and edge and boundary cases, as outlined
 in \hyperref[table:input_constraints]{Table \ref*{table:input_constraints}}.
 
 \wss{It would be nice to have a blurb here to explain why the subsections below
@@ -418,73 +421,88 @@ in \hyperref[table:input_constraints]{Table \ref*{table:input_constraints}}.
   table in the SRS.}
 
 \begin{table}[ht]
-\centering
-\caption{Input validation test cases} \label{table:input_constraints}
-\vspace*{2mm}
- \begin{tabular}{|c c c c c c|c|c|} 
- \hline
- \multicolumn{6}{|c|}{Input}                     & \multicolumn{2}{c|}{Output}            \\ \hline 
-  $F$ & $x$ & $\theta$         & $m$ & $M$ & $l$ & Valid  &  Description                  \\ \hline
-  4   & 0   & $\pi$            & 16  & 80  &  1  & Yes    &  -                            \\ \hline
-  10  & 4   & $\frac{3\pi}{4}$ & 4   & 200 &  20 & No     &  $M$ is bigger than $M_{max}$ \\ \hline
-  20  & 0   & $\pi$            & 6   & 20  &  30 & No     &  $l$ is bigger than $l_{max}$ \\ \hline
-  -3  & -5  & $\pi$            & -5  & 30  &  5  & No     &  negetive value for $m$       \\ \hline
-\end{tabular}
-\end{table}  
+  \centering
+  \caption{Input validation test cases} \label{table:input_constraints}
+  \vspace*{2mm}
+  \begin{tabular}{|c c c c c c|c|c|}
+    \hline
+    \multicolumn{6}{|c|}{Input} & \multicolumn{2}{c|}{Output}                                                                         \\ \hline
+    $F$                         & $x$                         & $\theta$ & $m$   & $M$   & $l$   & Valid & Description                \\ \hline
+    0                           & 0                           & $\pi$    & 16    & 80    & 1     & Yes   & -                          \\ \hline
+    `abc'                       & 0                           & $\pi$    & 16    & 80    & 1     & No    & invalid input for $F$      \\ \hline
+    0                           & `abc'                       & $\pi$    & 16    & 80    & 1     & No    & invalid input for $x$      \\ \hline
+    0                           & 0                           & `abc'    & 16    & 80    & 1     & No    & invalid input for $\theta$ \\ \hline
+    0                           & 0                           & $\pi$    & `abc' & 80    & 1     & No    & invalid input for $m$      \\ \hline
+    0                           & 0                           & $\pi$    & 16    & `abc' & 1     & No    & invalid input for $M$      \\ \hline
+    0                           & 0                           & $\pi$    & 16    & 80    & `abc' & No    & invalid input for $l$      \\ \hline
+    0                           & 0                           & $\pi$    & -16   & 80    & 1     & No    & negative input for $m$     \\ \hline
+    0                           & 0                           & $\pi$    & 16    & -80   & 1     & No    & negative input for $M$     \\ \hline
+    0                           & 0                           & $\pi$    & 16    & 80    & -1    & No    & negative input for $l$     \\ \hline
+    0                           & 0                           & $\pi$    & 100   & 80    & 1     & No    & exceed max value for $m$   \\ \hline
+    0                           & 0                           & $\pi$    & 16    & 100   & 1     & No    & exceed max value for $M$   \\ \hline
+    0                           & 0                           & $\pi$    & 16    & 80    & 50    & No    & exceed max value for $l$   \\ \hline
+  \end{tabular}
+\end{table}
 
 \paragraph{Inputs and Outputs test}
 
 \begin{enumerate}
 
-\item{test-inout-1\\}
+  \item{test-inout-1\\}
 
-Control: Automatic
-					
-Initial State: N/A.
-					
-Input: Specified in the \hyperref[table:input_constraints]{Table \ref*{table:input_constraints}}.
-					
-Output: Specified in the \hyperref[table:input_constraints]{Table \ref*{table:input_constraints}}.
-% \wss{The expected result for the given inputs}
+        Control: Automatic
 
-Test Case Derivation: Directly from the requirement.
-% \wss{Justify the expected value given in the Output field}
-					
-How test will be performed: 
-Automatic test using Pytest.
+        Initial State: N/A.
+
+        Input: Specified in the \hyperref[table:input_constraints]{Table \ref*{table:input_constraints}}.
+
+        Output: Specified in the \hyperref[table:input_constraints]{Table \ref*{table:input_constraints}}.
+        % \wss{The expected result for the given inputs}
+
+        Test Case Derivation: Directly from the requirement.
+        % \wss{Justify the expected value given in the Output field}
+
+        How test will be performed:
+        Automatic test using Pytest.
 
 \end{enumerate}
 
 \subsubsection{Simulator} \label{func_test_simulator}
 
-This part tests the world simulator responsible for executing 
-the inverted pendulum physics. It assesses the requirements 
-R2 and R3 for \progname{}. Essentially, it verifies that given the initial 
-position of the pendulum and a constant force acting on the cart, 
+This part tests the world simulator responsible for executing
+the inverted pendulum physics. It assesses the requirements
+R2 and R3 for \progname{}. Essentially, it verifies that given the initial
+position of the pendulum and a constant force acting on the cart,
 the location of the pendulum is determined after a specified duration of time.
-Tests are designed for both normal cases and edge and boundary cases, as outlined 
+Tests are designed for both normal cases and edge and boundary cases, as outlined
 in \hyperref[table:input_output]{Table \ref*{table:input_output}}.
-We simply compare the results of the two methods at the end of the interval. 
-This approach makes documenting the results easier and enhances the clarity 
-of understanding the error. Additionally, since the error accumulates over time, 
+We simply compare the results of the two methods at the end of the interval.
+This approach makes documenting the results easier and enhances the clarity
+of understanding the error. Additionally, since the error accumulates over time,
 we do not sacrifice much accuracy by adopting this method.
 
 \begin{table}[ht]
-\centering
-\caption{
-  Output Validation Test Cases. The time step ($dt$) is 0.1 seconds.
-  The results are calculated after 5 seconds.
-} \label{table:input_output}
-\vspace*{2mm}
- \begin{tabular}{|c c c c c c|c c|} 
- \hline
- \multicolumn{6}{|c|}{Input} & \multicolumn{2}{c|}{Output}\\ \hline 
-  $F$ & $x$ & $\theta$         & $m$ & $M$ & $l$ & $x$    & $\theta$ \\ \hline
-  4   & 0   & $\pi$            & 16  & 80  &  1  & 0.535  & 4.597    \\ \hline
-  10  & 4   & $\frac{3\pi}{4}$ & 4   & 50  &  20 & 6.368  & 4.005    \\ \hline
-  20  & 0   & $\pi$            & 6   & 20  &  4  & 9.897  & 3.869    \\ \hline
-  -3  & -5  & $\pi$            & 4   & 30  &  5  & -6.130 & 4.782    \\ \hline
-\end{tabular}
+  \centering
+  \caption{
+    Output Validation Test Cases. The time step ($dt$) is 0.1 seconds.
+    The results are calculated after 5 seconds.
+  } \label{table:input_output}
+  \vspace*{2mm}
+  \begin{tabular}{|c c c c c c|c c|}
+    \hline
+    \multicolumn{6}{|c|}{Input} & \multicolumn{2}{c|}{Output}                                                   \\ \hline
+    $F$                         & $x$                         & $\theta$ & $m$  & $M$  & $l$  & $x$  & $\theta$ \\ \hline
+    0.0                         & 0.0                         & -90.0    & 16.0 & 80.0 & 1.0  & 5.0  & 0.25     \\ \hline
+    0.0                         & -5.0                        & -90.0    & 16.0 & 80.0 & 1.0  & 5.0  & -4.75    \\ \hline
+    0.0                         & +5.0                        & -90.0    & 16.0 & 80.0 & 1.0  & 5.0  & 5.25     \\ \hline
+    0.0                         & 0.0                         & 0.0      & 16.0 & 80.0 & 1.0  & 6.0  & 0.08     \\ \hline
+    0.0                         & 0.0                         & -45.0    & 16.0 & 80.0 & 1.0  & 2.5  & -0.3     \\ \hline
+    0.0                         & 0.0                         & -90.0    & 30.0 & 80.0 & 1.0  & 1.5  & 0.8      \\ \hline
+    0.0                         & 0.0                         & -90.0    & 16.0 & 50.0 & 1.0  & 1.45 & 1.3      \\ \hline
+    0.0                         & 0.0                         & -90.0    & 16.0 & 80.0 & 20.0 & 5.0  & 0.25     \\ \hline
+    +5.0                        & 0.0                         & -90.0    & 16.0 & 80.0 & 1.0  & 2.7  & 0.65     \\ \hline
+    -5.0                        & 0.0                         & -90.0    & 16.0 & 80.0 & 1.0  & 5.5  & 0.0      \\ \hline
+  \end{tabular}
 
 \end{table}
 
@@ -492,162 +510,162 @@ we do not sacrifice much accuracy by adopting this method.
   cover the requirements.  References to the SRS would be good here.  If a section
   covers tests for input constraints, you should reference the data constraints
   table in the SRS.}
-		
+
 \paragraph{Simulator}
 
 \begin{enumerate}
 
-\item{test-sim-1\\}
+  \item{test-sim-1\\}
 
-Control: Automatic
-					
-Initial State: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
-					
-Input: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
-					
-Output: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
-% \wss{The expected result for the given inputs}
+        Control: Automatic
 
-Test Case Derivation: Solving the ODEs provided in the SRS with numerical analysis tool,
-\href{https://scipy.org/}{SciPy}.
-% \wss{Justify the expected value given in the Output field}
-					
-How test will be performed: 
-Automatic test using Pytest.
+        Initial State: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
+
+        Input: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
+
+        Output: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
+        % \wss{The expected result for the given inputs}
+
+        Test Case Derivation: Solving the ODEs provided in the SRS with numerical analysis tool,
+        \href{https://scipy.org/}{SciPy}.
+        % \wss{Justify the expected value given in the Output field}
+
+        How test will be performed:
+        Automatic test using Pytest.
 
 \end{enumerate}
 
 \subsubsection{Control System}
 
-This part tests the control system responsible for keeping 
-the inverted pendulum upright. It assesses the requirements 
-(R4) for \progname{}. Essentially, it verifies that after a 
-reasonable amount of time, the pendulum's angular position 
+This part tests the control system responsible for keeping
+the inverted pendulum upright. It assesses the requirements
+(R4) for \progname{}. Essentially, it verifies that after a
+reasonable amount of time, the pendulum's angular position
 remains relatively stable in an upward position.
 
 \wss{It would be nice to have a blurb here to explain why the subsections below
   cover the requirements.  References to the SRS would be good here.  If a section
   covers tests for input constraints, you should reference the data constraints
   table in the SRS.}
-		
+
 \paragraph{Control System}
 
 \begin{enumerate}
 
-\item{test-control-1\\}
+  \item{test-control-1\\}
 
-Control: Automatic
-					
-Initial State: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
-					
-Input: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
-					
-Output: $\theta$ should be between $-\frac{\pi}{6}$ and $\frac{\pi}{6}$ after 30 seconds.
-% \wss{The expected result for the given inputs}
+        Control: Automatic
 
-Test Case Derivation: Directly from the requirement.
-% \wss{Justify the expected value given in the Output field}
-					
-How test will be performed: 
-Automatic test using Pytest.
+        Initial State: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
+
+        Input: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
+
+        Output: $\theta$ should be between $-\frac{\pi}{6}$ and $\frac{\pi}{6}$ after 30 seconds.
+        % \wss{The expected result for the given inputs}
+
+        Test Case Derivation: Directly from the requirement.
+        % \wss{Justify the expected value given in the Output field}
+
+        How test will be performed:
+        Automatic test using Pytest.
 
 \end{enumerate}
 
 \subsubsection{Visualization} \label{func_test_visualization}
 
-This part verifies Requirement 5 (R5), ensuring that the visualization 
+This part verifies Requirement 5 (R5), ensuring that the visualization
 and graphical user interface (GUI) of the software meet the necessary standards.
 
 \begin{table}[ht]
-\centering
-\caption{Input test cases} \label{table:input_vis}
-\vspace*{2mm}
- \begin{tabular}{|c|c|} 
- \hline
- \multicolumn{2}{|c|}{Input}   \\ \hline 
-  $x$ & $\theta$               \\ \hline
-  0   & 0                      \\ \hline
-  0   & $\pi$                  \\ \hline
-  -5  & $\pi$                  \\ \hline
-  -5  & $\frac{\pi}{2}$        \\ \hline
-\end{tabular}
-\end{table}  
+  \centering
+  \caption{Input test cases} \label{table:input_vis}
+  \vspace*{2mm}
+  \begin{tabular}{|c|c|}
+    \hline
+    \multicolumn{2}{|c|}{Input} \\ \hline
+    $x$ & $\theta$              \\ \hline
+    0   & 0                     \\ \hline
+    0   & $\pi$                 \\ \hline
+    -5  & $\pi$                 \\ \hline
+    -5  & $\frac{\pi}{2}$       \\ \hline
+  \end{tabular}
+\end{table}
 
 \wss{It would be nice to have a blurb here to explain why the subsections below
   cover the requirements.  References to the SRS would be good here.  If a section
   covers tests for input constraints, you should reference the data constraints
   table in the SRS.}
-		
+
 \paragraph{Visualization}
 
 \begin{enumerate}
 
-\item{test-vis-1\\}
+  \item{test-vis-1\\}
 
-Control: Manual
-					
-Initial State: Specified in the \hyperref[table:input_vis]{Table \ref*{table:input_vis}}.
-					
-Input: Specified in the \hyperref[table:input_vis]{Table \ref*{table:input_vis}}.
-					
-Output: Visualization of the pendulum at different states.
-% \wss{The expected result for the given inputs}
+        Control: Manual
 
-Test Case Derivation: Directly from the requirement.
-% \wss{Justify the expected value given in the Output field}
-					
-How test will be performed: First, Capture screenshots of the visualization 
-at different states of the pendulum. Then, compare each screenshot with
-the expected state of the pendulum.
+        Initial State: Specified in the \hyperref[table:input_vis]{Table \ref*{table:input_vis}}.
 
-\item{test-vis-2\\}
+        Input: Specified in the \hyperref[table:input_vis]{Table \ref*{table:input_vis}}.
 
-Type: Manual
-% \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-%   be automatic}
-					
-Initial State: N/A
+        Output: Visualization of the pendulum at different states.
+        % \wss{The expected result for the given inputs}
+
+        Test Case Derivation: Directly from the requirement.
+        % \wss{Justify the expected value given in the Output field}
+
+        How test will be performed: First, Capture screenshots of the visualization
+        at different states of the pendulum. Then, compare each screenshot with
+        the expected state of the pendulum.
+
+  \item{test-vis-2\\}
+
+        Type: Manual
+        % \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+        %   be automatic}
+
+        Initial State: N/A
 
 
-Input: Default initial values for the pendulum and cart.
-					
-Output: Video of visualization of the pendulum at different states.
-% \wss{The expected result for the given inputs}
+        Input: Default initial values for the pendulum and cart.
 
-Test Case Derivation: Directly from the requirement.
+        Output: Video of visualization of the pendulum at different states.
+        % \wss{The expected result for the given inputs}
 
-How test will be performed: After playing around with the visualization, 
-users will be asked to fill out the following survey.
+        Test Case Derivation: Directly from the requirement.
 
-\begin{itemize}\renewcommand{\labelitemi}{\scriptsize$\square$}
-  \item On a scale of 1 to 5, how clear is the visualization to you?
-  \item On a scale of 1 to 5, how clear is the location of the cart to you?
-  \item On a scale of 1 to 5, how clear is the angular position of the pendulum to you?
-  % \item Could you get a sense of acceleration and velocity of the pendulum and cart?
-  \item On a scale of 1 to 5, how smooth is the visualization to you? \\
-        (If it's under 30 frames per second, human eyes can detect the lag.)
-\end{itemize}
-At the end of the survey, the average score for each question will be calculated.
-It should be more than 3 for the visualization to be considered user-friendly.
-At least one experts will be asked to fill out the survey.
+        How test will be performed: After playing around with the visualization,
+        users will be asked to fill out the following survey.
 
-% \item{test-vis-3\\}
+        \begin{itemize}\renewcommand{\labelitemi}{\scriptsize$\square$}
+          \item On a scale of 1 to 5, how clear is the visualization to you?
+          \item On a scale of 1 to 5, how clear is the location of the cart to you?
+          \item On a scale of 1 to 5, how clear is the angular position of the pendulum to you?
+                % \item Could you get a sense of acceleration and velocity of the pendulum and cart?
+          \item On a scale of 1 to 5, how smooth is the visualization to you? \\
+                (If it's under 30 frames per second, human eyes can detect the lag.)
+        \end{itemize}
+        At the end of the survey, the average score for each question will be calculated.
+        It should be more than 3 for the visualization to be considered user-friendly.
+        At least one experts will be asked to fill out the survey.
 
-% Type: Automatic
-% % \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-% %   be automatic}
-					
-% Initial State: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
-					
-% Input: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
-					
-% Output: The frame rate of the visualization should be at least 30 frames per second.
-% % \wss{The expected result for the given inputs}
+        % \item{test-vis-3\\}
 
-% Test Case Derivation: Directly from the requirement.
+        % Type: Automatic
+        % % \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+        % %   be automatic}
 
-% How test will be performed: Run the program and measure the frame rate of 
-% the visualization at every time step.
+        % Initial State: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
+
+        % Input: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
+
+        % Output: The frame rate of the visualization should be at least 30 frames per second.
+        % % \wss{The expected result for the given inputs}
+
+        % Test Case Derivation: Directly from the requirement.
+
+        % How test will be performed: Run the program and measure the frame rate of 
+        % the visualization at every time step.
 
 \end{enumerate}
 
@@ -657,7 +675,7 @@ At least one experts will be asked to fill out the survey.
 %   cover the requirements.  References to the SRS would be good here.  If a section
 %   covers tests for input constraints, you should reference the data constraints
 %   table in the SRS.}
-		
+
 % \paragraph{Title for Test}
 
 % \begin{enumerate}
@@ -665,25 +683,25 @@ At least one experts will be asked to fill out the survey.
 % \item{test-id1\\}
 
 % Control: Manual versus Automatic
-					
+
 % Initial State: 
-					
+
 % Input: 
-					
+
 % Output: \wss{The expected result for the given inputs}
 
 % Test Case Derivation: \wss{Justify the expected value given in the Output field}
-					
+
 % How test will be performed: 
-					
+
 % \item{test-id2\\}
 
 % Control: Manual versus Automatic
-					
+
 % Initial State: 
-					
+
 % Input: 
-					
+
 % Output: \wss{The expected result for the given inputs}
 
 % Test Case Derivation: \wss{Justify the expected value given in the Output field}
@@ -707,27 +725,27 @@ At least one experts will be asked to fill out the survey.
   survey.  The survey will be in the Appendix.}
 
 \wss{Static tests, review, inspections, and walkthroughs, will not follow the
-format for the tests given below.}
+  format for the tests given below.}
 
 \subsubsection{Accuracy}
-		
+
 \paragraph{Accuracy}
 
 \begin{enumerate}
 
-\item{test-acc-1\\}
+  \item{test-acc-1\\}
 
-Type: Automatic
+        Type: Automatic
 
-Initial State: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
+        Initial State: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
 
-Input: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
+        Input: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
 
-Output: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
+        Output: Specified in the \hyperref[table:input_output]{Table \ref*{table:input_output}}.
 
-How test will be performed:
-Automatic test using Pytest.
-The relative error between software simulation and specified values should be less than 1\%.
+        How test will be performed:
+        Automatic test using Pytest.
+        The relative error between software simulation and specified values should be less than $5\%$.
 \end{enumerate}
 
 \subsubsection{Usability}
@@ -736,35 +754,35 @@ The relative error between software simulation and specified values should be le
 
 \begin{enumerate}
 
-\item{test-useable-1\\}
+  \item{test-useable-1\\}
 
-Type: Manual with group of people
-					
-Initial State: None 
-					
-Input: None 
-					
-Output: Survey can help to know about the user perspective towards the system. 
+        Type: Manual with group of people
 
-How test will be performed: The domain expert will be asked to fill out the survey
-specified in \autoref{tab:useable}. This test will be done after the implementation 
-of the software. More than 3 questions should be answered with yes to pass the test.
+        Initial State: None
 
-\begin{table}[!h]
-  \centering
-  \caption{Usability test survey.}
-  \label{tab:useable}
-  \begin{tabular}{ p{0.5cm}|p{10cm} }
-    \hline
-    No. &  Question                                             \\
-    \hline
-    1. & Could you run the software on your operating system?   \\
-    2. & Is system running smoothly on your computer?           \\
-    3. & Is invalid input's message clear?                      \\
-    4. & Is text easy to read?                                  \\
-    \hline
-    \end{tabular}
-\end{table}
+        Input: None
+
+        Output: Survey can help to know about the user perspective towards the system.
+
+        How test will be performed: The domain expert will be asked to fill out the survey
+        specified in \autoref{tab:useable}. This test will be done after the implementation
+        of the software. More than 3 questions should be answered with yes to pass the test.
+
+        \begin{table}[!h]
+          \centering
+          \caption{Usability test survey.}
+          \label{tab:useable}
+          \begin{tabular}{ p{0.5cm}|p{10cm} }
+            \hline
+            No. & Question                                             \\
+            \hline
+            1.  & Could you run the software on your operating system? \\
+            2.  & Is system running smoothly on your computer?         \\
+            3.  & Is invalid input's message clear?                    \\
+            4.  & Is text easy to read?                                \\
+            \hline
+          \end{tabular}
+        \end{table}
 
 \end{enumerate}
 
@@ -774,22 +792,22 @@ of the software. More than 3 questions should be answered with yes to pass the t
 
 \begin{enumerate}
 
-\item{test-maintain-1\\}
+  \item{test-maintain-1\\}
 
-Type: Manual
-					
-Initial State: N/A
-					
-Input/Condition: N/A
-					
-Output/Result: A score from experts on the maintainability of the software.
-					
-How test will be performed: We use survey in the 
-\hyperref[sebsec_design_verification_plan]{Section \ref*{sebsec_design_verification_plan}} as 
-a measure of maintainability. The design and survey will be given to the experts and 
-they will provide feedback on the maintainability of the software.
-This will be done after the implementation of the software.
-Author and domain expert will do the survey.
+        Type: Manual
+
+        Initial State: N/A
+
+        Input/Condition: N/A
+
+        Output/Result: A score from experts on the maintainability of the software.
+
+        How test will be performed: We use survey in the
+        \hyperref[sebsec_design_verification_plan]{Section \ref*{sebsec_design_verification_plan}} as
+        a measure of maintainability. The design and survey will be given to the experts and
+        they will provide feedback on the maintainability of the software.
+        This will be done after the implementation of the software.
+        Author and domain expert will do the survey.
 
 \end{enumerate}
 
@@ -799,31 +817,31 @@ Author and domain expert will do the survey.
 
 \begin{enumerate}
 
-\item{test-port-1\\}
+  \item{test-port-1\\}
 
-Type: Manual
-					
-Initial State: N/A
-					
-Input/Condition: test-sim-1 and est-vis-2. 
-					
-Output/Result: Successful test implies portability of the software.
-					
-How test will be performed: The test will be performed manually 
-by executing the software and tests on the Linux and macOS virtual machines.
+        Type: Manual
 
-\item{test-port-2\\}
+        Initial State: N/A
 
-Type: Manual
-					
-Initial State: N/A
-					
-Input/Condition: test-sim-1.
-					
-Output/Result: Successful test implies portability of the software.
-					
-How test will be performed: The test will be performed manually 
-by executing the test on docker container version of the software.
+        Input/Condition: test-sim-1 and est-vis-2.
+
+        Output/Result: Successful test implies portability of the software.
+
+        How test will be performed: The test will be performed manually
+        by executing the software and tests on the Linux and macOS virtual machines.
+
+  \item{test-port-2\\}
+
+        Type: Manual
+
+        Initial State: N/A
+
+        Input/Condition: test-sim-1.
+
+        Output/Result: Successful test implies portability of the software.
+
+        How test will be performed: The test will be performed manually
+        by executing the test on docker container version of the software.
 
 \end{enumerate}
 
@@ -837,15 +855,15 @@ by executing the test on docker container version of the software.
     \hline
                     & R1 & R2 & R3 & R4 & R5 & NFR1 & NFR2 & NFR3 & NFR4 \\ \hline
     test-inout-1    & X  &    &    &    &    &      &      &      &      \\ \hline
-    test-sim-1      &    & X  & X  &    &    &  X   &      &      &      \\ \hline
+    test-sim-1      &    & X  & X  &    &    & X    &      &      &      \\ \hline
     test-control-1  &    &    &    & X  &    &      &      &      &      \\ \hline
     test-vis-1      &    &    &    &    & X  &      &      &      &      \\ \hline
     test-vis-2      &    &    &    &    & X  &      &      &      &      \\ \hline
-    test-acc-1      &    &  X &  X &    &    &  X   &      &      &      \\ \hline
-    test-useable-1  &    &    &    &    &  X &      &  X   &      &      \\ \hline
-    test-maintain-1 &    &    &    &    &    &      &      &  X   &      \\ \hline
-    test-port-1     &    &    &    &    &    &      &      &      &  X   \\ \hline
-    test-port-2     &    &    &    &    &    &      &      &      &  X   \\ \hline
+    test-acc-1      &    & X  & X  &    &    & X    &      &      &      \\ \hline
+    test-useable-1  &    &    &    &    & X  &      & X    &      &      \\ \hline
+    test-maintain-1 &    &    &    &    &    &      &      & X    &      \\ \hline
+    test-port-1     &    &    &    &    &    &      &      &      & X    \\ \hline
+    test-port-2     &    &    &    &    &    &      &      &      & X    \\ \hline
   \end{tabular}
 \end{table}
 
@@ -854,25 +872,26 @@ by executing the test on docker container version of the software.
 
 \section{Unit Test Description} \label{unit_test}
 
-TBD. This section will be completed when the MIS is finished.
+This section will outline the unit testing strategy for \progname{}.
 
 \wss{This section should not be filled in until after the MIS (detailed design
   document) has been completed.}
 
 \wss{Reference your MIS (detailed design document) and explain your overall
-philosophy for test case selection.}  
+  philosophy for test case selection.}
 
-\wss{To save space and time, it may be an option to provide less detail in this section.  
-For the unit tests you can potentially layout your testing strategy here.  That is, you 
-can explain how tests will be selected for each module.  For instance, your test building 
-approach could be test cases for each access program, including one test for normal behaviour 
-and as many tests as needed for edge cases.  Rather than create the details of the input 
-and output here, you could point to the unit testing code.  For this to work, you code 
-needs to be well-documented, with meaningful names for all of the tests.}
+\wss{To save space and time, it may be an option to provide less detail in this section.
+  For the unit tests you can potentially layout your testing strategy here.  That is, you
+  can explain how tests will be selected for each module.  For instance, your test building
+  approach could be test cases for each access program, including one test for normal behaviour
+  and as many tests as needed for edge cases.  Rather than create the details of the input
+  and output here, you could point to the unit testing code.  For this to work, you code
+  needs to be well-documented, with meaningful names for all of the tests.}
 
 \subsection{Unit Testing Scope}
 
-TBD. This section will be completed when the MIS is finished.
+The scope of the unit tests will not include testing the
+GUI and visualization part of the \progname{}.
 
 \wss{What modules are outside of the scope.  If there are modules that are
   developed by someone else, then you would say here if you aren't planning on
@@ -882,11 +901,55 @@ TBD. This section will be completed when the MIS is finished.
 
 \subsection{Tests for Functional Requirements}
 
-TBD. This section will be completed when the MIS is finished.
+Details of the tests for every module will be
+provided here, with each test being incorporated into an automated unit test suite.
 
 \wss{Most of the verification will be through automated unit testing.  If
   appropriate specific modules can be verified by a non-testing based
   technique.  That can also be documented in this section.}
+
+\subsubsection{World Checker Module}
+This test implemented in the
+\href{https://github.com/mirzaim/ipcs/blob/main/test/test_checker.py}{\texttt{test\_checker.py}}
+file. It makes sure World Checker module raise proper exceptions
+when the input is not valid. It tests negetive and zero values for
+masses. It also tests the invalid values (like strings) for input parameters.
+
+\begin{enumerate}
+  \item[\refstepcounter{utestnum} \UTthetestnum:] \textbf{test conf}
+\end{enumerate}
+
+\subsubsection{Config Reader Module}
+This test is implemented in the
+\href{https://github.com/mirzaim/ipcs/blob/main/test/test_conf.py}{\texttt{test\_conf.py}}
+file. It tests the Config Reader module, raising proper exceptions when
+the test file is not found or there are no inputs.
+
+\begin{enumerate}
+  \item[\refstepcounter{utestnum} \UTthetestnum:] \textbf{test file not found}
+  \item[\refstepcounter{utestnum} \UTthetestnum:] \textbf{test no input exception}
+\end{enumerate}
+
+\subsubsection{Fuzzy Controller Module}
+This test is implemented in the
+\href{https://github.com/mirzaim/ipcs/blob/main/test/test_fuzzy.py}{\texttt{test\_fuzzy.py}}
+file. It tests the Fuzzy Controller module logic by inputting different
+values for the pendulum and cart and checking the force output.
+
+\begin{enumerate}
+  \item[\refstepcounter{utestnum} \UTthetestnum:] \textbf{test fuzzy}
+\end{enumerate}
+
+\subsubsection{Simulation Module}
+This test is implemented in the
+\href{https://github.com/mirzaim/ipcs/blob/main/test/test_simulator.py}{\texttt{test\_simulator.py}}
+file. It tests the Simulation module by inputting different values for the
+pendulum and cart and checking the output of the simulation after one step of $dt$.
+
+\begin{enumerate}
+  \item[\refstepcounter{utestnum} \UTthetestnum:] \textbf{test exception}
+  \item[\refstepcounter{utestnum} \UTthetestnum:] \textbf{test tick}
+\end{enumerate}
 
 % \subsubsection{Module 1}
 
@@ -901,26 +964,26 @@ TBD. This section will be completed when the MIS is finished.
 
 % Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
 %   be automatic}
-					
+
 % Initial State: 
-					
+
 % Input: 
-					
+
 % Output: \wss{The expected result for the given inputs}
 
 % Test Case Derivation: \wss{Justify the expected value given in the Output field}
 
 % How test will be performed: 
-					
+
 % \item{test-id2\\}
 
 % Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
 %   be automatic}
-					
+
 % Initial State: 
-					
+
 % Input: 
-					
+
 % Output: \wss{The expected result for the given inputs}
 
 % Test Case Derivation: \wss{Justify the expected value given in the Output field}
@@ -928,16 +991,16 @@ TBD. This section will be completed when the MIS is finished.
 % How test will be performed: 
 
 % \item{...\\}
-    
+
 % \end{enumerate}
 
 % \subsubsection{Module 2}
 
 % ...
 
-\subsection{Tests for Nonfunctional Requirements}
+% \subsection{Tests for Nonfunctional Requirements}
 
-TBD. This section will be completed when the MIS is finished.
+% TBD. This section will be completed when the MIS is finished.
 
 \wss{If there is a module that needs to be independently assessed for
   performance, those test cases can go here.  In some projects, planning for
@@ -947,32 +1010,32 @@ TBD. This section will be completed when the MIS is finished.
   mentioned functional tests.}
 
 % \subsubsection{Module ?}
-		
+
 % \begin{enumerate}
 
 % \item{test-id1\\}
 
 % Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
 %   be automatic}
-					
+
 % Initial State: 
-					
+
 % Input/Condition: 
-					
+
 % Output/Result: 
-					
+
 % How test will be performed: 
-					
+
 % \item{test-id2\\}
 
 % Type: Functional, Dynamic, Manual, Static etc.
-					
+
 % Initial State: 
-					
+
 % Input: 
-					
+
 % Output: 
-					
+
 % How test will be performed: 
 
 % \end{enumerate}
@@ -983,7 +1046,22 @@ TBD. This section will be completed when the MIS is finished.
 
 \subsection{Traceability Between Test Cases and Modules}
 
-TBD. This section will be completed when the MIS is finished.
+Traceability between test cases and modules is shown in
+\autoref{tab:traceability_ut}.
+
+\begin{table}[h]
+  \centering
+  \caption{Traceability Between Test Cases and Modules}
+  \vspace{3mm}
+  \label{tab:traceability_ut}
+  \begin{tabular}{l|c}
+    Module           & Tests    \\ \hline
+    World Checker    & UT1      \\
+    Config Reade     & UT2, UT3 \\
+    Fuzzy Controller & UT4      \\
+    Simulation       & UT5, UT6 \\
+  \end{tabular}
+\end{table}
 
 \wss{Provide evidence that all of the modules have been considered.}
 
