@@ -1,15 +1,47 @@
 # Inverted Pendulum Control Systems (IPCS)
 
-Developer Name: Morteza Mirzaei
+[//]: # (Include a video simulation of IPCS here)
 
-Date of project start: Jan 15, 2024
+Welcome to the Inverted Pendulum Control Systems (IPCS) project! This system is designed to simulate and control the dynamics of an inverted pendulum.
 
-This project is Inverted Pendulum Control Systems (IPCS).
+### Quick Start
 
-The folders and files for this project are as follows:
+To begin, ensure you have Python 3.9 or above installed on your system.
 
-docs - Documentation for the project
-refs - Reference material used for the project, including papers
-src - Source code
-test - Test cases
-etc.
+1. Install the required dependencies:
+   ```bash
+   pip3 install -r requirements.txt
+   ```
+
+2. Run the program:
+   ```bash
+   python3 main.py
+   ```
+
+3. Optionally, run the program with a custom configuration:
+   ```bash
+   python3 main.py <path_to_config_file>
+
+   Example:
+   python3 main.py src/configs/default.ini
+   ```
+
+If you prefer to use Docker, you can run the program with the following commands:
+
+```bash
+sudo docker run -v <path_to_output_folder>:/ipcs/out -v <path_to_input_config_file>:/ipcs/configs/default.ini --rm -it mirzaim/ipcs:latest
+
+# Or simply
+sudo docker run -v ./out/:/ipcs/out --rm -it mirzaim/ipcs:latest
+
+# For custom configuration
+sudo docker run -v ./out/:/ipcs/out -v ./default.ini:/ipcs/configs/default.ini --rm -it mirzaim/ipcs:latest
+```
+
+### Installation
+
+For detailed installation instructions and getting started with the project on your own computer, refer to [INSTALL.md](./INSTALL.md).
+
+### Contributing
+
+We welcome contributions from the community! If you're interested in contributing, please check out [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
