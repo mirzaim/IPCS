@@ -1,0 +1,69 @@
+\documentclass{article}
+
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{hyperref} % For hyperlinks
+
+\title{Reflection Report for \progname{} (IPCS)}
+\author{\authname}
+\date{}
+
+\input{../Comments}
+\input{../Common}
+
+\begin{document}
+
+\maketitle
+
+\section{Changes in Response to Feedback}
+
+Feedback from reviewers, including domain experts, secondary reviewers, and the instructor, has been diligently incorporated into the documentation.
+
+\subsection{SRS}
+
+The Software Requirements Specification (SRS) has been meticulously updated based on reviewer feedback. The changes made are summarized below:
+
+\begin{itemize}
+    \item Addition of theoretical underpinnings for the definition of underlying acceleration.
+    \item Inclusion of derivations for two general definitions.
+    \item Consolidation of two instance models into a single one.
+    \item Enhancement of specificity and completeness in both functional and non-functional requirements.
+\end{itemize}
+
+For a detailed overview of these modifications, refer to the pull request [\href{https://github.com/mirzaim/ipcs/pull/29}{\#29}].
+
+\subsection{VnV Plan}
+
+The Verification and Validation (VnV) Plan has been updated to address reviewer comments effectively. Key changes include:
+
+\begin{itemize}
+    \item Addition of supplementary tests for integration testing.
+    \item Clarification on scenarios where a test should fail.
+    \item Removal of test \texttt{test-vis-3}.
+\end{itemize}
+
+For a comprehensive view of these adjustments, consult the pull request [\href{https://github.com/mirzaim/ipcs/pull/30}{\#30}].
+
+\subsection{Design and Design Documentation}
+
+The design and accompanying documentation have been refined to align with reviewer recommendations. Notable enhancements comprise:
+
+\begin{itemize}
+    \item Introduction of a main module to oversee the entire system.
+    \item Creation of a Manager abstract class, from which GUI and File Output modules inherit.
+    \item Rectification of input and output types in various modules.
+    \item Consistent naming conventions across files.
+\end{itemize}
+
+To delve deeper into these changes, review the pull request [\href{https://github.com/mirzaim/ipcs/pull/34}{\#34}].
+
+\section{Design Iteration}
+
+The journey from the initial design to the final implementation witnessed significant evolution and refinement. Two major iterations stand out:
+
+\begin{enumerate}
+    \item Addition of the constraint $\frac{m}{5} \leq m \leq M$: Although initially deemed unnecessary, this constraint proved crucial for the proper functioning of controller hyperparameters.
+    \item Refinement of the simulation formula: Initially neglecting torque and friction in the simulation, we adopted a formula discovered in a \href{https://github.com/jitendra825/Inverted-Pendulum-Simulink}{Matlab code} for simulating the inverted pendulum. This decision facilitated easier implementation by translating the Matlab code into Python.
+\end{enumerate}
+
+\end{document}
